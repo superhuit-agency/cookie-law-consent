@@ -39,3 +39,17 @@ const PLUGIN_VERSION = '1.0.0';
 require_once __DIR__ .'/admin/settings-page.php';
 
 if( is_admin() ) new SettingsPage();
+
+/**
+ * ACTIONS & FILTERS
+ * =================
+ *
+ * Register the actions & filters
+ */
+add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
+
+function enqueue_assets() {
+	wp_register_script( 'cookie-law-consent-js', plugins_url( 'build/public.js', __FILE__ ), null, PLUGIN_VERSION, true );
+	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_decode(get_option( 'json_config' )['json_config_field'], true));
+	wp_enqueue_script( 'cookie-law-consent-js' );
+}

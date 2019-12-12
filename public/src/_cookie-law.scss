@@ -1,0 +1,68 @@
+/**
+ * Variables
+ */
+%cookie-law--heading {
+	font-size: 12px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	font-weight: $font-primary-bold;
+	margin-bottom: 16px;
+}
+
+%cookie-law--p-small {
+	font-family: $font-primary;
+  font-size: 16px;
+  letter-spacing: 0;
+	line-height: 22px;
+	margin-bottom: 20px;
+	color: $color-neutral--800;
+}
+
+%cookie-law--link {
+	@include reset-button();
+
+	border-bottom: 1px solid $color-neutral;
+	color: $color-neutral;
+
+	background-image: linear-gradient($color-neutral, $color-neutral);
+	background-position: left bottom;
+	background-repeat: no-repeat;
+	background-size: 100% 0%;
+	transition: background-size $transition-fast ease-out;
+
+	&:focus,
+	&:hover {
+		background-size: 100% 1px;
+	}
+
+}
+
+%cookie-law--button {
+	@include reset-button();
+
+	background-color: $color-neutral;
+	font-size: 12px;
+	letter-spacing: 1px;
+	color: $color-neutral--100;
+	font-weight: $font-primary-bold;
+	text-align: center;
+	text-transform: uppercase;
+	box-shadow: transparent 0px 5px 10px;
+	border-radius: 0;
+	outline: transparent solid 1px;;
+	outline-offset: -3px;
+	transition: box-shadow $transition-fast ease-out, outline $transition-fast ease-out;
+
+	&:hover {
+		box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 10px;
+	}
+
+	&:focus {
+		outline-color: $color-neutral--100;
+	}
+}
+
+
+@import './modal/cookie-law-modal';
+@import './banner/cookie-law-banner';
+@import './category/cookie-law-category';

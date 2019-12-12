@@ -1,0 +1,156 @@
+.cookie-law-modal {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 99999;
+	transform: scale(1);
+	overflow: hidden;
+	outline: 0;
+
+	&::after {
+		content: '';
+		position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+		z-index: 1;
+		display: block;
+		width: 100vw;
+		height: 100vh;
+		opacity: .5;
+    background-color: $color-neutral;
+    transform: scale(1);
+    transition: opacity ease-in-out 0.5s;
+	}
+
+	&__dialog {
+		position: relative;
+		z-index: 10;
+    width: auto;
+    margin: .5rem;
+    pointer-events: none;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    display: flex;
+    align-items: center;
+		min-height: calc(100% - (.5rem * 2));
+
+		@media (min-width: 576px) {
+			max-width: 500px;
+			margin: 1.75rem auto;
+			min-height: calc(100% - (1.75rem * 2));
+		}
+
+		@media (min-width: 992px) {
+    	max-width: 645px;
+		}
+	}
+
+	&__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    outline: 0;
+		font-family: $font-primary;
+		padding: 20px;
+	}
+
+	&__close {
+		position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    padding: 10px;
+    background: transparent;
+    border: none;
+		cursor: pointer;
+		transition: background-color $transition-fast ease-out;
+
+		svg {
+			fill: #000;
+			transform: scale(1);
+			transition: transform $transition-fast ease-out;
+		}
+
+		&:focus {
+			box-shadow: $color-neutral 0 0 1px 2px;
+			background-color: $color-neutral--300;
+		}
+
+		&:hover {
+			background-color: $color-neutral--300;
+
+			svg {
+				transform: scale(1.1);
+			}
+		}
+	}
+
+	&__body {
+		max-height: 80vh;
+		overflow: auto;
+
+		// For the scroll bar
+		margin-right: -20px;
+		padding-right: 20px;
+	}
+
+	&__head {
+		padding-bottom: 16px;
+	}
+
+	&__title {
+		@extend %cookie-law--heading;
+		margin-top: 10px;
+	}
+
+	&__desc {
+		@extend %cookie-law--p-small;
+
+    margin-top: 0;
+    padding: 0;
+	}
+
+	&__categories {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+
+		> *:not(:first-child) {
+			margin-top: 10px;
+		}
+	}
+
+	&__footer {
+		width: 100%;
+    text-align: right;
+    padding-top: 20px;
+	}
+
+	&__save {
+		@extend %cookie-law--button;
+
+		padding: 13px 20px 12px;
+	}
+
+
+	/**
+	 * STATES
+	 */
+	&[aria-hidden="true"] {
+		display: none;
+	}
+}
