@@ -1,6 +1,10 @@
 /**
- * Variables
+ * Core
  */
+@import './scss/variables';
+@import './scss/functions';
+@import './scss/mixins';
+
 %cookie-law--heading {
 	font-size: 12px;
 	letter-spacing: 1px;

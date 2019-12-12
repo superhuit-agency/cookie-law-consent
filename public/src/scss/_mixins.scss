@@ -1,0 +1,392 @@
+////
+/// Sass mixins
+/// @group mixins
+////
+
+///
+/// The CSS clearfix
+///
+@mixin clearfix {
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+///
+/// Line Clamp
+/// @param {Number} $max-lines - Number of lines
+///
+@mixin line-clamp($max-lines) {
+	display: -webkit-box;
+	-webkit-line-clamp: $max-lines;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+///
+/// Reset button default styles
+///
+@mixin reset-button {
+	font-size: 1em;
+	background-color: transparent;
+	border: 0;
+	border-radius: 0;
+	outline: 0;
+	appearance: none;
+	padding: 0;
+	cursor: pointer;
+
+	&::-moz-focus-inner {
+		border: 0;
+	}
+}
+
+///
+/// Reset input default styles
+///
+@mixin reset-input {
+	font-size: 1em;
+	background-color: transparent;
+	border: 0;
+	border-radius: 0;
+	outline: 0;
+	padding: 0;
+	appearance: none;
+}
+
+///
+/// Print a linear-gradient with a plain color fallback
+/// @param {Keyword | Angle} $direction - Linear gradient direction
+/// @param {Arglist} $color-stops - List of color-stops composing the gradient
+///
+@mixin linear-gradient($direction, $color-stops...) {
+	background: nth(nth($color-stops, 1), 1);
+	background: linear-gradient($direction, $color-stops);
+}
+
+///
+/// Render a fluid sizing in px for any property
+/// @param {Properties} $properties - Space-separated list of properties to act on
+/// @param {Map} $steps - Map of fluid steps (viewport_width: size_in_px), ex: (375px: 16px, 1024px: 25px)
+/// @param {Boolean | Size} $initial-value [true] - (optional) Assign a value for smaller viewports (if true, will take the 1st step's value)
+/// @param {Boolean | Size} $after-value [true] - (optional) Assign a value for bigger viewports (if true, will take the last step's value)
+/// @param {Boolean} $suffix [null] - (optional) Add a suffix such as `!important`
+///
+@function pixelsOrDie($val) {
+	@if (is-number($val) and unit($val) == 'px') {
+		@return $val;
+	}
+	@else {
+		@error "fluid() mixin only supports px values, #{$val} is invalid.";
+	}
+}
+@mixin fluid(
+	$properties,
+	$steps,
+	$initial-value: true,
+	$after-value: true,
+	$suffix: null
+) {
+	$steps_keys: map-keys($steps);
+	$steps_nb: length($steps_keys);
+	@if $steps_nb < 2 {
+		@error "$steps should contain at least 2 breakpoints";
+	}
+
+	// initial values
+	@if $initial-value {
+		$first-vw: nth($steps_keys, 1);
+		@if $initial-value == true {
+			$initial-value: map-get($map: $steps, $key: nth($steps_keys, 1));
+		}
+		@media (max-width: $first-vw - 1) {
+			@each $property in $properties {
+				#{$property}: $initial-value $suffix;
+			}
+		}
+	}
+
+	// fluid steps
+	@for $i from 1 through $steps_nb - 1 {
+		$min-vw: pixelsOrDie(nth($steps_keys, $i));
+		$min-value: pixelsOrDie(map-get($map: $steps, $key: $min-vw));
+		$max-vw: pixelsOrDie(nth($steps_keys, $i + 1));
+		$max-value: pixelsOrDie(map-get($map: $steps, $key: $max-vw));
+
+		@media (min-width: $min-vw) and (max-width: $max-vw - 1) {
+			@each $property in $properties {
+				// TODO: optimise "calc()"? test poly-fluid-props
+				#{$property}: calc(
+					#{$min-value} +
+					#{strip-unit($max-value - $min-value)} *
+					(100vw - #{$min-vw}) /
+					#{strip-unit($max-vw - $min-vw)}
+				)
+					$suffix;
+			}
+		}
+	}
+
+	// after values
+	@if $after-value {
+		$last-vw: nth($steps_keys, $steps_nb);
+		@if $after-value == true {
+			$after-value: map-get($map: $steps, $key: nth($steps_keys, $steps_nb));
+		}
+		@media (min-width: $last-vw) {
+			@each $property in $properties {
+				#{$property}: $after-value $suffix;
+			}
+		}
+	}
+}
+
+///
+/// Fluid Props - DEPRECATED: use `fluid` instead
+/// @param {Properties} $properties - Space-separated list of properties to act on
+/// @param {Size} $min-value - Minimum value in px (`$properties` will have this value when `viewport width == $min-vw`)
+/// @param {Size} $max-value - Maximum value in px (`$properties` will have this value when `viewport width == $max-vw`)
+/// @param {Size} $min-vw [$fluid-min] - (optional) Viewport width in px at which we start growing
+/// @param {Size} $max-vw [$fluid-max] - (optional) Viewport width in px at which we stop growing
+/// @param {Boolean} $set-initial-properties [true] - (optional) Define a default attribute for `viewport width < $min-vw` ?
+/// @param {Boolean} $set-after-properties [true] - (optional) Define a lasting attribute after `viewport width >= $max-vw` ?
+/// @param {Boolean} $suffix [null] - (optional) Add a suffix such as `!important`
+/// @deprecated
+///
+@mixin fluid-props(
+	$properties,
+	$min-value,
+	$max-value,
+	$min-vw: $fluid-min,
+	$max-vw: $fluid-max,
+	$set-initial-properties: true,
+	$set-after-properties: true,
+	$suffix: null
+) {
+	@warn "DEPRECATED: use `fluid` instead";
+
+	// TODO: throw an error if $min-value / $max-value / $min-vw / $max-vw is NOT in px
+	//       as it breaks the calculation
+	@if $set-initial-properties {
+		@media (max-width: $min-vw - 1) {
+			@each $property in $properties {
+				#{$property}: $min-value $suffix;
+			}
+		}
+	}
+
+	@media (min-width: $min-vw) and (max-width: $max-vw - 1) {
+		@each $property in $properties {
+			#{$property}: calc(
+				#{$min-value} +
+				#{strip-unit($max-value - $min-value)} *
+				(100vw - #{$min-vw}) /
+				#{strip-unit($max-vw - $min-vw)}
+			)
+				$suffix;
+		}
+	}
+
+	@if $set-after-properties {
+		@media (min-width: $max-vw) {
+			@each $property in $properties {
+				#{$property}: $max-value $suffix;
+			}
+		}
+	}
+}
+
+///
+/// CSS object-fit feature with polyfill
+/// @param {Keyword} $fit - object-fit value
+/// @param {Keyword} $position - object-position value (optional)
+///
+@mixin object-fit($fit: fill, $position: null) {
+	-o-object-fit: $fit;
+	object-fit: $fit;
+
+	@if $position {
+		font-family: 'object-fit: #{$fit}; object-position: #{$position}';
+		-o-object-position: $position;
+		object-position: $position;
+	}
+	@else {
+		font-family: 'object-fit: #{$fit}';
+	}
+}
+
+///
+/// CSS image-aspect-ratio feature
+/// image keeps the aspect ratio according to the given width and height values
+/// include mixin on the image-wrapper
+/// adapted from https://css-tricks.com/aspect-ratio-boxes/, https://css-tricks.com/snippets/sass/maintain-aspect-ratio-mixin/
+/// @param {Keyword} $width - image width
+/// @param {Keyword} $height - image height
+///
+@mixin image-aspect-ratio($width, $height) {
+	overflow: hidden;
+	position: relative;
+
+	&::before {
+		display: block;
+		content: "";
+		width: 100%;
+		padding-top: calc(#{$height} / #{$width} * 100%);
+	}
+
+	& > img {
+		@include object-fit(cover);
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+///
+/// Crop line-height
+/// remove the top space from your text element
+/// https://medium.com/codyhouse/line-height-crop-a-simple-css-formula-to-remove-top-space-from-your-text-9c3de06d7c6f
+/// @param {Number} $line-height - unitless line-height of the text that needs cropping
+///
+@mixin lhCrop($line-height) {
+	&::before {
+		content: '';
+		display: block;
+		height: 0;
+		width: 0;
+		margin-top: calc((1 - #{$line-height}) * 0.5em);
+	}
+}
+
+///
+/// Faux Subgrid mixin
+/// @param {Number} $columns - number of columns of the subgrid
+///
+@mixin faux-subgrid($columns) {
+	grid-column-end: span $columns;
+	display: grid;
+	grid-template-columns: repeat($columns, 1fr);
+	grid-column-gap: inherit;
+	grid-row-gap: inherit;
+}
+
+///
+/// CSS grid-row feature with IE10+ support
+/// @param {Keyword} $row - grid-row value
+/// @deprecated
+///
+@mixin grid-row($row: 1) {
+	@error "DEPRECATED: put the styles in a separate file served only for old browsers instead";
+	// /* autoprefixer: ignore next */
+	// grid-row: $row;
+
+	// .cssgridlegacy & {
+	// 	-ms-grid-row: $row !important;
+	// }
+}
+
+///
+/// CSS grid-column layout with IE10+ support
+/// Helps create a "fixed" layout with n columns
+/// Which set specifically the column % row for each cell on IE
+/// DEPRECATED! this is generating too much garbage. we should now use modern CSS Grid features and have a not-pixel-perfect fallback for IE in a separate css file that we serve only on selected browsers
+/// @param {Number} $columns - The number of columns
+/// @param {Size} $column-width - The column width in px
+/// @param {Size} $gap - The gap width in px
+/// @param {Size} $min-vw - Viewport width in px at which the layout should start
+/// @param {Size} $max-vw [false] - (optional) Viewport width in px at which the layout should stop
+/// @param {Number} $max-vw [6] - (optional) The number max of items
+/// @deprecated
+///
+@mixin grid-columns-with-ie-fallback($columns, $column-width, $gap, $min-vw: false, $max-vw: false, $nb-items: 6) {
+	@error "DEPRECATED: put the styles in a separate file served only for old browsers instead";
+	// @media (min-width: $min-vw) and (max-width: $max-vw) {
+	// 	grid-template-columns: repeat($columns, $column-width);
+
+	// 	@content;
+
+	// 	.cssgridlegacy & {
+	// 		$cols-repeat: $columns - 1;
+	// 		@if $cols-repeat == 0 {
+	// 			grid-template-columns: $column-width;
+	// 		}
+	// 		@else {
+	// 			grid-template-columns: $column-width repeat($cols-repeat, $gap + $column-width);
+	// 		}
+	// 		width: ($column-width * $columns) + (($cols-repeat) * $gap);
+
+	// 		> * {
+	// 			@for $col from 1 through $columns {
+	// 				&:nth-child(#{$columns}n+#{$col}) {
+	// 					grid-column: $col;
+
+	// 					@if $col > 1 {
+	// 						margin-left: $gap;
+	// 					}
+	// 				}
+	// 			}
+
+	// 			@for $i from 1 through $nb-items {
+	// 				$row: ceil($i / $columns);
+	// 				&:nth-child(#{$i}) {
+	// 					grid-row: $row;
+
+	// 					@if $row > 1 {
+	// 						margin-top: $gap;
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
+}
+
+///
+/// IE10+ specific styling
+/// NOTE: not recommended, use only if there's no cleaner way (simple fallback / progressive enhancement)
+/// @deprecated
+///
+@mixin ie10($breakpoint: false) {
+	@error "DEPRECATED: put the styles in a separate file served only for old browsers instead";
+// 	@if $breakpoint {
+// 		@media (-ms-high-contrast: active) and (min-width: $breakpoint),
+// 			screen and (-ms-high-contrast: none) and (min-width: $breakpoint) {
+// 			@content;
+// 		}
+// 	}
+
+//  @else {
+// 		@media (-ms-high-contrast: active),
+// 			screen and (-ms-high-contrast: none) {
+// 			@content;
+// 		}
+// 	}
+}
+
+///
+/// Edge (12+) specific styling
+/// NOTE: not recommended, use only if there's no cleaner way (simple fallback / progressive enhancement)
+/// @deprecated
+///
+@mixin edge($breakpoint: false) {
+	@error "DEPRECATED: put the styles in a separate file served only for old browsers instead";
+// 	@if $breakpoint {
+// 		@media (min-width: $breakpoint) {
+// 			@supports (-ms-ime-align: auto) {
+// 				@content;
+// 			}
+// 		}
+// 	}
+
+//  @else {
+// 		@supports (-ms-ime-align: auto) {
+// 			@content;
+// 		}
+// 	}
+}

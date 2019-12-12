@@ -1,0 +1,31 @@
+////
+/// Sass functions
+/// @group functions
+////
+
+///
+/// strip the unit from any css value
+/// @param {Value} $position - like `13px`, `2em` or `5%`
+///
+@function strip-unit($value) {
+	@return $value / ($value * 0 + 1);
+}
+
+///
+/// deep merge two maps
+/// stolen from https://medium.com/@pentzzsolt/a-non-destructive-map-merge-function-for-sass-f91637f87b2e
+/// @param {map} $parent-map - initial map (ie: `$global-styles`)
+/// @param {map} $child-map - map to merge into the first one (ie: `$local-styles`)
+///
+@function non-destructive-map-merge($parent-map, $child-map) {
+	$result: $parent-map;
+	@each $key, $value in $child-map {
+		@if (not map-has-key($result, $key)) or (type-of(map-get($result, $key)) != type-of($value)) or (not (type-of(map-get($result, $key)) == map and type-of($value) == map)) {
+			$result: map-merge($result, ($key: $value));
+		}
+		@else {
+			$result: map-merge($result, ($key: non-destructive-map-merge(map-get($result, $key), $value)));
+		}
+	}
+	@return $result;
+}

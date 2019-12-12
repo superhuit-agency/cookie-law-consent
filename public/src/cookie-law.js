@@ -1,5 +1,4 @@
 /* eslint-disable curly */
-// import './_cookie-law.scss';
 
 /**
  * Internal dependencies

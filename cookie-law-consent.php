@@ -55,7 +55,13 @@ function enqueue_assets() {
 	$json = json_decode($config['json_config_field'], true);
 	if ( empty($json) ) return;
 
-	wp_register_script( 'cookie-law-consent-js', plugins_url( 'build/public.js', __FILE__ ), null, PLUGIN_VERSION, true );
+	wp_register_script( 'cookie-law-consent-js', plugins_url( 'build/cookie-law-consent.js', __FILE__ ), null, PLUGIN_VERSION, true );
 	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_decode($config['json_config_field'], true));
 	wp_enqueue_script( 'cookie-law-consent-js' );
+
+	// TODO this is not working because the json is not converted to PHP associative array
+	$externalStyles = isset($json['externalStyles']) ? $json['externalStyles'] : false;
+	if (!$externalStyles) {
+		wp_enqueue_style( 'cookie-law-consent-styles', plugins_url( 'build/cookie-law-consent.css', __FILE__ ), PLUGIN_VERSION );
+	}
 }

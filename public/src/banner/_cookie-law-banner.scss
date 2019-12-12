@@ -1,12 +1,9 @@
 .cookie-law-banner {
 	@include fluid(width, (320px: 288px, $fluid-min: 343px, $fluid-max: 376px));
 	@include fluid(padding, (320px: 16px, $fluid-min: 20px, $fluid-max: 28px));
-	@include fluid(right bottom, ($fluid-min: 16px, $fluid-max: 20px));
 
 	position: fixed;
-	bottom: 30px;
-	right: 30px;
-	z-index: 9999999;
+	z-index: 999999;
 
 	font-family: $font-primary;
 	color: $color-neutral;
@@ -39,7 +36,30 @@
 		margin: 20px 0 0;
 	}
 
+	/**
+	 * Positions modifiers
+	 */
+	&--center {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
 
+	&--bottom-right {
+		@include fluid(right bottom, ($fluid-min: 16px, $fluid-max: 20px));
+	}
+
+	&--bottom-left {
+		@include fluid(left bottom, ($fluid-min: 16px, $fluid-max: 20px));
+	}
+
+	&--top-left {
+		@include fluid(left top, ($fluid-min: 16px, $fluid-max: 20px));
+	}
+
+	&--top-right {
+		@include fluid(right top, ($fluid-min: 16px, $fluid-max: 20px));
+	}
 
 	/**
 	 * STATES
