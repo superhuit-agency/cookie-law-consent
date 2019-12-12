@@ -49,7 +49,13 @@ if( is_admin() ) new SettingsPage();
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
 
 function enqueue_assets() {
+	$config = get_option( 'json_config' );
+	if ( !isset($config['json_config_field']) ) return;
+
+	$json = json_decode($config['json_config_field'], true);
+	if ( empty($json) ) return;
+
 	wp_register_script( 'cookie-law-consent-js', plugins_url( 'build/public.js', __FILE__ ), null, PLUGIN_VERSION, true );
-	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_decode(get_option( 'json_config' )['json_config_field'], true));
+	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_decode($config['json_config_field'], true));
 	wp_enqueue_script( 'cookie-law-consent-js' );
 }
