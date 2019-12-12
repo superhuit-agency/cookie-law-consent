@@ -209,7 +209,7 @@ export default class CookieLaw {
 		el.classList.add('cookie-law');
 		document.body.insertAdjacentElement('afterbegin', el);
 
-		const banner = new CookieLawBanner(el, { texts: this.config.texts.banner });
+		const banner = new CookieLawBanner(el, { position: this.config.position, texts: this.config.texts.banner });
 
 		const modal = new CookieLawModal(el, {
 			categories: this.getCategoriesSettings(),

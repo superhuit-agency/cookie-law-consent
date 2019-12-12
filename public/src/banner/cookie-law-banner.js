@@ -110,6 +110,7 @@ export default class CookieLawBanner extends EventEmitter {
 	init() {
 		const el = document.createElement('div');
 		el.classList.add('cookie-law-banner');
+		el.classList.add(`cookie-law-banner--${this.config.position}`);
 		el.setAttribute('role', 'dialog');
 		el.setAttribute('aria-live', 'polite');
 		el.setAttribute('aria-hidden', 'true');
