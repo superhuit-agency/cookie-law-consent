@@ -19,7 +19,7 @@
  * @package Woo_Default_Attributes
  * @author  Kuuak
  * @license GPL-2.0+
- * @link    https://github.com/Kuuak/cookie-law-consent
+ * @link    https://gitlab.com/superhuit/cookie-law-consent
  */
 
 namespace CookieLawConsent;
