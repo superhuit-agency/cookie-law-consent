@@ -5,5 +5,10 @@
   "main": "public/index.js",
   "author": "Felipe <felipe.paulmartins@outlook.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
 }
