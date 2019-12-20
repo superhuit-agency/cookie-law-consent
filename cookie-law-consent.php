@@ -49,19 +49,38 @@ if( is_admin() ) new SettingsPage();
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
 
 function enqueue_assets() {
-	$config = get_option( 'json_config' );
-	if ( !isset($config['json_config_field']) ) return;
+	$config = get_option( SettingsPage::SETTINGS_NAME );
 
-	$json = json_decode($config['json_config_field'], true);
-	if ( empty($json) ) return;
 
-	wp_register_script( 'cookie-law-consent-js', plugins_url( 'build/cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
-	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_decode($config['json_config_field'], true));
-	wp_enqueue_script( 'cookie-law-consent-js' );
+	// Bail early as no services is configured
+	if ( count($config[SettingsPage::FIELD_SERVICES]) === 0 ) return;
 
-	// TODO this is not working because the json is not converted to PHP associative array
-	$externalStyles = isset($json['externalStyles']) ? $json['externalStyles'] : false;
-	if (!$externalStyles) {
+	foreach ($config['categories'] as $i => $category) {
+		$services = array_filter(
+			$config[SettingsPage::FIELD_SERVICES],
+			function($srv) use ($category){
+				return ( $srv['category'] === $category['name'] );
+			}
+		);
+
+		foreach ($services as $name => $service) {
+			$service['name'] = $name;
+			unset($service['enabled']);
+			unset($service['category']);
+			$config['categories'][$i][SettingsPage::FIELD_SERVICES][] = $service;
+		}
+	}
+
+	if (!$config[SettingsPage::FIELD_EXTERNAL_STYLES]) {
 		wp_enqueue_style( 'cookie-law-consent-styles', plugins_url( 'build/cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
 	}
+
+	unset($config[SettingsPage::FIELD_SERVICES]);
+	unset($config[SettingsPage::FIELD_EXTERNAL_STYLES]);
+
+	wp_register_script( 'cookie-law-consent-js', plugins_url( 'build/cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
+	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_encode($config));
+	wp_enqueue_script( 'cookie-law-consent-js' );
+
+
 }
