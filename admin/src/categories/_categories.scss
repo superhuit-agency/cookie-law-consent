@@ -1,3 +1,6 @@
+@import '../_common/variables';
+@import '../tabulation/tabulation';
+
 .categories {
 	&__nav {
 		display: flex;
@@ -5,29 +8,11 @@
 	}
 
 	&__tab-list {
-		display: flex;
+		@extend %tab-nav;
 	}
 
 	&__tab {
-		padding: 10px 20px;
-		border: 1px solid #dee2e6;
-		border-bottom-color: transparent;
-		text-decoration: none;
-		color: inherit;
-		border-radius: 2px;
-
-		&:not(:first-child) {
-			margin-left: 5px;
-		}
-
-		&.is-active {
-			border-color: #87898b;
-			border-bottom-color: #f1f1f1;
-		}
-
-		&:focus {
-			box-shadow: 0 0 0 1px $wp-theme-color;
-		}
+		@extend %tab;
 	}
 
 	&__add {

@@ -26,7 +26,6 @@ namespace CookieLawConsent;
 
 use CookieLawConsent\Admin\SettingsPage;
 
-
 /* Prevent loading this file directly */
 defined( 'ABSPATH' ) || exit;
 
@@ -36,6 +35,7 @@ defined( 'ABSPATH' ) || exit;
  * */
 define( 'CLC_PLUGIN_VERSION', '1.0.0' );
 
+require_once __DIR__ .'/available-services.php';
 require_once __DIR__ .'/admin/settings-page.php';
 
 if( is_admin() ) new SettingsPage();

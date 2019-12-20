@@ -61,25 +61,67 @@
   .switch__chk:focus + label {
     box-shadow: inset #007cba 0px 0px 1px 1px, #007cba 0px 0px 1px 1px; }
 
-.category {
-  border: 1px solid #87898b;
-  padding: 10px 20px; }
-  .category:not(.is-active) {
-    display: none; }
-  .category h3 {
-    margin-bottom: 0; }
-  .category td {
-    width: auto; }
-  .category input[type="text"],
-  .category textarea {
-    width: 90%; }
-  .category textarea {
-    min-height: 100px; }
+/**
+ * Neutral color variables.
+ */
+/**
+ * Accent color variables.
+ */
+/**
+ * Status color variables.
+ */
+/**
+ * TRANSITIONS
+ *
+ * Define standard transition timings.
+ */
+/**
+ * FLUID SIZING BREAKPOINTS
+ *
+ * This defines at which size the fluid-sizing mechanism
+ * should start, and end.
+ */
 
-.categories__nav {
-  display: flex;
-  transform: translateY(1px); }
-
+/**
+ * Neutral color variables.
+ */
+/**
+ * Accent color variables.
+ */
+/**
+ * Status color variables.
+ */
+/**
+ * TRANSITIONS
+ *
+ * Define standard transition timings.
+ */
+/**
+ * FLUID SIZING BREAKPOINTS
+ *
+ * This defines at which size the fluid-sizing mechanism
+ * should start, and end.
+ */
+/**
+ * Neutral color variables.
+ */
+/**
+ * Accent color variables.
+ */
+/**
+ * Status color variables.
+ */
+/**
+ * TRANSITIONS
+ *
+ * Define standard transition timings.
+ */
+/**
+ * FLUID SIZING BREAKPOINTS
+ *
+ * This defines at which size the fluid-sizing mechanism
+ * should start, and end.
+ */
 .categories__tab-list {
   display: flex; }
 
@@ -92,11 +134,15 @@
   border-radius: 2px; }
   .categories__tab:not(:first-child) {
     margin-left: 5px; }
-  .categories__tab.is-active {
+  .is-active.categories__tab {
     border-color: #87898b;
     border-bottom-color: #f1f1f1; }
   .categories__tab:focus {
     box-shadow: 0 0 0 1px #007cba; }
+
+.categories__nav {
+  display: flex;
+  transform: translateY(1px); }
 
 .categories__add {
   border: 1px solid transparent;
@@ -113,4 +159,130 @@
   .categories__add:focus {
     box-shadow: 0 0 0 1px #007cba;
     outline: none; }
+
+/**
+ * Neutral color variables.
+ */
+/**
+ * Accent color variables.
+ */
+/**
+ * Status color variables.
+ */
+/**
+ * TRANSITIONS
+ *
+ * Define standard transition timings.
+ */
+/**
+ * FLUID SIZING BREAKPOINTS
+ *
+ * This defines at which size the fluid-sizing mechanism
+ * should start, and end.
+ */
+/**
+ * Neutral color variables.
+ */
+/**
+ * Accent color variables.
+ */
+/**
+ * Status color variables.
+ */
+/**
+ * TRANSITIONS
+ *
+ * Define standard transition timings.
+ */
+/**
+ * FLUID SIZING BREAKPOINTS
+ *
+ * This defines at which size the fluid-sizing mechanism
+ * should start, and end.
+ */
+.category {
+  border: 1px solid #87898b;
+  padding: 10px 20px; }
+  .category:not(.is-active) {
+    display: none; }
+
+.category h3 {
+  margin-bottom: 0; }
+
+.category td {
+  width: auto; }
+
+.category input[type="text"],
+.category textarea {
+  width: 90%; }
+
+.category textarea {
+  min-height: 100px; }
+
+/**
+ * Neutral color variables.
+ */
+/**
+ * Accent color variables.
+ */
+/**
+ * Status color variables.
+ */
+/**
+ * TRANSITIONS
+ *
+ * Define standard transition timings.
+ */
+/**
+ * FLUID SIZING BREAKPOINTS
+ *
+ * This defines at which size the fluid-sizing mechanism
+ * should start, and end.
+ */
+/**
+ * Neutral color variables.
+ */
+/**
+ * Accent color variables.
+ */
+/**
+ * Status color variables.
+ */
+/**
+ * TRANSITIONS
+ *
+ * Define standard transition timings.
+ */
+/**
+ * FLUID SIZING BREAKPOINTS
+ *
+ * This defines at which size the fluid-sizing mechanism
+ * should start, and end.
+ */
+.services__nav {
+  display: flex; }
+
+.services__tab {
+  padding: 10px 20px;
+  border: 1px solid #dee2e6;
+  border-bottom-color: transparent;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 2px; }
+  .services__tab:not(:first-child) {
+    margin-left: 5px; }
+  .is-active.services__tab {
+    border-color: #87898b;
+    border-bottom-color: #f1f1f1; }
+  .services__tab:focus {
+    box-shadow: 0 0 0 1px #007cba; }
+
+.service {
+  border: 1px solid #87898b;
+  padding: 10px 20px; }
+  .service:not(.is-active) {
+    display: none; }
+
+.services__nav {
+  transform: translateY(1px); }
 

@@ -1,0 +1,18 @@
+@import '../_common/variables';
+@import '../tabulation/tabulation';
+
+.services {
+	&__nav {
+		@extend %tab-nav;
+		transform: translateY(1px);
+	}
+
+	&__tab {
+		@extend %tab;
+	}
+}
+
+
+.service {
+	@extend %tab-panel;
+}

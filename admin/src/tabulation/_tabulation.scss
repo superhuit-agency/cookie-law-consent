@@ -1,0 +1,36 @@
+@import '../_common/_variables.scss';
+
+%tab-nav {
+	display: flex;
+}
+
+%tab {
+	padding: 10px 20px;
+	border: 1px solid #dee2e6;
+	border-bottom-color: transparent;
+	text-decoration: none;
+	color: inherit;
+	border-radius: 2px;
+
+	&:not(:first-child) {
+		margin-left: 5px;
+	}
+
+	&.is-active {
+		border-color: #87898b;
+		border-bottom-color: #f1f1f1;
+	}
+
+	&:focus {
+		box-shadow: 0 0 0 1px $wp-theme-color;
+	}
+}
+
+%tab-panel {
+	border: 1px solid #87898b;
+  padding: 10px 20px;
+
+	&:not(.is-active) {
+		display: none;
+	}
+}

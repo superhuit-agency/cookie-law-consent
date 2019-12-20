@@ -269,7 +269,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _goo
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return facebookpixel; });\n/* eslint-disable curly */\n\n/* global  */\n\n/**\n * Google ReCAPTCHA\n *\n * Category: API\n * Cookies: nid\n *\n * @see https://policies.google.com/privacy\n */\nfunction facebookpixel(_ref) {\n  var callback = _ref.callback;\n\n  window.recaptchaOnLoad = function () {\n    if (typeof callback === 'function') callback();\n  };\n  /* eslint-disable curly */\n\n\n  return {\n    url: 'https://www.google.com/recaptcha/api.js?onload=recaptchaOnLoad',\n    callback: null\n  };\n}\n\n//# sourceURL=webpack:///./public/src/services/recaptcha.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return recaptcha; });\n/* eslint-disable curly */\n\n/* global  */\n\n/**\n * Google ReCAPTCHA\n *\n * Category: API\n * Cookies: nid\n *\n * @see https://policies.google.com/privacy\n */\nfunction recaptcha(_ref) {\n  var callback = _ref.callback;\n\n  window.recaptchaOnLoad = function () {\n    if (typeof callback === 'function') callback();\n  };\n  /* eslint-disable curly */\n\n\n  return {\n    url: 'https://www.google.com/recaptcha/api.js?onload=recaptchaOnLoad',\n    callback: null\n  };\n}\n\n//# sourceURL=webpack:///./public/src/services/recaptcha.js?");
 
 /***/ }),
 

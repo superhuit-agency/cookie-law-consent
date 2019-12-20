@@ -1,11 +1,15 @@
 <?php
+
 namespace CookieLawConsent\Admin;
 
+use const CookieLawConsent\SERVICES;
 class SettingsPage {
 
 	const OPTIONS_PAGE_NAME = 'cookie-law-consent-settings';
 
 	const SECTION_NAME = 'cookie_law_consent-section';
+	const SECTION_CATEGORIES = 'cookie_law_consent-section-categories';
+	const SECTION_SERVICES = 'cookie_law_consent-section-services';
 
 	const SETTINGS_NAME  = 'cookie_law_consent';
 	const SETTINGS_GROUP = 'cookie_law_consent_setting_group';
@@ -13,6 +17,7 @@ class SettingsPage {
 	const FIELD_BANNER_POSITION = 'banner_position';
 	const FIELD_EXTERNAL_STYLES = 'external_styles';
 	const FIELD_CATEGORIES = 'categories';
+	const FIELD_SERVICES = 'services';
 
 	/**
 	 * Holds the values to be used in the fields callbacks
@@ -26,7 +31,7 @@ class SettingsPage {
 		add_action( 'admin_menu', [$this, 'add_plugin_page'] );
 		add_action( 'admin_enqueue_scripts', [$this, 'enqueue_assets'] );
 
-		add_action( 'admin_init', [$this, 'page_init'] );
+		add_action( 'admin_init', [$this, 'regsiter_settings_fields'] );
 	}
 
 	/**
@@ -35,7 +40,7 @@ class SettingsPage {
 	public function add_plugin_page() {
 		// This page will be under "Settings"
 		add_options_page(
-			'Settings Admin',
+			__( 'Cookie law Consent Options', 'cookielawconsent'),
 			__( 'Cookie Law Consent', 'cookielawconsent' ),
 			'manage_options',
 			self::OPTIONS_PAGE_NAME,
@@ -53,7 +58,7 @@ class SettingsPage {
 	/**
 	 * Register and add settings
 	 */
-	public function page_init() {
+	public function regsiter_settings_fields() {
 		// Set class property
 		$this->options = get_option(self::SETTINGS_NAME);
 
@@ -63,10 +68,11 @@ class SettingsPage {
 			[$this, 'sanitize'] // Sanitize
 		);
 
+
 		add_settings_section(
 			self::SECTION_NAME, // ID
-			__('Configuration', 'cookielawconsent'), // Title
-			[$this, 'print_section_info'], // Callback
+			__('Appearance', 'cookielawconsent'), // Title
+			null,
 			self::OPTIONS_PAGE_NAME // Page
 		);
 
@@ -103,12 +109,36 @@ class SettingsPage {
 			]
 		);
 
+
+		add_settings_section(
+			self::SECTION_CATEGORIES,
+			__('Categories', 'cookielawconsent'),
+			function() { _e('Define the categories of cookies with a description for the user the understand and the cookies are intend for.', 'cookielawconsent'); },
+			self::OPTIONS_PAGE_NAME
+		);
+
 		add_settings_field(
 			self::FIELD_CATEGORIES,
-			__('Categories', 'cookielawconsent'),
+			null, //__('Categories', 'cookielawconsent'), // TODO find how to not render the <th>
 			[$this, 'render_categories_field'],
 			self::OPTIONS_PAGE_NAME,
-			self::SECTION_NAME
+			self::SECTION_CATEGORIES
+		);
+
+
+		add_settings_section(
+			self::SECTION_SERVICES,
+			__('Services', 'cookielawconsent'),
+			function() { _e('Enable adn define external services', 'cookielawconsent'); },
+			self::OPTIONS_PAGE_NAME
+		);
+
+		add_settings_field(
+			self::FIELD_SERVICES,
+			null, //__('Services', 'cookielawconsent'), // TODO find how to not render the <th>
+			[$this, 'render_services_field'],
+			self::OPTIONS_PAGE_NAME,
+			self::SECTION_SERVICES
 		);
 	}
 
@@ -142,7 +172,12 @@ class SettingsPage {
 			)
 		);
 
-		file_put_contents(__DIR__.'/debug.log', "== sanitized_fields: ". var_export($sanitized_fields, true)."\n", FILE_APPEND);
+		$sanitized_fields[self::FIELD_SERVICES] = array_filter(
+			$fields[self::FIELD_SERVICES],
+			function($srv) {
+				return isset($srv['enabled']);
+			}
+		);
 
 		return $sanitized_fields;
 	}
@@ -166,13 +201,6 @@ class SettingsPage {
 		<?php
 	}
 
-	/**
-	 * Print the Section text
-	 */
-	public function print_section_info() {
-		_e('Define your settings in a JSON format', 'cookielawconsent');
-	}
-
 	// ***** FIELDS render callbacks
 
 	public function render_select_field($args) {
@@ -181,25 +209,33 @@ class SettingsPage {
 		foreach ($args['options'] as $value => $label) {
 			$options[] = sprintf('<option %s %s value="%s">%s</option>',
 				selected( $value, $args['value'], false ),
-				($args['value'] == '-1' ? 'disabled' : ''),
+				($value == '-1' ? 'disabled' : ''),
 				$value,
 				$label
 			);
 		}
 
+		$name = isset($args['name'])
+			? $args['name']
+			: self::SETTINGS_NAME."[{$args['id']}]";
+
 		printf(
 			'<select id="%s" name="%s">%s</select>',
 			$args['id'],
-			self::SETTINGS_NAME."[{$args['id']}]",
+			$name,
 			implode('', $options)
 		);
 	}
 
 	public function render_switch_field($args) {
+		$name = isset($args['name'])
+			? $args['name']
+			: self::SETTINGS_NAME."[{$args['id']}]";
+
 		printf(
 			'<div class="switch"><input class="switch__chk" type="checkbox" id="%1$s" name="%2$s" %3$s><label for="%1$s" class="switch__label" tabindex="-1"></label></div>',
 			$args['id'],
-			self::SETTINGS_NAME."[{$args['id']}]",
+			$name,
 			($args['checked']  ? 'checked' : '')
 		);
 	}
@@ -209,16 +245,14 @@ class SettingsPage {
 		$categories = $this->options[self::FIELD_CATEGORIES];
 
 		?>
-		<div class="categories" data-setting-name="<?php echo self::SETTINGS_NAME; ?>">
+		<div class="categories" tabulation data-setting-name="<?php echo self::SETTINGS_NAME; ?>">
 			<nav class="categories__nav">
-				<div class="categories__tab-list">
+				<div class="categories__tab-list" tab-list>
 					<?php /* rendered in javascript */ ?>
 				</div>
 				<button class="categories__add">+</button>
 			</nav>
-			<div class="categories__panel-list">
-
-
+			<div class="categories__panel-list" panel-list>
 				<?php foreach ($categories as $i => $cat) : ?>
 					<div id="category_<?php echo $cat['name']; ?>" class="category<?php if ($i === 0) echo ' is-active'; ?>" data-idx="<?php echo $i; ?>">
 						<table class="form-table">
@@ -308,6 +342,99 @@ class SettingsPage {
 			</div>
 		</div>
 
+		<?php
+	}
+
+	public function render_services_field() {
+
+		$categoriesOptions = [ '-1' => __( 'Select a category', 'cookielawconsent' ) ];
+		foreach($this->options['categories'] as $cat) {
+			$categoriesOptions[$cat['name']] = $cat['title'];
+		}
+
+		?>
+		<div class="services" tabulation>
+			<nav class="services__nav" tab-list>
+				<?php foreach (SERVICES as $i => $srv) : ?>
+					<a href="#service_<?php echo $srv['name']; ?>" class="services__tab<?php if ($i === 0) echo ' is-active'; ?>"><?php echo $srv['title']; ?></a>
+				<?php endforeach ?>
+			</nav>
+			<div class="services__panel-list" panel-list>
+				<?php foreach (SERVICES as $i => $srv) : ?>
+					<?php
+						if ( isset($this->options[self::FIELD_SERVICES][$srv['name']]) ) {
+							$data = $this->options[self::FIELD_SERVICES][$srv['name']];
+
+							$srv['enabled'] = true;
+							if ( isset($data['category']) ) $srv['category'] = $data['category'];
+
+							foreach ($srv['fields'] as $fIdx => $fld) {
+								$srv['fields'][$fIdx]['value'] = ($fld['type'] === 'switch'
+									? isset($data[$fld['name']])
+									: $data[$fld['name']]
+								);
+							}
+						}
+
+					?>
+					<div id="service_<?php echo $srv['name']; ?>" class="service<?php if ($i === 0) echo ' is-active'; ?>">
+						<?php if ( !empty($srv['info']) ) : ?>
+							<em class="service__description">
+								<?php echo $srv['info']; ?>
+							</em>
+						<?php endif; ?>
+						<table class="form-table">
+							<tr class="row service__row-enable">
+								<th><label for="<?php echo "service-enabled-{$srv['name']}"; ?>">Enable?</label></th>
+								<td >
+									<?php $this->render_switch_field([
+										'id'      => "service-enabled-{$srv['name']}",
+										'name'    => self::SETTINGS_NAME ."[services][{$srv['name']}][enabled]",
+										'checked' => $srv['enabled'],
+									]); ?>
+								</td>
+							</tr>
+							<tr class="row">
+								<th><label for="<?php echo "service-category-{$srv['name']}"; ?>">Category</label></th>
+								<td>
+									<?php
+									$this->render_select_field([
+										'id'      => "service-category-{$srv['name']}",
+										'name'    => self::SETTINGS_NAME ."[services][{$srv['name']}][category]",
+										'value'   => (empty($srv['category']) ? '-1' : $srv['category']),
+										'options' => $categoriesOptions,
+									]); ?>
+								</td>
+							</tr>
+							<?php foreach($srv['fields'] as $field) : ?>
+								<tr class="row">
+									<th><label for="<?php echo $field['name']; ?>"><?php echo $field['label']; ?></label></th>
+									<td>
+										<?php
+										$name = self::SETTINGS_NAME ."[services][{$srv['name']}][{$field['name']}]";
+										$value = ( isset($field['value'])
+											? $field['value']
+											: ( isset($field['default']) ? $field['default'] : '' )
+										);
+
+										switch ($field['type']) {
+											case 'switch':
+												$this->render_switch_field([ 'id' => $field['name'], 'name' => $name, 'checked' => $value ]);
+												break;
+
+											default:
+												echo '<input id="'. $field['name'] .'" name="'. $name .'" type="'. $field['type'] .'" value="'. $value .'" placeholder="'. $field['placeholder'] .'"/>';
+												break;
+										}
+										?>
+									</td>
+								</tr>
+							<?php endforeach ?>
+						</table>
+					</div>
+				<?php endforeach ?>
+			</div>
+		</div>
 		<?php
 	}
 }

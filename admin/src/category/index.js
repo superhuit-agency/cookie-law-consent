@@ -1,4 +1,6 @@
-import unique from '../utils/unique';
+import './_category.scss';
+
+import unique from '../_common/unique';
 
 export default class Category {
 

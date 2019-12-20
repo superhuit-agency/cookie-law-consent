@@ -9,7 +9,7 @@
  *
  * @see https://policies.google.com/privacy
  */
-export default function facebookpixel({ callback }) {
+export default function recaptcha({ callback }) {
 	window.recaptchaOnLoad = () => {
 		if (typeof callback === 'function') callback();
 	};
