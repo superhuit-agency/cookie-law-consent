@@ -12,7 +12,9 @@
     "build:production": "cross-env NODE_ENV=production webpack",
     "watch": "webpack --watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "delegate": "^3.2.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",

@@ -4,7 +4,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
-		['cookie-law-consent']: './public/index.js'
+		['cookie-law-consent']: './public/index.js',
+		['cookie-law-consent-admin']: './admin/src/index.js'
 	},
   output: {
     filename: '[name].js',
@@ -43,7 +44,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // all options are optional
-      filename: 'cookie-law-consent.css',
+      filename: '[name].css',
       chunkFilename: '[id].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),

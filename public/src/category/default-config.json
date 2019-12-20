@@ -4,11 +4,11 @@
 	"title": "Non Necessary",
 	"description": "Any cookies that may not be particularly necessary for the website to function is used specifically to collect user personal data via analytics, ads, other embedded contents are termed as non-necessary cookies. It is mandatory to procure user consent prior to running these cookies on your website.",
 	"texts": {
-		"enable": "Enable Non Necessary cookies",
-		"disable": "Disable Non Necessary cookies",
+		"enable": "Enable cookies",
+		"disable": "Disable cookies",
 		"enabled": "Enabled",
 		"disabled": "Disabled",
-		"alwaysEnabled": "Always Enabled"
+		"alwaysEnabled": "Always enabled"
 	},
 	"enabled": false,
 	"services": []

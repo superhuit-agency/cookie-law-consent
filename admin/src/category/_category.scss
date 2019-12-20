@@ -1,0 +1,25 @@
+.category {
+	border: 1px solid #87898b;
+  padding: 10px 20px;
+
+	&:not(.is-active) {
+		display: none;
+	}
+
+	h3 {
+		margin-bottom: 0;
+	}
+
+	td {
+		width: auto;
+	}
+
+	input[type="text"],
+	textarea {
+		width: 90%;
+	}
+
+	textarea {
+		min-height: 100px;
+	}
+}
