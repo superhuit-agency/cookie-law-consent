@@ -162,6 +162,8 @@ class SettingsPage {
 				$cat['mandatory'] = isset( $cat['mandatory'] );
 				$cat['name'] = sanitize_title( $cat['title'] );
 				$cat['texts'] = array_filter($cat['texts']);
+				if (count($cat['texts']) === 0 ) unset($cat['texts']);
+
 				return $cat;
 			},
 			array_filter(
