@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Cookie Law Consent\n"
-"POT-Creation-Date: 2020-01-03 12:56+0100\n"
-"PO-Revision-Date: 2020-01-03 12:57+0100\n"
+"POT-Creation-Date: 2020-01-03 16:27+0100\n"
+"PO-Revision-Date: 2020-01-03 16:29+0100\n"
 "Last-Translator: \n"
 "Language-Team: superhuit <tech@superhuit.ch>\n"
 "Language: en_GB\n"
@@ -19,137 +19,206 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-2: *.js\n"
 "X-Poedit-SearchPathExcluded-3: *.css\n"
 
-#: admin/settings-page.php:48
+#: admin/settings-page.php:51
 msgid "Cookie law Consent Options"
-msgstr "Cookie law Consent Options"
+msgstr ""
 
-#: admin/settings-page.php:49
+#: admin/settings-page.php:52
 msgid "Cookie Law Consent"
-msgstr "Cookie Law Consent"
+msgstr ""
 
-#: admin/settings-page.php:79
+#: admin/settings-page.php:82
 msgid "Appearance"
-msgstr "Appearance"
+msgstr ""
 
-#: admin/settings-page.php:86
+#: admin/settings-page.php:89
 msgid "Banner position"
-msgstr "Banner position"
-
-#: admin/settings-page.php:95
-msgid "Select a position"
-msgstr "Select a position"
-
-#: admin/settings-page.php:96
-msgid "↖ Top left corner"
-msgstr "↖ Top left corner"
-
-#: admin/settings-page.php:97
-msgid "↗ Top right corner"
-msgstr "↗ Top right corner"
+msgstr ""
 
 #: admin/settings-page.php:98
-msgid "✛ Center"
-msgstr "✛ Center"
+msgid "Select a position"
+msgstr ""
 
 #: admin/settings-page.php:99
-msgid "↙ Bottom left corner"
-msgstr "↙ Bottom left corner"
+msgid "↖ Top left corner"
+msgstr ""
 
 #: admin/settings-page.php:100
+msgid "↗ Top right corner"
+msgstr ""
+
+#: admin/settings-page.php:101
+msgid "✛ Center"
+msgstr ""
+
+#: admin/settings-page.php:102
+msgid "↙ Bottom left corner"
+msgstr ""
+
+#: admin/settings-page.php:103
 msgid "↘ Bottom right corner"
-msgstr "↘ Bottom right corner"
+msgstr ""
 
-#: admin/settings-page.php:106
+#: admin/settings-page.php:109
 msgid "External styles"
-msgstr "External styles"
+msgstr ""
 
-#: admin/settings-page.php:120
+#: admin/settings-page.php:123
+msgid "Custom texts"
+msgstr ""
+
+#: admin/settings-page.php:130
+msgid "Banner texts"
+msgstr ""
+
+#: admin/settings-page.php:137 admin/settings-page.php:153
+msgid "Title"
+msgstr ""
+
+#: admin/settings-page.php:137 public/public.php:81
+msgid "Cookies"
+msgstr ""
+
+#: admin/settings-page.php:138
+msgid "Personalize link"
+msgstr ""
+
+#: admin/settings-page.php:138 public/public.php:82
+msgid "Personalize"
+msgstr ""
+
+#: admin/settings-page.php:139 admin/settings-page.php:155
+#: admin/settings-page.php:472
+msgid "Description"
+msgstr ""
+
+#: admin/settings-page.php:139 public/public.php:83
+msgid ""
+"This site uses cookies to help improve your user experience and gives you "
+"control over what you want to activate."
+msgstr ""
+
+#: admin/settings-page.php:140
+msgid "Accept all button"
+msgstr ""
+
+#: admin/settings-page.php:140 public/public.php:84
+msgid "Ok, accept all"
+msgstr ""
+
+#: admin/settings-page.php:146
+msgid "Modal texts"
+msgstr ""
+
+#: admin/settings-page.php:153 public/public.php:89
+msgid "Privacy Overview"
+msgstr ""
+
+#: admin/settings-page.php:154
+msgid "Close button"
+msgstr ""
+
+#: admin/settings-page.php:154 public/public.php:90
+msgid "Close"
+msgstr ""
+
+#: admin/settings-page.php:155 public/public.php:91
+msgid ""
+"This website uses cookies to improve your experience while you navigate "
+"through the website. Out of these cookies, the cookies that are categorized "
+"as necessary are stored on your browser as they are essential for the "
+"working of basic functionalities of the website. We also use third-party "
+"cookies that help us analyze and understand how you use this website. These "
+"cookies will be stored in your browser only with your consent. You also have "
+"the option to opt-out of these cookies. But opting out of some of these "
+"cookies may have an effect on your browsing experience."
+msgstr ""
+
+#: admin/settings-page.php:156
+msgid "Save button"
+msgstr ""
+
+#: admin/settings-page.php:156 public/public.php:92
+msgid "Save & Accept"
+msgstr ""
+
+#: admin/settings-page.php:163
 msgid "Categories"
-msgstr "Categories"
+msgstr ""
 
-#: admin/settings-page.php:121
+#: admin/settings-page.php:164
 msgid ""
 "Define the categories of cookies with a description for the user the "
 "understand and the cookies are intend for."
 msgstr ""
-"Define the categories of cookies with a description for the user the "
-"understand and the cookies are intended for."
 
-#: admin/settings-page.php:136
+#: admin/settings-page.php:179
 msgid "Services"
-msgstr "Services"
+msgstr ""
 
-#: admin/settings-page.php:137
+#: admin/settings-page.php:180
 msgid "Enable adn define external services"
-msgstr "Enable adn define external services"
+msgstr ""
 
-#: admin/settings-page.php:268
+#: admin/settings-page.php:333
 #, php-format
 msgid ""
 "ℹ️ You are currently editing the <b>%s</b> version. The texts configuration "
 "need to be translated, but choices & enablings will be set for all languages."
 msgstr ""
-"ℹ️ You are currently editing the <b>%s</b> version. The texts configuration "
-"need to be translated, but choices & enablings will be set for all languages."
 
-#: admin/settings-page.php:352
+#: admin/settings-page.php:451
 msgid "Position"
-msgstr "Position"
+msgstr ""
 
-#: admin/settings-page.php:358 admin/settings-page.php:362
+#: admin/settings-page.php:457 admin/settings-page.php:461
 msgid "Mandatory?"
-msgstr "Mandatory?"
+msgstr ""
 
-#: admin/settings-page.php:373
-msgid "Description"
-msgstr "Description"
-
-#: admin/settings-page.php:379
+#: admin/settings-page.php:478
 msgid "Custom Texts"
-msgstr "Custom Texts"
+msgstr ""
 
-#: admin/settings-page.php:382
+#: admin/settings-page.php:481
 msgid "Enable"
-msgstr "Enable"
+msgstr ""
 
-#: admin/settings-page.php:388 cookie-law-consent.php:103
+#: admin/settings-page.php:487 public/public.php:72
 msgid "Enable cookies"
-msgstr "Enable cookies"
+msgstr ""
 
-#: admin/settings-page.php:392 admin/settings-page.php:398
-#: cookie-law-consent.php:104
+#: admin/settings-page.php:491 admin/settings-page.php:497 public/public.php:73
 msgid "Enabled"
-msgstr "Enabled"
+msgstr ""
 
-#: admin/settings-page.php:404
+#: admin/settings-page.php:503
 msgid "Disable"
-msgstr "Disable"
+msgstr ""
 
-#: admin/settings-page.php:410 cookie-law-consent.php:105
+#: admin/settings-page.php:509 public/public.php:74
 msgid "Disable cookies"
-msgstr "Disable cookies"
+msgstr ""
 
-#: admin/settings-page.php:414 admin/settings-page.php:420
-#: cookie-law-consent.php:106
+#: admin/settings-page.php:513 admin/settings-page.php:519 public/public.php:75
 msgid "Disabled"
-msgstr "Disabled"
+msgstr ""
 
-#: admin/settings-page.php:426
+#: admin/settings-page.php:525
 msgid "Always Enabled <br><small><em>Mandatory category</em></small>"
-msgstr "Always Enabled <br><small><em>Mandatory category</em></small>"
+msgstr ""
 
-#: admin/settings-page.php:432 cookie-law-consent.php:107
+#: admin/settings-page.php:531 public/public.php:76
 msgid "Always enabled"
-msgstr "Always enabled"
+msgstr ""
 
-#: admin/settings-page.php:448
+#: admin/settings-page.php:547
 msgid "Select a category"
-msgstr "Select a category"
+msgstr ""
 
-#: admin/settings-page.php:486
+#: admin/settings-page.php:585
 msgid "Enable?"
-msgstr "Enable?"
+msgstr ""
 
-#: admin/settings-page.php:496
+#: admin/settings-page.php:595
 msgid "Category"
-msgstr "Category"
+msgstr ""
