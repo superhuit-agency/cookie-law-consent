@@ -1,0 +1,155 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Cookie Law Consent\n"
+"POT-Creation-Date: 2020-01-03 12:56+0100\n"
+"PO-Revision-Date: 2020-01-03 12:57+0100\n"
+"Last-Translator: \n"
+"Language-Team: superhuit <tech@superhuit.ch>\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_x\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: build\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: *.js\n"
+"X-Poedit-SearchPathExcluded-3: *.css\n"
+
+#: admin/settings-page.php:48
+msgid "Cookie law Consent Options"
+msgstr "Cookie law Consent Options"
+
+#: admin/settings-page.php:49
+msgid "Cookie Law Consent"
+msgstr "Cookie Law Consent"
+
+#: admin/settings-page.php:79
+msgid "Appearance"
+msgstr "Appearance"
+
+#: admin/settings-page.php:86
+msgid "Banner position"
+msgstr "Banner position"
+
+#: admin/settings-page.php:95
+msgid "Select a position"
+msgstr "Select a position"
+
+#: admin/settings-page.php:96
+msgid "↖ Top left corner"
+msgstr "↖ Top left corner"
+
+#: admin/settings-page.php:97
+msgid "↗ Top right corner"
+msgstr "↗ Top right corner"
+
+#: admin/settings-page.php:98
+msgid "✛ Center"
+msgstr "✛ Center"
+
+#: admin/settings-page.php:99
+msgid "↙ Bottom left corner"
+msgstr "↙ Bottom left corner"
+
+#: admin/settings-page.php:100
+msgid "↘ Bottom right corner"
+msgstr "↘ Bottom right corner"
+
+#: admin/settings-page.php:106
+msgid "External styles"
+msgstr "External styles"
+
+#: admin/settings-page.php:120
+msgid "Categories"
+msgstr "Categories"
+
+#: admin/settings-page.php:121
+msgid ""
+"Define the categories of cookies with a description for the user the "
+"understand and the cookies are intend for."
+msgstr ""
+"Define the categories of cookies with a description for the user the "
+"understand and the cookies are intended for."
+
+#: admin/settings-page.php:136
+msgid "Services"
+msgstr "Services"
+
+#: admin/settings-page.php:137
+msgid "Enable adn define external services"
+msgstr "Enable adn define external services"
+
+#: admin/settings-page.php:268
+#, php-format
+msgid ""
+"ℹ️ You are currently editing the <b>%s</b> version. The texts configuration "
+"need to be translated, but choices & enablings will be set for all languages."
+msgstr ""
+"ℹ️ You are currently editing the <b>%s</b> version. The texts configuration "
+"need to be translated, but choices & enablings will be set for all languages."
+
+#: admin/settings-page.php:352
+msgid "Position"
+msgstr "Position"
+
+#: admin/settings-page.php:358 admin/settings-page.php:362
+msgid "Mandatory?"
+msgstr "Mandatory?"
+
+#: admin/settings-page.php:373
+msgid "Description"
+msgstr "Description"
+
+#: admin/settings-page.php:379
+msgid "Custom Texts"
+msgstr "Custom Texts"
+
+#: admin/settings-page.php:382
+msgid "Enable"
+msgstr "Enable"
+
+#: admin/settings-page.php:388 cookie-law-consent.php:103
+msgid "Enable cookies"
+msgstr "Enable cookies"
+
+#: admin/settings-page.php:392 admin/settings-page.php:398
+#: cookie-law-consent.php:104
+msgid "Enabled"
+msgstr "Enabled"
+
+#: admin/settings-page.php:404
+msgid "Disable"
+msgstr "Disable"
+
+#: admin/settings-page.php:410 cookie-law-consent.php:105
+msgid "Disable cookies"
+msgstr "Disable cookies"
+
+#: admin/settings-page.php:414 admin/settings-page.php:420
+#: cookie-law-consent.php:106
+msgid "Disabled"
+msgstr "Disabled"
+
+#: admin/settings-page.php:426
+msgid "Always Enabled <br><small><em>Mandatory category</em></small>"
+msgstr "Always Enabled <br><small><em>Mandatory category</em></small>"
+
+#: admin/settings-page.php:432 cookie-law-consent.php:107
+msgid "Always enabled"
+msgstr "Always enabled"
+
+#: admin/settings-page.php:448
+msgid "Select a category"
+msgstr "Select a category"
+
+#: admin/settings-page.php:486
+msgid "Enable?"
+msgstr "Enable?"
+
+#: admin/settings-page.php:496
+msgid "Category"
+msgstr "Category"

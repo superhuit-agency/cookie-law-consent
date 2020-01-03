@@ -6,8 +6,8 @@
  * Author URI:  https://profiles.wordpress.org/kuuak
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: clc
- * Domain Path: cookielawconsent
+ * Text Domain: cookie-law-consent
+ * Domain Path: /languages
  *
  * Cookie Law Consent is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume
@@ -16,15 +16,15 @@
  * Cookie Law Consent is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @package Woo_Default_Attributes
+ * @package CookieLawConsent
  * @author  Kuuak
  * @license GPL-2.0+
  * @link    https://gitlab.com/superhuit/cookie-law-consent
  */
-
 namespace CookieLawConsent;
 
 use CookieLawConsent\Admin\SettingsPage;
+
 
 /* Prevent loading this file directly */
 defined( 'ABSPATH' ) || exit;
@@ -38,28 +38,47 @@ define( 'CLC_PLUGIN_VERSION', '1.0.0' );
 require_once __DIR__ .'/available-services.php';
 require_once __DIR__ .'/admin/settings-page.php';
 
-if( is_admin() ) new SettingsPage();
-
 /**
  * ACTIONS & FILTERS
  * =================
  *
  * Register the actions & filters
  */
+add_action( 'plugins_loaded', __NAMESPACE__.'\register_textdomain' );
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
+
+if( is_admin() ) new SettingsPage();
+
+function register_textdomain() {
+	load_textdomain( 'cookie-law-consent', WP_LANG_DIR .'/cookie-law-consent/cookie-law-consent-' . get_locale() . '.mo' );
+	load_plugin_textdomain( 'cookie-law-consent', false, dirname(plugin_basename(__FILE__)) . '/languages/' );
+}
 
 function enqueue_assets() {
 	$config = get_option( SettingsPage::SETTINGS_NAME );
 
-
 	// Bail early as no services is configured
 	if ( count($config[SettingsPage::FIELD_SERVICES]) === 0 ) return;
 
-	foreach ($config['categories'] as $i => $category) {
+	if (!$config[SettingsPage::FIELD_EXTERNAL_STYLES]) {
+		wp_enqueue_style( 'cookie-law-consent-styles', plugins_url( 'build/cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
+	}
+
+	if ( is_multilingual() ) {
+		$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) {
+			$cat['title'] = get_translated_text($cat['title']);
+			$cat['description'] = get_translated_text($cat['description']);
+			$cat['texts'] = get_category_texts(get_translated_text($cat['texts']));
+
+			return $cat;
+		}, $config[SettingsPage::FIELD_CATEGORIES]);
+	}
+
+	foreach ($config[SettingsPage::FIELD_CATEGORIES] as $i => $cat) {
 		$services = array_filter(
 			$config[SettingsPage::FIELD_SERVICES],
-			function($srv) use ($category){
-				return ( $srv['category'] === $category['name'] );
+			function($srv) use ($cat){
+				return ( isset($srv['category']) && $srv['category'] === $cat['id'] );
 			}
 		);
 
@@ -71,16 +90,62 @@ function enqueue_assets() {
 		}
 	}
 
-	if (!$config[SettingsPage::FIELD_EXTERNAL_STYLES]) {
-		wp_enqueue_style( 'cookie-law-consent-styles', plugins_url( 'build/cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
-	}
-
 	unset($config[SettingsPage::FIELD_SERVICES]);
 	unset($config[SettingsPage::FIELD_EXTERNAL_STYLES]);
 
 	wp_register_script( 'cookie-law-consent-js', plugins_url( 'build/cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
 	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_encode($config));
 	wp_enqueue_script( 'cookie-law-consent-js' );
+}
 
+function get_category_texts( $texts = [] ) : Array {
+	return array_merge( [
+		'enable' => __( 'Enable cookies', 'cookie-law-consent' ),
+		'enabled' => __( 'Enabled', 'cookie-law-consent' ),
+		'disable' => __( 'Disable cookies', 'cookie-law-consent' ),
+		'disabled' => __( 'Disabled', 'cookie-law-consent' ),
+		'alwaysEnabled' => __( 'Always enabled', 'cookie-law-consent' ),
+	], (is_array($texts) ? $texts : []) );
+}
 
+function is_multilingual() {
+	// TODO make it work with WMPL + Polylang
+	return class_exists('SitePress');
+}
+
+function get_current_lang() {
+	// TODO make it work with WMPL + Polylang
+	$currentLang = null;
+
+	if ( is_multilingual() )       {
+		$currentLang = apply_filters( 'wpml_current_language', NULL );
+		$defaultLang = get_default_lang();
+		$currentLang = ( $currentLang === 'all' ? $defaultLang : $currentLang );
+	}
+
+	return $currentLang;
+}
+
+function get_default_lang() {
+	// TODO make it work with WMPL + Polylang
+	$defaultLang = null;
+
+	if ( is_multilingual() ) {
+		$defaultLang = apply_filters( 'wpml_default_language', NULL );
+	}
+
+	return $defaultLang;
+}
+
+function get_translated_text ($translations) {
+	if ( !(is_multilingual() && is_array($translations)) ) return $translations;
+
+	$currentLang = get_current_lang();
+	$defaultLang = get_default_lang();
+
+	if ( isset($translations[$currentLang]) ) $text = $translations[$currentLang];
+	else if ( isset($translations[$defaultLang]) ) $text = $translations[$defaultLang];
+	else $text = array_shift($translations);
+
+	return $text;
 }

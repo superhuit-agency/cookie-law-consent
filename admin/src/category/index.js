@@ -53,6 +53,8 @@ export default class Category {
 		el.dataset.idx = idx;
 
 		el.insertAdjacentHTML('beforeend',
+			`<input name="${settingName}[categories][${idx}][id]" type="text" value="cat-${id}"/>` +
+			`<input name="${settingName}[categories][${idx}][position]" type="number" value="${idx + 1}"/>` +
 			'<table class="form-table">' +
 				'<tr class="row">' +
 					`<th><label for="cat-mandatory_${id}">Mandatory ?</label></th>` +
