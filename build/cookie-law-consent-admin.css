@@ -286,3 +286,13 @@
 .services__nav {
   transform: translateY(1px); }
 
+.texts-table {
+  margin-top: -15px; }
+  .texts-table input[type="text"],
+  .texts-table textarea {
+    width: 80%; }
+  .texts-table textarea {
+    min-height: 100px; }
+  .texts-table td {
+    vertical-align: top; }
+

@@ -152,7 +152,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _switch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./switch */ \"./admin/src/switch/index.js\");\n/* harmony import */ var _tabulation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabulation */ \"./admin/src/tabulation/index.js\");\n/* harmony import */ var _categories__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./categories */ \"./admin/src/categories/index.js\");\n/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services */ \"./admin/src/services/index.js\");\n\n\n\n\nvar categoriesEl = document.querySelector('.categories');\nif (categoriesEl) new _categories__WEBPACK_IMPORTED_MODULE_2__[\"default\"](categoriesEl);\nvar tabEls = Array.from(document.querySelectorAll('[tabulation]'));\nif (tabEls) tabEls.forEach(function (el) {\n  return new _tabulation__WEBPACK_IMPORTED_MODULE_1__[\"default\"](el);\n});\nvar ServicesEl = document.querySelector('.services');\nif (ServicesEl) new _services__WEBPACK_IMPORTED_MODULE_3__[\"default\"](ServicesEl);\n\n//# sourceURL=webpack:///./admin/src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _switch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./switch */ \"./admin/src/switch/index.js\");\n/* harmony import */ var _tabulation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabulation */ \"./admin/src/tabulation/index.js\");\n/* harmony import */ var _categories__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./categories */ \"./admin/src/categories/index.js\");\n/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services */ \"./admin/src/services/index.js\");\n/* harmony import */ var _texts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./texts */ \"./admin/src/texts/index.js\");\n\n\n\n\n\nvar categoriesEl = document.querySelector('.categories');\nif (categoriesEl) new _categories__WEBPACK_IMPORTED_MODULE_2__[\"default\"](categoriesEl);\nvar tabEls = Array.from(document.querySelectorAll('[tabulation]'));\nif (tabEls) tabEls.forEach(function (el) {\n  return new _tabulation__WEBPACK_IMPORTED_MODULE_1__[\"default\"](el);\n});\nvar ServicesEl = document.querySelector('.services');\nif (ServicesEl) new _services__WEBPACK_IMPORTED_MODULE_3__[\"default\"](ServicesEl);\n\n//# sourceURL=webpack:///./admin/src/index.js?");
 
 /***/ }),
 
@@ -222,6 +222,29 @@ eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./admi
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Tabulation; });\n/* harmony import */ var _tabulation_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_tabulation.scss */ \"./admin/src/tabulation/_tabulation.scss\");\n/* harmony import */ var _tabulation_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_tabulation_scss__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var delegate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! delegate */ \"./node_modules/delegate/src/delegate.js\");\n/* harmony import */ var delegate__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(delegate__WEBPACK_IMPORTED_MODULE_1__);\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\n\n\nvar Tabulation =\n/*#__PURE__*/\nfunction () {\n  function Tabulation(element) {\n    _classCallCheck(this, Tabulation);\n\n    this.el = element;\n    this.refs = {\n      tabList: this.el.querySelector('[tab-list]'),\n      panelList: this.el.querySelector('[panel-list]')\n    };\n    this.state = {\n      activeTab: 0\n    };\n    this.bind();\n  }\n\n  _createClass(Tabulation, [{\n    key: \"bind\",\n    value: function bind() {\n      delegate__WEBPACK_IMPORTED_MODULE_1___default()(this.refs.tabList, 'a', 'click', this.onTabClick.bind(this));\n    }\n  }, {\n    key: \"onTabClick\",\n    value: function onTabClick(event) {\n      event.preventDefault();\n      this.updateActive(Array.from(this.refs.tabList.children).indexOf(event.target));\n    }\n  }, {\n    key: \"updateActive\",\n    value: function updateActive() {\n      var nextActive = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;\n      this.refs.tabList.children[this.state.activeTab].classList.remove('is-active');\n      this.refs.panelList.children[this.state.activeTab].classList.remove('is-active');\n      this.refs.tabList.children[nextActive].classList.add('is-active');\n      this.refs.panelList.children[nextActive].classList.add('is-active');\n      this.state.activeTab = nextActive;\n    }\n  }]);\n\n  return Tabulation;\n}();\n\n\n\n//# sourceURL=webpack:///./admin/src/tabulation/index.js?");
+
+/***/ }),
+
+/***/ "./admin/src/texts/_texts.scss":
+/*!*************************************!*\
+  !*** ./admin/src/texts/_texts.scss ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./admin/src/texts/_texts.scss?");
+
+/***/ }),
+
+/***/ "./admin/src/texts/index.js":
+/*!**********************************!*\
+  !*** ./admin/src/texts/index.js ***!
+  \**********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _texts_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_texts.scss */ \"./admin/src/texts/_texts.scss\");\n/* harmony import */ var _texts_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_texts_scss__WEBPACK_IMPORTED_MODULE_0__);\n\n\n//# sourceURL=webpack:///./admin/src/texts/index.js?");
 
 /***/ }),
 

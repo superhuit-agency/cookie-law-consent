@@ -26,6 +26,12 @@ function enqueue_assets() {
 	}
 
 	if ( is_multilingual() ) {
+
+		$config['texts'] = [
+			'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS])),
+			'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS])),
+		];
+
 		$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) {
 			$cat['title'] = get_translated_text($cat['title']);
 			$cat['description'] = get_translated_text($cat['description']);
@@ -53,6 +59,8 @@ function enqueue_assets() {
 
 	unset($config[SettingsPage::FIELD_SERVICES]);
 	unset($config[SettingsPage::FIELD_EXTERNAL_STYLES]);
+	unset($config[SettingsPage::FIELD_BANNER_TEXTS]);
+	unset($config[SettingsPage::FIELD_MODAL_TEXTS]);
 
 	wp_register_script( 'cookie-law-consent-js', plugins_url( '../build/cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
 	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_encode($config));
@@ -61,10 +69,26 @@ function enqueue_assets() {
 
 function get_category_texts( $texts = [] ) : Array {
 	return array_merge( [
-		'enable' => __( 'Enable cookies', 'cookielawconsent' ),
-		'enabled' => __( 'Enabled', 'cookielawconsent' ),
-		'disable' => __( 'Disable cookies', 'cookielawconsent' ),
-		'disabled' => __( 'Disabled', 'cookielawconsent' ),
+		'enable'        => __( 'Enable cookies', 'cookielawconsent' ),
+		'enabled'       => __( 'Enabled', 'cookielawconsent' ),
+		'disable'       => __( 'Disable cookies', 'cookielawconsent' ),
+		'disabled'      => __( 'Disabled', 'cookielawconsent' ),
 		'alwaysEnabled' => __( 'Always enabled', 'cookielawconsent' ),
+	], (is_array($texts) ? $texts : []) );
+}
+function get_banner_texts( $texts = [] ) : Array {
+	return array_merge( [
+		'title'       => _x('Cookies', 'Banner Title', 'cookielawconsent' ),
+		'personalize' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ),
+		'message'     => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ),
+		'acceptAll'   => _x('Ok, accept all', 'Banner Accept All', 'cookielawconsent' ),
+	], (is_array($texts) ? $texts : []) );
+}
+function get_modal_texts( $texts = [] ) : Array {
+	return array_merge( [
+		'title'       => _x('Privacy Overview', 'Modal Title', 'cookielawconsent' ),
+		'close'       => _x('Close', 'Modal Personalize', 'cookielawconsent' ),
+		'description' => _x('This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.', 'Modal Description', 'cookielawconsent' ),
+		'save'        => _x('Save & Accept', 'Modal Accept All', 'cookielawconsent' ),
 	], (is_array($texts) ? $texts : []) );
 }

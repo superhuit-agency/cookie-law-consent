@@ -1,0 +1,16 @@
+.texts-table {
+
+	margin-top: -15px;
+
+	input[type="text"],
+	textarea {
+		width: 80%;
+	}
+	textarea {
+		min-height: 100px;
+	}
+
+	td {
+		vertical-align: top;
+	}
+}

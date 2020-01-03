@@ -13,6 +13,7 @@ class SettingsPage {
 	const OPTIONS_PAGE_NAME = 'cookie-law-consent-settings';
 
 	const SECTION_NAME = 'cookie_law_consent-section';
+	const SECTION_TEXTS = 'cookie_law_consent-section-texts';
 	const SECTION_CATEGORIES = 'cookie_law_consent-section-categories';
 	const SECTION_SERVICES = 'cookie_law_consent-section-services';
 
@@ -21,6 +22,8 @@ class SettingsPage {
 
 	const FIELD_BANNER_POSITION = 'banner_position';
 	const FIELD_EXTERNAL_STYLES = 'external_styles';
+	const FIELD_BANNER_TEXTS = 'banner_texts';
+	const FIELD_MODAL_TEXTS = 'modal_texts';
 	const FIELD_CATEGORIES = 'categories';
 	const FIELD_SERVICES = 'services';
 
@@ -116,6 +119,46 @@ class SettingsPage {
 
 
 		add_settings_section(
+			self::SECTION_TEXTS,
+			_x('Custom texts', 'Global custom texts', 'cookielawconsent'),
+			null,
+			self::OPTIONS_PAGE_NAME
+		);
+
+		add_settings_field(
+			self::FIELD_BANNER_TEXTS,
+			__('Banner texts', 'cookielawconsent'),
+			[$this, 'render_texts_field'],
+			self::OPTIONS_PAGE_NAME,
+			self::SECTION_TEXTS,
+			[
+				'id'        => self::FIELD_BANNER_TEXTS,
+				'fields'    => [
+					[ 'name' => 'title', 'label' => _x('Title', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Cookies', 'Banner Title', 'cookielawconsent' ) ],
+					[ 'name' => 'personalize', 'label' => _x('Personalize link', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ) ],
+					[ 'name' => 'message', 'type' => 'textarea', 'label' => _x('Description', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ) ],
+					[ 'name' => 'acceptAll', 'label' => _x('Accept all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Ok, accept all', 'Banner Accept All', 'cookielawconsent' ) ],
+				],
+			]
+		);
+		add_settings_field(
+			self::FIELD_MODAL_TEXTS,
+			__('Modal texts', 'cookielawconsent'),
+			[$this, 'render_texts_field'],
+			self::OPTIONS_PAGE_NAME,
+			self::SECTION_TEXTS,
+			[
+				'id'        => self::FIELD_MODAL_TEXTS,
+				'fields'    => [
+					[ 'name' => 'title', 'label' => _x('Title', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Privacy Overview', 'Modal Title', 'cookielawconsent' ) ],
+					[ 'name' => 'close', 'label' => _x('Close button', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Close', 'Modal Personalize', 'cookielawconsent' ) ],
+					[ 'name' => 'description', 'type' => 'textarea', 'label' => _x('Description', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.', 'Modal Description', 'cookielawconsent' ) ],
+					[ 'name' => 'save', 'label' => _x('Save button', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Save & Accept', 'Modal Accept All', 'cookielawconsent' ) ],
+				],
+			]
+		);
+
+		add_settings_section(
 			self::SECTION_CATEGORIES,
 			__('Categories', 'cookielawconsent'),
 			function() { _e('Define the categories of cookies with a description for the user the understand and the cookies are intend for.', 'cookielawconsent'); },
@@ -162,6 +205,9 @@ class SettingsPage {
 
 		$settings[self::FIELD_EXTERNAL_STYLES] = isset($fields[self::FIELD_EXTERNAL_STYLES]);
 
+		$settings[self::FIELD_BANNER_TEXTS] = array_filter($fields[self::FIELD_BANNER_TEXTS]);
+		$settings[self::FIELD_MODAL_TEXTS] = array_filter($fields[self::FIELD_MODAL_TEXTS]);
+
 		$settings[self::FIELD_CATEGORIES] = array_values(array_map(
 			function(Array $cat) {
 				$cat['mandatory'] = isset( $cat['mandatory'] );
@@ -193,6 +239,25 @@ class SettingsPage {
 		if (is_multilingual()) {
 			$currentLang = get_current_lang();
 			$defaultLang = get_default_lang();
+
+			$bannerTexts = [];
+			$prevBannerTexts = $this->options[self::FIELD_BANNER_TEXTS];
+			if ( is_array($prevBannerTexts) ) {
+				if ( count(array_intersect_key(['title', 'message', 'personalize', 'acceptAll'], $prevBannerTexts)) > 0 ) $bannerTexts[$defaultLang] = $prevBannerTexts;
+				else $bannerTexts = $prevBannerTexts;
+			}
+			$bannerTexts[$currentLang] = $settings[self::FIELD_BANNER_TEXTS];
+			$settings[self::FIELD_BANNER_TEXTS] = $bannerTexts;
+
+			$modalTexts = [];
+			$prevModalTexts = $this->options[self::FIELD_MODAL_TEXTS];
+			if ( is_array($prevModalTexts) ) {
+				if ( count(array_intersect_key(['title', 'description', 'close', 'save'], $prevModalTexts)) > 0 ) $modalTexts[$defaultLang] = $prevModalTexts;
+				else $modalTexts = $prevModalTexts;
+			}
+			$modalTexts[$currentLang] = $settings[self::FIELD_MODAL_TEXTS];
+			$settings[self::FIELD_MODAL_TEXTS] = $modalTexts;
+
 
 			$settings[self::FIELD_CATEGORIES] = array_map(function($cat) use ($currentLang, $defaultLang) {
 				$prevCat = $this->get_category_by_id($cat['id']);
@@ -321,6 +386,40 @@ class SettingsPage {
 			$name,
 			($args['checked']  ? 'checked' : '')
 		);
+	}
+
+	public function render_texts_field($args, $wrap_in_table = true) {
+		$values = ( isset($this->options[$args['id']]) ? get_translated_text( $this->options[$args['id']] ) : [] );
+
+		$fields = array_map(function($field) use ($args, $values) {
+			$id    = sprintf( '%s-%s', $args['id'], $field['name'] );
+			$name  = sprintf( '%s[%s][%s]', self::SETTINGS_NAME, $args['id'], $field['name'] );
+			$value = ( isset($values[$field['name']]) ? $values[$field['name']] : '' );
+
+			$tple = ( (isset($field['type']) && $field['type'] === 'textarea' )
+				? '<textarea id="%1$s" name="%3$s" placeholder="%4$s">%5$s</textarea>'
+				: '<input id="%1$s" type="text" name="%3$s" placeholder="%4$s" value="%5$s" />'
+			);
+
+			return sprintf( '<th><label for="%1$s">%2$s</label></th><td>'.$tple.'</td>',
+				$id,
+				$field['label'],
+				$name,
+				$field['placeholder'],
+				$value
+			);
+		}, $args['fields'] );
+
+		$rows = [];
+		for ($i=0; $i < (int)(count($fields) / 2); $i++) {
+			$rows[] = sprintf('<tr>%s%s</tr>',
+				$fields[$i*2],
+				(isset($fields[$i*2+1]) ? $fields[$i*2+1] : '')
+			);
+		}
+
+		$tple = ( $wrap_in_table ? '<table class="form-table texts-table">%s</table>' : '%s' );
+		printf( $tple, implode('', $rows) );
 	}
 
 	public function render_categories_field() {
@@ -535,4 +634,6 @@ class SettingsPage {
 		</div>
 		<?php
 	}
+
+
 }
