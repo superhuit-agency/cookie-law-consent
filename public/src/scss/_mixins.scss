@@ -144,61 +144,6 @@
 }
 
 ///
-/// Fluid Props - DEPRECATED: use `fluid` instead
-/// @param {Properties} $properties - Space-separated list of properties to act on
-/// @param {Size} $min-value - Minimum value in px (`$properties` will have this value when `viewport width == $min-vw`)
-/// @param {Size} $max-value - Maximum value in px (`$properties` will have this value when `viewport width == $max-vw`)
-/// @param {Size} $min-vw [$fluid-min] - (optional) Viewport width in px at which we start growing
-/// @param {Size} $max-vw [$fluid-max] - (optional) Viewport width in px at which we stop growing
-/// @param {Boolean} $set-initial-properties [true] - (optional) Define a default attribute for `viewport width < $min-vw` ?
-/// @param {Boolean} $set-after-properties [true] - (optional) Define a lasting attribute after `viewport width >= $max-vw` ?
-/// @param {Boolean} $suffix [null] - (optional) Add a suffix such as `!important`
-/// @deprecated
-///
-@mixin fluid-props(
-	$properties,
-	$min-value,
-	$max-value,
-	$min-vw: $fluid-min,
-	$max-vw: $fluid-max,
-	$set-initial-properties: true,
-	$set-after-properties: true,
-	$suffix: null
-) {
-	@warn "DEPRECATED: use `fluid` instead";
-
-	// TODO: throw an error if $min-value / $max-value / $min-vw / $max-vw is NOT in px
-	//       as it breaks the calculation
-	@if $set-initial-properties {
-		@media (max-width: $min-vw - 1) {
-			@each $property in $properties {
-				#{$property}: $min-value $suffix;
-			}
-		}
-	}
-
-	@media (min-width: $min-vw) and (max-width: $max-vw - 1) {
-		@each $property in $properties {
-			#{$property}: calc(
-				#{$min-value} +
-				#{strip-unit($max-value - $min-value)} *
-				(100vw - #{$min-vw}) /
-				#{strip-unit($max-vw - $min-vw)}
-			)
-				$suffix;
-		}
-	}
-
-	@if $set-after-properties {
-		@media (min-width: $max-vw) {
-			@each $property in $properties {
-				#{$property}: $max-value $suffix;
-			}
-		}
-	}
-}
-
-///
 /// CSS object-fit feature with polyfill
 /// @param {Keyword} $fit - object-fit value
 /// @param {Keyword} $position - object-position value (optional)
