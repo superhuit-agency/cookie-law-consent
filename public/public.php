@@ -61,10 +61,10 @@ function enqueue_assets() {
 
 function get_category_texts( $texts = [] ) : Array {
 	return array_merge( [
-		'enable' => __( 'Enable cookies', 'cookie-law-consent' ),
-		'enabled' => __( 'Enabled', 'cookie-law-consent' ),
-		'disable' => __( 'Disable cookies', 'cookie-law-consent' ),
-		'disabled' => __( 'Disabled', 'cookie-law-consent' ),
-		'alwaysEnabled' => __( 'Always enabled', 'cookie-law-consent' ),
+		'enable' => __( 'Enable cookies', 'cookielawconsent' ),
+		'enabled' => __( 'Enabled', 'cookielawconsent' ),
+		'disable' => __( 'Disable cookies', 'cookielawconsent' ),
+		'disabled' => __( 'Disabled', 'cookielawconsent' ),
+		'alwaysEnabled' => __( 'Always enabled', 'cookielawconsent' ),
 	], (is_array($texts) ? $texts : []) );
 }

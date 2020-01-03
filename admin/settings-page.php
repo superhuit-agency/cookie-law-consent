@@ -45,8 +45,8 @@ class SettingsPage {
 	public function add_plugin_page() {
 		// This page will be under "Settings"
 		add_options_page(
-			__( 'Cookie law Consent Options', 'cookie-law-consent'),
-			__( 'Cookie Law Consent', 'cookie-law-consent' ),
+			__( 'Cookie law Consent Options', 'cookielawconsent'),
+			__( 'Cookie Law Consent', 'cookielawconsent' ),
 			'manage_options',
 			self::OPTIONS_PAGE_NAME,
 			[$this, 'render_option_page']
@@ -76,14 +76,14 @@ class SettingsPage {
 
 		add_settings_section(
 			self::SECTION_NAME, // ID
-			__('Appearance', 'cookie-law-consent'), // Title
+			__('Appearance', 'cookielawconsent'), // Title
 			null,
 			self::OPTIONS_PAGE_NAME // Page
 		);
 
 		add_settings_field(
 			self::FIELD_BANNER_POSITION, // ID -> field name
-			__('Banner position', 'cookie-law-consent'), // Title
+			__('Banner position', 'cookielawconsent'), // Title
 			[$this, 'render_select_field'], // Callback
 			self::OPTIONS_PAGE_NAME, // Page
 			self::SECTION_NAME, // Section
@@ -92,18 +92,18 @@ class SettingsPage {
 				'id'        => self::FIELD_BANNER_POSITION,
 				'value'     => (isset( $this->options[self::FIELD_BANNER_POSITION] ) ? $this->options[self::FIELD_BANNER_POSITION] : '-1'),
 				'options'   => [
-					'-1'           => _x( 'Select a position', 'Option page select', 'cookie-law-consent' ),
-					'top-left'     => _x( '↖ Top left corner', 'Option page select', 'cookie-law-consent' ),
-					'top-right'    => _x( '↗ Top right corner', 'Option page select', 'cookie-law-consent' ),
-					'center'       => _x( '✛ Center', 'Option page select', 'cookie-law-consent' ),
-					'bottom-left'  => _x( '↙ Bottom left corner', 'Option page select', 'cookie-law-consent' ),
-					'bottom-right' => _x( '↘ Bottom right corner', 'Option page select', 'cookie-law-consent' ),
+					'-1'           => _x( 'Select a position', 'Option page select', 'cookielawconsent' ),
+					'top-left'     => _x( '↖ Top left corner', 'Option page select', 'cookielawconsent' ),
+					'top-right'    => _x( '↗ Top right corner', 'Option page select', 'cookielawconsent' ),
+					'center'       => _x( '✛ Center', 'Option page select', 'cookielawconsent' ),
+					'bottom-left'  => _x( '↙ Bottom left corner', 'Option page select', 'cookielawconsent' ),
+					'bottom-right' => _x( '↘ Bottom right corner', 'Option page select', 'cookielawconsent' ),
 				],
 			]
 		);
 		add_settings_field(
 			self::FIELD_EXTERNAL_STYLES,
-			__('External styles', 'cookie-law-consent'),
+			__('External styles', 'cookielawconsent'),
 			[$this, 'render_switch_field'],
 			self::OPTIONS_PAGE_NAME,
 			self::SECTION_NAME,
@@ -117,14 +117,14 @@ class SettingsPage {
 
 		add_settings_section(
 			self::SECTION_CATEGORIES,
-			__('Categories', 'cookie-law-consent'),
-			function() { _e('Define the categories of cookies with a description for the user the understand and the cookies are intend for.', 'cookie-law-consent'); },
+			__('Categories', 'cookielawconsent'),
+			function() { _e('Define the categories of cookies with a description for the user the understand and the cookies are intend for.', 'cookielawconsent'); },
 			self::OPTIONS_PAGE_NAME
 		);
 
 		add_settings_field(
 			self::FIELD_CATEGORIES,
-			null, //__('Categories', 'cookie-law-consent'), // TODO find how to not render the <th>
+			null, //__('Categories', 'cookielawconsent'), // TODO find how to not render the <th>
 			[$this, 'render_categories_field'],
 			self::OPTIONS_PAGE_NAME,
 			self::SECTION_CATEGORIES
@@ -133,14 +133,14 @@ class SettingsPage {
 
 		add_settings_section(
 			self::SECTION_SERVICES,
-			__('Services', 'cookie-law-consent'),
-			function() { _e('Enable adn define external services', 'cookie-law-consent'); },
+			__('Services', 'cookielawconsent'),
+			function() { _e('Enable adn define external services', 'cookielawconsent'); },
 			self::OPTIONS_PAGE_NAME
 		);
 
 		add_settings_field(
 			self::FIELD_SERVICES,
-			null, //__('Services', 'cookie-law-consent'), // TODO find how to not render the <th>
+			null, //__('Services', 'cookielawconsent'), // TODO find how to not render the <th>
 			[$this, 'render_services_field'],
 			self::OPTIONS_PAGE_NAME,
 			self::SECTION_SERVICES
@@ -349,17 +349,17 @@ class SettingsPage {
 						<input name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][id]" type="hidden" value="<?php echo $cat['id']; ?>"/>
 						<table class="form-table">
 							<tr class="row">
-								<th><label for="<?php echo $cat['id']; ?>-position"><?php _e('Position', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo $cat['id']; ?>-position"><?php _e('Position', 'cookielawconsent'); ?></label></th>
 								<td>
 									<input id="<?php echo $cat['id']; ?>-position" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][position]" type="number" min="1" step="1" value="<?php echo $cat['position']; ?>"/>
 								</td>
 							</tr>
 							<tr class="row">
-								<th><label for="<?php echo $cat['id']; ?>-mandatory"><?php _e('Mandatory?', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo $cat['id']; ?>-mandatory"><?php _e('Mandatory?', 'cookielawconsent'); ?></label></th>
 								<td>
 									<div class="switch">
 										<input id="<?php echo $cat['id']; ?>-mandatory" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][mandatory]" type="checkbox" class="switch__chk" <?php if ($cat['mandatory']) echo 'checked'; ?>/>
-										<label for="<?php echo $cat['id']; ?>-mandatory" class="switch__label"><?php _e('Mandatory?', 'cookie-law-consent'); ?></label>
+										<label for="<?php echo $cat['id']; ?>-mandatory" class="switch__label"><?php _e('Mandatory?', 'cookielawconsent'); ?></label>
 									</div>
 								</td>
 							</tr>
@@ -370,66 +370,66 @@ class SettingsPage {
 								</td>
 							</tr>
 							<tr class="row">
-								<th><label for="<?php echo $cat['id']; ?>-description"><?php _e('Description', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo $cat['id']; ?>-description"><?php _e('Description', 'cookielawconsent'); ?></label></th>
 								<td>
 									<textarea id="<?php echo $cat['id']; ?>-description" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][description]" ><?php echo get_translated_text($cat['description']); ?></textarea>
 								</td>
 							</tr>
 							<tr class="row">
-								<th><h3><?php _e( 'Custom Texts', 'cookie-law-consent'); ?></h3></th>
+								<th><h3><?php _e( 'Custom Texts', 'cookielawconsent'); ?></h3></th>
 							</tr>
 							<tr>
-								<th><label for="<?php echo $cat['id']; ?>-texts-enable"><?php _e('Enable', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo $cat['id']; ?>-texts-enable"><?php _e('Enable', 'cookielawconsent'); ?></label></th>
 								<td>
 									<input
 										id="<?php echo $cat['id']; ?>-texts-enable"
 										type="text"
 										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][enable]"
-										placeholder="<?php _e( 'Enable cookies', 'cookie-law-consent' ); ?>"
+										placeholder="<?php _e( 'Enable cookies', 'cookielawconsent' ); ?>"
 										value="<?php if (isset($cat['texts']['enable'])) echo $cat['texts']['enable']; ?>"
 									/>
 								</td>
-								<th><label for="<?php echo $cat['id']; ?>-texts-enabled"><?php _e('Enabled', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo $cat['id']; ?>-texts-enabled"><?php _e('Enabled', 'cookielawconsent'); ?></label></th>
 								<td>
 									<input
 										id="<?php echo $cat['id']; ?>-texts-enabled"
 										type="text"
 										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][enabled]"
-										placeholder="<?php _e( 'Enabled', 'cookie-law-consent' ); ?>"
+										placeholder="<?php _e( 'Enabled', 'cookielawconsent' ); ?>"
 										value="<?php if (isset($cat['texts']['enabled'])) echo $cat['texts']['enabled']; ?>"
 									/>
 								</td>
 							</tr>
 							<tr>
-								<th><label for="<?php echo $cat['id']; ?>-texts-disable"><?php _e('Disable', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo $cat['id']; ?>-texts-disable"><?php _e('Disable', 'cookielawconsent'); ?></label></th>
 								<td>
 									<input
 										id="<?php echo $cat['id']; ?>-texts-disable"
 										type="text"
 										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][disable]"
-										placeholder="<?php _e( 'Disable cookies', 'cookie-law-consent' ); ?>"
+										placeholder="<?php _e( 'Disable cookies', 'cookielawconsent' ); ?>"
 										value="<?php if (isset($cat['texts']['disable'])) echo $cat['texts']['disable']; ?>"
 									/>
 								</td>
-								<th><label for="<?php echo $cat['id']; ?>-texts-disabled"><?php _e('Disabled', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo $cat['id']; ?>-texts-disabled"><?php _e('Disabled', 'cookielawconsent'); ?></label></th>
 								<td>
 									<input
 										id="<?php echo $cat['id']; ?>-texts-disabled"
 										type="text"
 										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][disabled]"
-										placeholder="<?php _e( 'Disabled', 'cookie-law-consent' ); ?>"
+										placeholder="<?php _e( 'Disabled', 'cookielawconsent' ); ?>"
 										value="<?php if (isset($cat['texts']['disabled'])) echo $cat['texts']['disabled']; ?>"
 									/>
 								</td>
 							</tr>
 							<tr>
-								<th><label for="<?php echo $cat['id']; ?>-texts-alwaysEnabled"><?php _e('Always Enabled <br><small><em>Mandatory category</em></small>', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo $cat['id']; ?>-texts-alwaysEnabled"><?php _e('Always Enabled <br><small><em>Mandatory category</em></small>', 'cookielawconsent'); ?></label></th>
 								<td>
 									<input
 										id="<?php echo $cat['id']; ?>-texts-alwaysEnabled"
 										type="text"
 										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][alwaysEnabled]"
-										placeholder="<?php _e( 'Always enabled', 'cookie-law-consent' ); ?>"
+										placeholder="<?php _e( 'Always enabled', 'cookielawconsent' ); ?>"
 										value="<?php if (isset($cat['texts']['alwaysEnabled'])) echo $cat['texts']['alwaysEnabled']; ?>"
 									/>
 								</td>
@@ -445,7 +445,7 @@ class SettingsPage {
 
 	public function render_services_field() {
 
-		$categoriesOptions = [ '-1' => __( 'Select a category', 'cookie-law-consent' ) ];
+		$categoriesOptions = [ '-1' => __( 'Select a category', 'cookielawconsent' ) ];
 		foreach($this->options['categories'] as $cat) {
 			$categoriesOptions[$cat['id']] = get_translated_text($cat['title']);
 		}
@@ -483,7 +483,7 @@ class SettingsPage {
 						<?php endif; ?>
 						<table class="form-table">
 							<tr class="row service__row-enable">
-								<th><label for="<?php echo "service-enabled-{$srv['name']}"; ?>"><?php _e('Enable?', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo "service-enabled-{$srv['name']}"; ?>"><?php _e('Enable?', 'cookielawconsent'); ?></label></th>
 								<td >
 									<?php $this->render_switch_field([
 										'id'      => "service-enabled-{$srv['name']}",
@@ -493,7 +493,7 @@ class SettingsPage {
 								</td>
 							</tr>
 							<tr class="row">
-								<th><label for="<?php echo "service-category-{$srv['name']}"; ?>"><?php _e('Category', 'cookie-law-consent'); ?></label></th>
+								<th><label for="<?php echo "service-category-{$srv['name']}"; ?>"><?php _e('Category', 'cookielawconsent'); ?></label></th>
 								<td>
 									<?php
 									$this->render_select_field([

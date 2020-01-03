@@ -6,7 +6,7 @@
  * Author URI:  https://profiles.wordpress.org/kuuak
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: cookie-law-consent
+ * Text Domain: cookielawconsent
  * Domain Path: /languages
  *
  * Cookie Law Consent is free software; you can redistribute it and/or modify it under the terms of the GNU
@@ -51,8 +51,8 @@ add_action( 'plugins_loaded', __NAMESPACE__.'\register_textdomain' );
 if( is_admin() ) new SettingsPage();
 
 function register_textdomain() {
-	load_textdomain( 'cookie-law-consent', WP_LANG_DIR .'/cookie-law-consent/cookie-law-consent-' . get_locale() . '.mo' );
-	load_plugin_textdomain( 'cookie-law-consent', false, dirname(plugin_basename(__FILE__)) . '/languages/' );
+	load_textdomain( 'cookielawconsent', WP_LANG_DIR .'/cookie-law-consent/cookie-law-consent-' . get_locale() . '.mo' );
+	load_plugin_textdomain( 'cookielawconsent', false, dirname(plugin_basename(__FILE__)) . '/languages/' );
 }
 
 
