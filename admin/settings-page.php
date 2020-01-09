@@ -177,7 +177,7 @@ class SettingsPage {
 		add_settings_section(
 			self::SECTION_SERVICES,
 			__('Services', 'cookielawconsent'),
-			function() { _e('Enable adn define external services', 'cookielawconsent'); },
+			function() { _e('Enable and define external services', 'cookielawconsent'); },
 			self::OPTIONS_PAGE_NAME
 		);
 
