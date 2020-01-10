@@ -121,8 +121,8 @@ export default class CookieLawCategory extends EventEmitter {
 	// #region Event handler
 	// ##############################
 
-	getName() {
-		return this.config.name;
+	getId() {
+		return this.config.id;
 	}
 
 	setEnabled(enabled = false) {

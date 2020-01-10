@@ -142,7 +142,7 @@ export default class CookieLawModal extends EventEmitter {
 	}
 
 	setCategoryEnabled(category, enabled = false) {
-		this.refs.categories.find((cat) => cat.getName() === category.name).setEnabled(enabled);
+		this.refs.categories.find((cat) => cat.getId() === category.id).setEnabled(enabled);
 	}
 
 	// ##############################
