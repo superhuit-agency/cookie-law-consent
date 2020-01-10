@@ -19,7 +19,7 @@ function enqueue_assets() {
 	$config = get_option( SettingsPage::SETTINGS_NAME );
 
 	// Bail early as no services is configured
-	if ( count($config[SettingsPage::FIELD_SERVICES]) === 0 ) return;
+	if ( !(isset($config[SettingsPage::FIELD_SERVICES]) && count($config[SettingsPage::FIELD_SERVICES]) > 0) ) return;
 
 	if (!$config[SettingsPage::FIELD_EXTERNAL_STYLES]) {
 		wp_enqueue_style( 'cookie-law-consent-styles', plugins_url( '../build/cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
