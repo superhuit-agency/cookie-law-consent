@@ -55,11 +55,15 @@ function plugin_activation() {
 
 if( is_admin() ) new SettingsPage();
 
+/**
+ * Register the plugin text domain
+ *
+ * @global WP_LANG_DIR
+ */
 function register_textdomain() {
 	load_textdomain( 'cookielawconsent', WP_LANG_DIR .'/cookie-law-consent/cookie-law-consent-' . get_locale() . '.mo' );
 	load_plugin_textdomain( 'cookielawconsent', false, dirname(plugin_basename(__FILE__)) . '/languages/' );
 }
-
 
 
 function is_multilingual() {
