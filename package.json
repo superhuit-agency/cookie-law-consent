@@ -9,7 +9,8 @@
   "scripts": {
     "start": "yarn watch",
     "build:dev": "webpack",
-    "build:production": "cross-env NODE_ENV=production webpack",
+		"build:production": "cross-env NODE_ENV=production webpack",
+		"release": "yarn && yarn build:production && ./release.sh",
     "watch": "webpack --watch"
   },
   "dependencies": {
