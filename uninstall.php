@@ -8,10 +8,12 @@
  * @link    https://gitlab.com/superhuit/cookie-law-consent
  */
 
+use CookieLawConsent\Admin\SettingsPage;
+
 // If uninstall not called from WordPress, then exit.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
 // Delete options
-delete_option( 'json_config' );
+delete_option( SettingsPage::SETTINGS_NAME );

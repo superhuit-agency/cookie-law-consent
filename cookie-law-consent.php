@@ -45,7 +45,12 @@ require_once __DIR__ .'/admin/settings-page.php';
  *
  * Register the actions & filters
  */
+register_activation_hook( __FILE__, __NAMESPACE__ .'\plugin_activation' );
 add_action( 'plugins_loaded', __NAMESPACE__.'\register_textdomain' );
+
+function plugin_activation() {
+	SettingsPage::insert_default_settings();
+}
 
 
 if( is_admin() ) new SettingsPage();

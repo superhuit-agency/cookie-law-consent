@@ -42,6 +42,39 @@ class SettingsPage {
 		add_action( 'admin_init', [$this, 'regsiter_settings_fields'] );
 	}
 
+	public static function insert_default_settings() {
+		$default = [];
+		$default[self::FIELD_BANNER_POSITION] = 'bottom-right';
+		$default[self::FIELD_CATEGORIES] = [
+			[
+				'position'    => 1,
+				'mandatory'   => true,
+				'id'          => 'necessary',
+				'title'       => 'Necessary',
+				'description' => 'Necessary cookies are absolutely essential for the website to function ' .
+					'properly. This category only includes cookies that ensures basic ' .
+					'functionalities and security features of the website. These cookies do not ' .
+					'store any personal information.',
+			],
+			[
+				'position'    => 2,
+				'mandatory'   => false,
+				'id'          => 'analytics',
+				'title'       => 'Analytics',
+				'description' => 'Analytics cookies help us understand how our visitors interact ' .
+					'with the website. It helps us understand the number of visitors, where the visitors ' .
+					'are coming from, and the pages they navigate. The cookies collect this ' .
+					'data and are reported anonymously.',
+			]
+		];
+
+		add_option( self::SETTINGS_NAME, $default, false );
+	}
+
+	public static function remove_settings() {
+		delete_option( self::SETTINGS_NAME );
+	}
+
 	/**
 	 * Add options page
 	 */
