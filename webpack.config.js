@@ -49,5 +49,8 @@ module.exports = {
       chunkFilename: '[id].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
-  ],
+	],
+	devServer: {
+    contentBase: './build',
+  },
 };

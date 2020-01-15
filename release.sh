@@ -13,7 +13,7 @@ cp public/*.php release/public
 cp -r languages release/
 
 mv build/*-admin* release/admin
-mv build/* release/public
+mv build/cookie* release/public
 
 
 echo ""

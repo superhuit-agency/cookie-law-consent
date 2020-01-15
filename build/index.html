@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Cookie Law Consent</title>
+	<link rel="stylesheet" href="/cookie-law-consent.css">
+</head>
+<body>
+	<h1>Enter the main heading, usually the same as the title.</h1>
+	<p>Be <b>bold</b> in stating your key points. Put them in a list: </p>
+	<ul>
+	<li>The first item in your list</li>
+	<li>The second item; <i>italicize</i> key words</li>
+	</ul>
+	<p>Improve your image by including an image. </p>
+	<p><img src="http://www.mygifs.com/CoverImage.gif" alt="A Great HTML Resource"></p>
+	<p>Add a link to your favorite <a href="https://www.dummies.com/">Web site</a>.
+	Break up your page with a horizontal rule or two. </p>
+	<hr>
+	<p>Finally, link to <a href="page2.html">another page</a> in your own Web site.</p>
+	<!-- And add a copyright notice.-->
+	<p>&#169; Wiley Publishing, 2011</p>
+
+	<script>
+		var clc_config = JSON.stringify({
+			categories: [
+				{
+					position: 1,
+					mandatory: true,
+					id: 'necessary',
+					title: 'Necessary',
+					description: 'Necessary cookies are absolutely essential for the website to function ' +
+						'properly. This category only includes cookies that ensures basic ' +
+						'functionalities and security features of the website. These cookies do not ' +
+						'store any personal information.',
+				},
+				{
+					position: 2,
+					id: 'non-necessary',
+					title: 'Non Necessary',
+					services: [
+						{ name: 'googletagmanager', containerID: 'GTM-XXX', callback: () => console.info('GTag Loaded') },
+						{ name: 'googleanalytics', trackingID: 'UA-XXXXX-Y', anonymizeIp: true },
+					],
+				},
+				{
+					position: 3,
+					id: 'marketing',
+					title: 'Marketing',
+					description: 'Used to deliver advertising that is more relevant to you and your interests. ' +
+						'They are also used to limit the number of times you see an advertisement as well as help ' +
+						'measure the effectiveness of the advertising campaign. They are usually placed by ' +
+						'advertising networks with the website operator’s permission.',
+					texts: {
+						enable: 'Enable Marketing cookies',
+						disable: 'Disable Marketing cookies',
+					},
+				},
+			],
+			texts: {
+				banner: {},
+				modal: {},
+				category: {},
+			},
+		});
+	</script>
+	<script src="/cookie-law-consent.js" type="text/javascript"></script>
+</body>
+</html>
