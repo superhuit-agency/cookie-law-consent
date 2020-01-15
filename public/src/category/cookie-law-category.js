@@ -92,7 +92,7 @@ export default class CookieLawCategory extends EventEmitter {
 				break;
 			case 'enabled':
 				this.toggleStatus();
-				this.emit('change', { enabled: value, name: this.config.name });
+				this.emit('change', { enabled: value, id: this.config.id });
 				break;
 		}
 
@@ -150,10 +150,10 @@ export default class CookieLawCategory extends EventEmitter {
 						<input
 							type="checkbox"
 							class="cookie-law-category__checkbox"
-							id="cookie-law-category-checkbox-${ this.config.name }"
+							id="cookie-law-category-checkbox-${ this.config.id }"
 							${ (this.state.enabled ? 'checked' : '') }
 						>
-						<label class="cookie-law-category__label" for="cookie-law-category-checkbox-${ this.config.name }">
+						<label class="cookie-law-category__label" for="cookie-law-category-checkbox-${ this.config.id }">
 							${ this.config.texts[ this.state.enabled ? 'disable' : 'enable' ] }
 						</label>
 						<span class="cookie-law-category__status">

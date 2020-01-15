@@ -107,7 +107,7 @@ export default class CookieLaw {
 	}
 
 	onCategoryChange(event) {
-		const changedCat = this.config.categories.find((cat) => cat.name === event.name);
+		const changedCat = this.config.categories.find((cat) => cat.id === event.id);
 		this.setCategoryCookie(changedCat, event.enabled);
 	}
 
@@ -132,7 +132,7 @@ export default class CookieLaw {
 		// as we cannot choose
 		if (category.mandatory) return;
 
-		setCookie(`${ this.config.cookieName }_${ category.name }_accepted`, accepted ? ACCEPTED_VALUE : REFUSED_VALUE);
+		setCookie(`${ this.config.cookieName }_${ category.id }_accepted`, accepted ? ACCEPTED_VALUE : REFUSED_VALUE);
 		if (accepted && category.services) {
 			category.services.forEach(({ name, ...data }) => {
 				this.loadService(name, data);
@@ -142,7 +142,7 @@ export default class CookieLaw {
 
 	getCategoriesSettings() {
 		return this.config.categories.map((cat) => {
-			const cookie = getCookie(`${ this.config.cookieName }_${ cat.name }_accepted`);
+			const cookie = getCookie(`${ this.config.cookieName }_${ cat.id }_accepted`);
 			const enabled = (cookie === ACCEPTED_VALUE);
 
 			if (enabled && cat.services) {
