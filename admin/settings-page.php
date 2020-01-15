@@ -21,7 +21,6 @@ class SettingsPage {
 	const SETTINGS_GROUP = 'cookie_law_consent_setting_group';
 
 	const FIELD_BANNER_POSITION = 'banner_position';
-	const FIELD_EXTERNAL_STYLES = 'external_styles';
 	const FIELD_BANNER_TEXTS = 'banner_texts';
 	const FIELD_MODAL_TEXTS = 'modal_texts';
 	const FIELD_CATEGORIES = 'categories';
@@ -113,7 +112,16 @@ class SettingsPage {
 		add_settings_section(
 			self::SECTION_NAME, // ID
 			__('Appearance', 'cookielawconsent'), // Title
-			null,
+			function() {
+				echo '<em>'.__('If you wish to completely overide the style, you can enqueue your own style file with the following snippet', 'cookielawconsent').'</em>';
+				echo '<div><code>' .
+				 "add_action( 'init', function() {<br>".
+					"\tif (! wp_style_is('cookie-law-consent-style', 'registered') ) return;<br>" .
+					"\twp_deregister_style( 'cookie-law-consent-style' );<br>" .
+					"\twp_register_style( 'cookie-law-consent-style', 'path/to/your/theme/cookie-law-consent.css' );<br>" .
+				"}, 20);" .
+				'</code></div>';
+			},
 			self::OPTIONS_PAGE_NAME // Page
 		);
 
@@ -137,19 +145,6 @@ class SettingsPage {
 				],
 			]
 		);
-		add_settings_field(
-			self::FIELD_EXTERNAL_STYLES,
-			__('External styles', 'cookielawconsent'),
-			[$this, 'render_switch_field'],
-			self::OPTIONS_PAGE_NAME,
-			self::SECTION_NAME,
-			[
-				'id'        => self::FIELD_EXTERNAL_STYLES,
-				'label_for' => self::FIELD_EXTERNAL_STYLES,
-				'checked'   => (isset($this->options[self::FIELD_EXTERNAL_STYLES]) && $this->options[self::FIELD_EXTERNAL_STYLES]),
-			]
-		);
-
 
 		add_settings_section(
 			self::SECTION_TEXTS,
@@ -236,7 +231,6 @@ class SettingsPage {
 			$settings[self::FIELD_BANNER_POSITION] = sanitize_text_field( $fields[self::FIELD_BANNER_POSITION] );
 		}
 
-		$settings[self::FIELD_EXTERNAL_STYLES] = isset($fields[self::FIELD_EXTERNAL_STYLES]);
 
 		$settings[self::FIELD_BANNER_TEXTS] = array_filter($fields[self::FIELD_BANNER_TEXTS]);
 		$settings[self::FIELD_MODAL_TEXTS] = array_filter($fields[self::FIELD_MODAL_TEXTS]);

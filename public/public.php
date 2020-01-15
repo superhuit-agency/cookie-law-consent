@@ -13,7 +13,13 @@ use function CookieLawConsent\get_translated_text;
  *
  * Register the actions & filters
  */
+add_action( 'init', __NAMESPACE__.'\register_assets');
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
+
+function register_assets() {
+	wp_register_style( 'cookie-law-consent-style', plugins_url( 'cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
+	wp_register_script( 'cookie-law-consent-js', plugins_url( 'cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
+}
 
 function enqueue_assets() {
 	$config = get_option( SettingsPage::SETTINGS_NAME );
@@ -21,12 +27,7 @@ function enqueue_assets() {
 	// Bail early as no services is configured
 	if ( !(isset($config[SettingsPage::FIELD_SERVICES]) && count($config[SettingsPage::FIELD_SERVICES]) > 0) ) return;
 
-	if (!$config[SettingsPage::FIELD_EXTERNAL_STYLES]) {
-		wp_enqueue_style( 'cookie-law-consent-styles', plugins_url( 'cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
-	}
-
 	if ( is_multilingual() ) {
-
 		$config['texts'] = [
 			'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS])),
 			'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS])),
@@ -58,11 +59,13 @@ function enqueue_assets() {
 	}
 
 	unset($config[SettingsPage::FIELD_SERVICES]);
-	unset($config[SettingsPage::FIELD_EXTERNAL_STYLES]);
 	unset($config[SettingsPage::FIELD_BANNER_TEXTS]);
 	unset($config[SettingsPage::FIELD_MODAL_TEXTS]);
 
-	wp_register_script( 'cookie-law-consent-js', plugins_url( 'cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
+	// Enqueue the style
+	wp_enqueue_style( 'cookie-law-consent-style');
+
+	// Localize & enqueue the script
 	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_encode($config));
 	wp_enqueue_script( 'cookie-law-consent-js' );
 }

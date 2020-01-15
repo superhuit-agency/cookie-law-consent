@@ -1,8 +1,10 @@
+import './styles.scss';
+
+import './texts';
 import './switch';
 import Tabulation from './tabulation';
 import Categories from './categories';
 import Services from './services';
-import './texts';
 
 const categoriesEl = document.querySelector('.categories');
 if ( categoriesEl ) new Categories(categoriesEl);
