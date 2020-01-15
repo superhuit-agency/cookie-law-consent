@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
  * CONSTANTS
  * =================
  * */
-define( 'CLC_PLUGIN_VERSION', '1.0.0' );
+define( 'CLC_PLUGIN_VERSION', '1.0.1' );
 
 require_once __DIR__ .'/available-services.php';
 require_once __DIR__ .'/public/public.php';
