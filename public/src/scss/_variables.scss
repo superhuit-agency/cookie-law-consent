@@ -1,5 +1,5 @@
-$font-primary: 'TT Norms', sans-serif;
-$font-secondary: 'Noe text', serif;
+$font-primary: sans-serif;
+$font-secondary: serif;
 
 $font-primary-regular: 400;
 $font-primary-bold: 700;
@@ -12,18 +12,13 @@ $font-secondary-regular: 400;
 $color-neutral: #000000;
 $color-neutral--800: #222;
 $color-neutral--700: #505050;
-$color-neutral--600: #707070;
+// $color-neutral--600: #707070;
 $color-neutral--500: #858585;
-$color-neutral--400: #CBCBCB;
+// $color-neutral--400: #CBCBCB;
 $color-neutral--300: #DEDEDE;
 $color-neutral--200: #EFEFEF;
 $color-neutral--100: #FFFFFF;
 
-/**
- * Accent color variables.
- */
-$color-accent: #FFFE54;
-$color-accent--dark: #FFED3B;
 
 /**
  * Status color variables.
