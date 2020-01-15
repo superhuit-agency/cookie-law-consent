@@ -40,12 +40,14 @@ export default class CookieLaw {
 		this.acceptAll = this.acceptAll.bind(this);
 		this.onHashChange = this.onHashChange.bind(this);
 		this.onModalClosed = this.onModalClosed.bind(this);
+		this.onModalSaved = this.onModalSaved.bind(this);
 		this.onCategoryChange = this.onCategoryChange.bind(this);
 		this.onPersonalizeClick = this.onPersonalizeClick.bind(this);
 
 		this.refs.banner.on('acceptAll', this.acceptAll);
 		this.refs.banner.on('personalize', this.onPersonalizeClick);
 		this.refs.modal.on('categoryChange', this.onCategoryChange);
+		this.refs.modal.on('save', this.onModalSaved);
 		this.refs.modal.on('closed', this.onModalClosed);
 		window.addEventListener('hashchange', this.onHashChange);
 	}
@@ -104,6 +106,10 @@ export default class CookieLaw {
 		if (window.location.hash.indexOf(`#${ this.config.hash }`) === -1) return;
 
 		window.history.replaceState('', document.title, window.location.pathname + window.location.search);
+	}
+
+	onModalSaved() {
+		this.state.bannerDismissed = true;
 	}
 
 	onCategoryChange(event) {

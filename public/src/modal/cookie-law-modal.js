@@ -38,6 +38,7 @@ export default class CookieLawModal extends EventEmitter {
 			{ set: this.stateChange.bind(this) }
 		);
 
+		this.onSave = this.onSave.bind(this);
 		this.onClose = this.onClose.bind(this);
 		this.onCategoryChange = this.onCategoryChange.bind(this);
 		this.onLostFocus = this.onLostFocus.bind(this);
@@ -47,14 +48,14 @@ export default class CookieLawModal extends EventEmitter {
 
 	bindEvents() {
 		document.addEventListener('focusin', this.onLostFocus);
-		this.refs.save.addEventListener('click', this.onClose);
+		this.refs.save.addEventListener('click', this.onSave);
 		this.refs.close.addEventListener('click', this.onClose);
 		this.refs.categories.forEach((cat) => cat.on('change', this.onCategoryChange));
 	}
 
 	unbindEvents() {
 		document.removeEventListener('focusin', this.onLostFocus);
-		this.refs.save.removeEventListener('click', this.onClose);
+		this.refs.save.removeEventListener('click', this.onSave);
 		this.refs.close.removeEventListener('click', this.onClose);
 		this.refs.categories.forEach((cat) => cat.off('change', this.onCategoryChange));
 	}
