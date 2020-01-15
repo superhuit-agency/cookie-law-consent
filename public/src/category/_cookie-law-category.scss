@@ -36,7 +36,7 @@
     	border-bottom: 1px solid $color-neutral--700;
 
 			transform: rotate(-45deg);
-			transition: all 0.2s ease-in-out;
+			transition: transform 0.2s ease-in-out, border-color .2s ease-out;
 		}
 
 		&::after {
@@ -146,12 +146,13 @@
 	 * STATES
 	 */
 	&.is-expanded {
-		.cookie-law-category__tab-title::before {
+		.cookie-law-category__title::before {
 			transform: rotate(45deg);
 		}
 	}
 
-	&__tab:hover .cookie-law-category__tab-title span {
+	&__tab:hover .cookie-law-category__title::before {
+		border-right-color: $color-neutral;
 		border-bottom-color: $color-neutral;
 	}
 
@@ -160,9 +161,9 @@
 			border: 0;
 		}
 
-		&:focus span {
+		&:focus::before {
+			border-right-color: $color-neutral;
 			border-bottom-color: $color-neutral;
-			background-size: 100% 2px;
 		}
 	}
 
