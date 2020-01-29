@@ -27,20 +27,18 @@ function enqueue_assets() {
 	// Bail early as no services is configured
 	if ( !(isset($config[SettingsPage::FIELD_SERVICES]) && count($config[SettingsPage::FIELD_SERVICES]) > 0) ) return;
 
-	if ( is_multilingual() ) {
-		$config['texts'] = [
-			'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS])),
-			'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS])),
-		];
+	$config['texts'] = [
+		'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS])),
+		'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS])),
+	];
 
-		$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) {
-			$cat['title'] = get_translated_text($cat['title']);
-			$cat['description'] = get_translated_text($cat['description']);
-			$cat['texts'] = get_category_texts(get_translated_text($cat['texts']));
+	$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) {
+		$cat['title'] = get_translated_text($cat['title']);
+		$cat['description'] = get_translated_text($cat['description']);
+		$cat['texts'] = get_category_texts(get_translated_text($cat['texts']));
 
-			return $cat;
-		}, $config[SettingsPage::FIELD_CATEGORIES]);
-	}
+		return $cat;
+	}, $config[SettingsPage::FIELD_CATEGORIES]);
 
 	foreach ($config[SettingsPage::FIELD_CATEGORIES] as $i => $cat) {
 		$services = array_filter(
