@@ -3,7 +3,7 @@
 	@include fluid(padding, (320px: 16px, $fluid-min: 20px, $fluid-max: 28px));
 
 	position: fixed;
-	z-index: 999999;
+	z-index: 99999;
 
 	font-family: $font-primary;
 	color: $color-neutral;
