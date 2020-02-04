@@ -10,20 +10,12 @@
 	}
 
 	&__title {
-		// @include reset-button();
-		background-color: transparent;
-		border: 0;
-		border-radius: 0;
-		outline: 0;
-		padding: 0;
-		cursor: pointer;
+		@extend %cookie-law--reset-button;
+		@extend %cookie-law--heading;
 
 		position: relative;
     display: flex;
     align-items: center;
-
-		@extend %cookie-law--heading;
-		margin-bottom: 0;
 
 		&::before {
 			content: " ";

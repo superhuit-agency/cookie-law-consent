@@ -17,7 +17,7 @@
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	font-weight: bold;
-	margin-bottom: 16px;
+	margin: 0;
 }
 
 %cookie-law--p-small {
@@ -60,6 +60,7 @@
 	border-radius: 0;
 	outline: transparent solid 1px;;
 	outline-offset: -3px;
+	white-space: nowrap;
 	transition: box-shadow 0.2s ease-out, outline 0.2s ease-out;
 
 	&:hover {

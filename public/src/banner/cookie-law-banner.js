@@ -114,16 +114,19 @@ export default class CookieLawBanner extends EventEmitter {
 		el.setAttribute('role', 'dialog');
 		el.setAttribute('aria-live', 'polite');
 		el.setAttribute('aria-hidden', 'true');
-		el.setAttribute('aria-label', 'cookie-law-banner');
+		el.setAttribute('aria-label', 'cookie-law-banner:title');
 		el.setAttribute('aria-describedby', 'cookie-law-banner:desc');
 
 		el.insertAdjacentHTML('beforeend', (
-			`<h5 class="cookie-law-banner__title">${ this.config.texts.title }</h5>
-			<div id="cookie-law-banner" class="cookie-law-banner__content">
-				<div id="cookie-law-banner:desc" class="cookie-law-banner__message">${ this.config.texts.message }</div>
+			`<h5 id="cookie-law-banner:title" class="cookie-law-banner__title">${ this.config.texts.title }</h5>
+			<div id="cookie-law-banner:desc" class="cookie-law-banner__message">${ this.config.texts.message }</div>
+			<div class="cookie-law-banner__personalize-cell">
 				<button class="cookie-law-banner__personalize">${ this.config.texts.personalize }</button>
 			</div>
-			<button class="cookie-law-banner__accept">${ this.config.texts.acceptAll }</button>`));
+			<div class="cookie-law-banner__accept-cell">
+				<button class="cookie-law-banner__accept">${ this.config.texts.acceptAll }</button>
+			</div>`
+		));
 
 		this.config.container.insertAdjacentElement('beforeend', el);
 

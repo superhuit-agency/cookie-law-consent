@@ -142,6 +142,7 @@ class SettingsPage {
 					'center'       => _x( '✛ Center', 'Option page select', 'cookielawconsent' ),
 					'bottom-left'  => _x( '↙ Bottom left corner', 'Option page select', 'cookielawconsent' ),
 					'bottom-right' => _x( '↘ Bottom right corner', 'Option page select', 'cookielawconsent' ),
+					'full-bottom'  => _x( '↔ Bottom full width', 'Option page select', 'cookielawconsent' ),
 				],
 			]
 		);
