@@ -1,7 +1,7 @@
 #!/bin/sh
 
 VERSION=$(grep version package.json | grep -o '[0-9][^"]*')
-RELEASE_DIR="release/v$VERSION"
+RELEASE_DIR="releases/v$VERSION"
 
 if [ -d "$RELEASE_DIR" ]; then
 	echo
