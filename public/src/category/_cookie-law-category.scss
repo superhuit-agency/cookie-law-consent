@@ -111,8 +111,8 @@
 		&::before {
 			content: "";
 			position: absolute;
-			top: calc(50% - 7px);
-			left: 3px;
+			top: calc(50% - 9px);
+			left: 2px;
 			display: block;
 			height: 14px;
 			width: 14px;
@@ -139,6 +139,20 @@
 
 	&__desc {
 		@extend %cookie-law--p-small;
+
+		a {
+			@extend %cookie-law--link;
+		}
+
+		b,
+		strong {
+			font-weight: bold;
+		}
+
+		i,
+		em {
+			font-style: italic;
+		}
 	}
 
 
@@ -172,7 +186,7 @@
 			background-color: #00A54B;
 
 			&::before {
-				transform: translateX(18px);
+				transform: translateX(17px);
 				background-color: #ffffff;
 			}
 		}

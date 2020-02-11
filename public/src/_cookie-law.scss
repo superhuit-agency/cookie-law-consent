@@ -1,8 +1,16 @@
-/**
- * Core
- */
-@import './scss/functions';
-@import './scss/mixins';
+%cookie-law--reset-button {
+	background-color: transparent;
+	border: 0;
+	border-radius: 0;
+	outline: 0;
+	appearance: none;
+	padding: 0;
+	cursor: pointer;
+
+	&::-moz-focus-inner {
+		border: 0;
+	}
+}
 
 %cookie-law--heading {
 	font-size: 12px;
@@ -20,12 +28,12 @@
 }
 
 %cookie-law--link {
-	@include reset-button();
-
 	color: inherit;
-	border-bottom: 1px solid #000000;
+	text-decoration: none;
 
-	background-image: linear-gradient(#000000, #000000);
+	border-bottom: 1px solid currentColor;
+
+	background-image: linear-gradient(currentColor, currentColor);
 	background-position: left bottom;
 	background-repeat: no-repeat;
 	background-size: 100% 0%;
@@ -39,7 +47,7 @@
 }
 
 %cookie-law--button {
-	@include reset-button();
+	@extend %cookie-law--reset-button;
 
 	background-color: #000000;
 	font-size: 12px;
@@ -64,9 +72,13 @@
 }
 
 .cookie-law {
-	box-sizing: border-box;
 	font-family: sans-serif;
 	color: #000000;
+
+	&,
+	* {
+		box-sizing: border-box;
+	}
 }
 
 

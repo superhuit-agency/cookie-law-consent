@@ -1,9 +1,10 @@
 .cookie-law-banner {
-	@include fluid(width, (320px: 288px, 375px: 343px, 1680px: 376px));
-	@include fluid(padding, (320px: 16px, 375px: 20px, 1680px: 28px));
-
 	position: fixed;
 	z-index: 99999;
+
+	padding: 20px;
+	width: 350px;
+	max-width: calc(100vw - 32px);
 
 	color: #000000;
 	background-color: #EFEFEF;
@@ -15,10 +16,10 @@
 
 	&__message {
 		@extend %cookie-law--p-small;
-		margin-bottom: 20px;
 	}
 
 	&__personalize {
+		@extend %cookie-law--reset-button;
 		@extend %cookie-law--link;
 
 		font-size: 16px;
@@ -46,19 +47,23 @@
 	}
 
 	&--bottom-right {
-		@include fluid(right bottom, (375px: 16px, 1680px: 20px));
+		right : 16px;
+		bottom: 16px;
 	}
 
 	&--bottom-left {
-		@include fluid(left bottom, (375px: 16px, 1680px: 20px));
+		left: 16px;
+		bottom: 16px;
 	}
 
 	&--top-left {
-		@include fluid(left top, (375px: 16px, 1680px: 20px));
+		left: 16px;
+		top: 16px;
 	}
 
 	&--top-right {
-		@include fluid(right top, (375px: 16px, 1680px: 20px));
+		right: 16px;
+		top: 16px;
 	}
 
 	/**
