@@ -21,7 +21,7 @@
 		width: 100vw;
 		height: 100vh;
 		opacity: .5;
-    background-color: $color-neutral;
+    background-color: #000000;
     transform: scale(1);
     transition: opacity ease-in-out 0.5s;
 	}
@@ -61,7 +61,6 @@
     pointer-events: auto;
     background-color: #fff;
     outline: 0;
-		font-family: $font-primary;
 		padding: 20px;
 	}
 
@@ -77,21 +76,21 @@
     background: transparent;
     border: none;
 		cursor: pointer;
-		transition: background-color $transition-fast ease-out;
+		transition: background-color 0.2s ease-out;
 
 		svg {
 			fill: #000;
 			transform: scale(1);
-			transition: transform $transition-fast ease-out;
+			transition: transform 0.2s ease-out;
 		}
 
 		&:focus {
-			box-shadow: $color-neutral 0 0 1px 2px;
-			background-color: $color-neutral--300;
+			box-shadow: #000000 0 0 1px 2px;
+			background-color: #DEDEDE;
 		}
 
 		&:hover {
-			background-color: $color-neutral--300;
+			background-color: #DEDEDE;
 
 			svg {
 				transform: scale(1.1);

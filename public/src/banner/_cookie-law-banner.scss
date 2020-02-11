@@ -1,13 +1,12 @@
 .cookie-law-banner {
-	@include fluid(width, (320px: 288px, $fluid-min: 343px, $fluid-max: 376px));
-	@include fluid(padding, (320px: 16px, $fluid-min: 20px, $fluid-max: 28px));
+	@include fluid(width, (320px: 288px, 375px: 343px, 1680px: 376px));
+	@include fluid(padding, (320px: 16px, 375px: 20px, 1680px: 28px));
 
 	position: fixed;
 	z-index: 99999;
 
-	font-family: $font-primary;
-	color: $color-neutral;
-	background-color: $color-neutral--200;
+	color: #000000;
+	background-color: #EFEFEF;
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19);
 
 	&__title {
@@ -24,7 +23,7 @@
 
 		font-size: 16px;
 		line-height: 18px;
-		font-weight: $font-primary-bold;
+		font-weight: bold;
 		letter-spacing: 0;
 	}
 
@@ -47,19 +46,19 @@
 	}
 
 	&--bottom-right {
-		@include fluid(right bottom, ($fluid-min: 16px, $fluid-max: 20px));
+		@include fluid(right bottom, (375px: 16px, 1680px: 20px));
 	}
 
 	&--bottom-left {
-		@include fluid(left bottom, ($fluid-min: 16px, $fluid-max: 20px));
+		@include fluid(left bottom, (375px: 16px, 1680px: 20px));
 	}
 
 	&--top-left {
-		@include fluid(left top, ($fluid-min: 16px, $fluid-max: 20px));
+		@include fluid(left top, (375px: 16px, 1680px: 20px));
 	}
 
 	&--top-right {
-		@include fluid(right top, ($fluid-min: 16px, $fluid-max: 20px));
+		@include fluid(right top, (375px: 16px, 1680px: 20px));
 	}
 
 	/**

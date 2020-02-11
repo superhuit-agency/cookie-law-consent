@@ -1,5 +1,6 @@
 @import '../_common/_variables.scss';
 
+
 .switch {
 	position: relative;
 	display: flex;
@@ -23,8 +24,8 @@
 		font-size: 0;
 
 		box-shadow: none;
-		background-color: $color-neutral--500;
-		transition: background-color $transition-fast ease-out, box-shadow $transition-fast ease-out;
+		background-color: #858585;
+		transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
 
 		&::before {
 			content: "";
@@ -36,8 +37,8 @@
 			width: 12px;
 			border-radius: 50%;
 			background-color: transparent;
-			border: 2px solid $color-neutral--100;
-			transition: background-color $transition-fast ease-out, transform $transition-fast ease-out;
+			border: 2px solid #ffffff;
+			transition: background-color 0.2s ease-out, transform 0.2s ease-out;
 		}
 	}
 
@@ -47,11 +48,11 @@
 
 	&__chk {
 		&:checked + label {
-			background-color: $color-status--success;
+			background-color: #00A54B;
 
 			&::before {
 				transform: translateX(18px);
-				background-color: $color-neutral--100;
+				background-color: #ffffff;
 			}
 		}
 
