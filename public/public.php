@@ -33,9 +33,9 @@ function enqueue_assets() {
 	];
 
 	$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) {
-		$cat['title'] = get_translated_text($cat['title']);
-		$cat['description'] = get_translated_text($cat['description']);
-		$cat['texts'] = get_category_texts(get_translated_text($cat['texts']));
+		$cat['title'] = get_translated_text($cat['title'] ?? '');
+		$cat['description'] = get_translated_text($cat['description'] ?? '');
+		$cat['texts'] = get_category_texts(get_translated_text($cat['texts'] ?? ''));
 
 		return $cat;
 	}, $config[SettingsPage::FIELD_CATEGORIES]);
