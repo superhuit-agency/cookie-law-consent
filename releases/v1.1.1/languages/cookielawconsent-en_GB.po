@@ -1,0 +1,385 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Cookie Law Consent\n"
+"POT-Creation-Date: 2020-05-07 18:09+0200\n"
+"PO-Revision-Date: 2020-05-07 18:10+0200\n"
+"Last-Translator: \n"
+"Language-Team: superhuit <tech@superhuit.ch>\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_n:1,2;_ex:1,2c;_nx:4c,1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: build\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: *.js\n"
+"X-Poedit-SearchPathExcluded-3: *.css\n"
+
+#: admin/settings-page.php:52
+msgid "Necessary"
+msgstr ""
+
+#: admin/settings-page.php:53
+msgid ""
+"Necessary cookies are absolutely essential for the website to function "
+"properly. This category only includes cookies that ensures basic "
+"functionalities and security features of the website. These cookies do not "
+"store any personal information."
+msgstr ""
+
+#: admin/settings-page.php:59
+msgid "Analytics"
+msgstr ""
+
+#: admin/settings-page.php:60
+msgid ""
+"Analytics cookies help us understand how our visitors interact with the "
+"website. It helps us understand the number of visitors, where the visitors "
+"are coming from, and the pages they navigate. The cookies collect this data "
+"and are reported anonymously."
+msgstr ""
+
+#: admin/settings-page.php:77 releases/v1.0.3/admin/settings-page.php:83
+#: releases/v1.1.0/admin/settings-page.php:83
+msgid "Cookie law Consent Options"
+msgstr ""
+
+#: admin/settings-page.php:78 releases/v1.0.3/admin/settings-page.php:84
+#: releases/v1.1.0/admin/settings-page.php:84
+msgid "Cookie Law Consent"
+msgstr ""
+
+#: admin/settings-page.php:108 releases/v1.0.3/admin/settings-page.php:114
+#: releases/v1.1.0/admin/settings-page.php:114
+msgid "Appearance"
+msgstr ""
+
+#: admin/settings-page.php:110 releases/v1.0.3/admin/settings-page.php:116
+#: releases/v1.1.0/admin/settings-page.php:116
+msgid ""
+"If you wish to completely overide the style, you can enqueue your own style "
+"file with the following snippet"
+msgstr ""
+
+#: admin/settings-page.php:124 releases/v1.0.3/admin/settings-page.php:130
+#: releases/v1.1.0/admin/settings-page.php:130
+msgid "Banner position"
+msgstr ""
+
+#: admin/settings-page.php:133 releases/v1.0.3/admin/settings-page.php:139
+#: releases/v1.1.0/admin/settings-page.php:139
+msgctxt "Option page select"
+msgid "Select a position"
+msgstr ""
+
+#: admin/settings-page.php:134 releases/v1.0.3/admin/settings-page.php:140
+#: releases/v1.1.0/admin/settings-page.php:140
+msgctxt "Option page select"
+msgid "↖ Top left corner"
+msgstr ""
+
+#: admin/settings-page.php:135 releases/v1.0.3/admin/settings-page.php:141
+#: releases/v1.1.0/admin/settings-page.php:141
+msgctxt "Option page select"
+msgid "↗ Top right corner"
+msgstr ""
+
+#: admin/settings-page.php:136 releases/v1.0.3/admin/settings-page.php:142
+#: releases/v1.1.0/admin/settings-page.php:142
+msgctxt "Option page select"
+msgid "✛ Center"
+msgstr ""
+
+#: admin/settings-page.php:137 releases/v1.0.3/admin/settings-page.php:143
+#: releases/v1.1.0/admin/settings-page.php:143
+msgctxt "Option page select"
+msgid "↙ Bottom left corner"
+msgstr ""
+
+#: admin/settings-page.php:138 releases/v1.0.3/admin/settings-page.php:144
+#: releases/v1.1.0/admin/settings-page.php:144
+msgctxt "Option page select"
+msgid "↘ Bottom right corner"
+msgstr ""
+
+#: admin/settings-page.php:139 releases/v1.1.0/admin/settings-page.php:145
+msgctxt "Option page select"
+msgid "↔ Bottom full width"
+msgstr ""
+
+#: admin/settings-page.php:146 releases/v1.0.3/admin/settings-page.php:151
+#: releases/v1.1.0/admin/settings-page.php:152
+msgctxt "Global custom texts"
+msgid "Custom texts"
+msgstr ""
+
+#: admin/settings-page.php:153 releases/v1.0.3/admin/settings-page.php:158
+#: releases/v1.1.0/admin/settings-page.php:159
+msgid "Banner texts"
+msgstr ""
+
+#: admin/settings-page.php:160 releases/v1.0.3/admin/settings-page.php:165
+#: releases/v1.1.0/admin/settings-page.php:166
+msgctxt "Banner text"
+msgid "Title"
+msgstr ""
+
+#: admin/settings-page.php:160 public/public.php:82
+#: releases/v1.0.3/admin/settings-page.php:165
+#: releases/v1.0.3/public/public.php:82
+#: releases/v1.1.0/admin/settings-page.php:166
+#: releases/v1.1.0/public/public.php:82
+msgctxt "Banner Title"
+msgid "Cookies"
+msgstr ""
+
+#: admin/settings-page.php:161 releases/v1.0.3/admin/settings-page.php:166
+#: releases/v1.1.0/admin/settings-page.php:167
+msgctxt "Banner text"
+msgid "Personalize link"
+msgstr ""
+
+#: admin/settings-page.php:161 public/public.php:83
+#: releases/v1.0.3/admin/settings-page.php:166
+#: releases/v1.0.3/public/public.php:83
+#: releases/v1.1.0/admin/settings-page.php:167
+#: releases/v1.1.0/public/public.php:83
+msgctxt "Banner Personalize"
+msgid "Personalize"
+msgstr ""
+
+#: admin/settings-page.php:162 releases/v1.0.3/admin/settings-page.php:167
+#: releases/v1.1.0/admin/settings-page.php:168
+msgctxt "Banner text"
+msgid "Description"
+msgstr ""
+
+#: admin/settings-page.php:162 public/public.php:84
+#: releases/v1.0.3/admin/settings-page.php:167
+#: releases/v1.0.3/public/public.php:84
+#: releases/v1.1.0/admin/settings-page.php:168
+#: releases/v1.1.0/public/public.php:84
+msgctxt "Banner Message"
+msgid ""
+"This site uses cookies to help improve your user experience and gives you "
+"control over what you want to activate."
+msgstr ""
+
+#: admin/settings-page.php:163 releases/v1.0.3/admin/settings-page.php:168
+#: releases/v1.1.0/admin/settings-page.php:169
+msgctxt "Banner text"
+msgid "Accept all button"
+msgstr ""
+
+#: admin/settings-page.php:163 public/public.php:85
+#: releases/v1.0.3/admin/settings-page.php:168
+#: releases/v1.0.3/public/public.php:85
+#: releases/v1.1.0/admin/settings-page.php:169
+#: releases/v1.1.0/public/public.php:85
+msgctxt "Banner Accept All"
+msgid "Ok, accept all"
+msgstr ""
+
+#: admin/settings-page.php:169 releases/v1.0.3/admin/settings-page.php:174
+#: releases/v1.1.0/admin/settings-page.php:175
+msgid "Modal texts"
+msgstr ""
+
+#: admin/settings-page.php:176 releases/v1.0.3/admin/settings-page.php:181
+#: releases/v1.1.0/admin/settings-page.php:182
+msgctxt "Modal text"
+msgid "Title"
+msgstr ""
+
+#: admin/settings-page.php:176 public/public.php:90
+#: releases/v1.0.3/admin/settings-page.php:181
+#: releases/v1.0.3/public/public.php:90
+#: releases/v1.1.0/admin/settings-page.php:182
+#: releases/v1.1.0/public/public.php:90
+msgctxt "Modal Title"
+msgid "Privacy Overview"
+msgstr ""
+
+#: admin/settings-page.php:177 releases/v1.0.3/admin/settings-page.php:182
+#: releases/v1.1.0/admin/settings-page.php:183
+msgctxt "Modal text"
+msgid "Close button"
+msgstr ""
+
+#: admin/settings-page.php:177 public/public.php:91
+#: releases/v1.0.3/admin/settings-page.php:182
+#: releases/v1.0.3/public/public.php:91
+#: releases/v1.1.0/admin/settings-page.php:183
+#: releases/v1.1.0/public/public.php:91
+msgctxt "Modal Personalize"
+msgid "Close"
+msgstr ""
+
+#: admin/settings-page.php:178 releases/v1.0.3/admin/settings-page.php:183
+#: releases/v1.1.0/admin/settings-page.php:184
+msgctxt "Modal text"
+msgid "Description"
+msgstr ""
+
+#: admin/settings-page.php:178 public/public.php:92
+#: releases/v1.0.3/admin/settings-page.php:183
+#: releases/v1.0.3/public/public.php:92
+#: releases/v1.1.0/admin/settings-page.php:184
+#: releases/v1.1.0/public/public.php:92
+msgctxt "Modal Description"
+msgid ""
+"This website uses cookies to improve your experience while you navigate "
+"through the website. Out of these cookies, the cookies that are categorized "
+"as necessary are stored on your browser as they are essential for the "
+"working of basic functionalities of the website. We also use third-party "
+"cookies that help us analyze and understand how you use this website. These "
+"cookies will be stored in your browser only with your consent. You also have "
+"the option to opt-out of these cookies. But opting out of some of these "
+"cookies may have an effect on your browsing experience."
+msgstr ""
+
+#: admin/settings-page.php:179 releases/v1.0.3/admin/settings-page.php:184
+#: releases/v1.1.0/admin/settings-page.php:185
+msgctxt "Modal text"
+msgid "Save button"
+msgstr ""
+
+#: admin/settings-page.php:179 public/public.php:93
+#: releases/v1.0.3/admin/settings-page.php:184
+#: releases/v1.0.3/public/public.php:93
+#: releases/v1.1.0/admin/settings-page.php:185
+#: releases/v1.1.0/public/public.php:93
+msgctxt "Modal Accept All"
+msgid "Save & Accept"
+msgstr ""
+
+#: admin/settings-page.php:186 releases/v1.0.3/admin/settings-page.php:191
+#: releases/v1.1.0/admin/settings-page.php:192
+msgid "Categories"
+msgstr ""
+
+#: admin/settings-page.php:187 releases/v1.0.3/admin/settings-page.php:192
+#: releases/v1.1.0/admin/settings-page.php:193
+msgid ""
+"Define the categories of cookies with a description for the user the "
+"understand and the cookies are intend for."
+msgstr ""
+
+#: admin/settings-page.php:202 releases/v1.0.3/admin/settings-page.php:207
+#: releases/v1.1.0/admin/settings-page.php:208
+msgid "Services"
+msgstr ""
+
+#: admin/settings-page.php:203 releases/v1.0.3/admin/settings-page.php:208
+#: releases/v1.1.0/admin/settings-page.php:209
+msgid "Enable and define external services"
+msgstr ""
+
+#: admin/settings-page.php:355 releases/v1.0.3/admin/settings-page.php:360
+#: releases/v1.1.0/admin/settings-page.php:361
+#, php-format
+msgid ""
+"ℹ️ You are currently editing the <b>%s</b> version. The texts configuration "
+"need to be translated, but choices & enablings will be set for all languages."
+msgstr ""
+
+#: admin/settings-page.php:473 releases/v1.0.3/admin/settings-page.php:478
+#: releases/v1.1.0/admin/settings-page.php:479
+msgid "Position"
+msgstr ""
+
+#: admin/settings-page.php:479 admin/settings-page.php:483
+#: releases/v1.0.3/admin/settings-page.php:484
+#: releases/v1.0.3/admin/settings-page.php:488
+#: releases/v1.1.0/admin/settings-page.php:485
+#: releases/v1.1.0/admin/settings-page.php:489
+msgid "Mandatory?"
+msgstr ""
+
+#: admin/settings-page.php:494 releases/v1.0.3/admin/settings-page.php:499
+#: releases/v1.1.0/admin/settings-page.php:500
+msgid "Description"
+msgstr ""
+
+#: admin/settings-page.php:500 releases/v1.0.3/admin/settings-page.php:505
+#: releases/v1.1.0/admin/settings-page.php:506
+msgid "Custom Texts"
+msgstr ""
+
+#: admin/settings-page.php:503 releases/v1.0.3/admin/settings-page.php:508
+#: releases/v1.1.0/admin/settings-page.php:509
+msgid "Enable"
+msgstr ""
+
+#: admin/settings-page.php:509 public/public.php:73
+#: releases/v1.0.3/admin/settings-page.php:514
+#: releases/v1.0.3/public/public.php:73
+#: releases/v1.1.0/admin/settings-page.php:515
+#: releases/v1.1.0/public/public.php:73
+msgid "Enable cookies"
+msgstr ""
+
+#: admin/settings-page.php:513 admin/settings-page.php:519 public/public.php:74
+#: releases/v1.0.3/admin/settings-page.php:518
+#: releases/v1.0.3/admin/settings-page.php:524
+#: releases/v1.0.3/public/public.php:74
+#: releases/v1.1.0/admin/settings-page.php:519
+#: releases/v1.1.0/admin/settings-page.php:525
+#: releases/v1.1.0/public/public.php:74
+msgid "Enabled"
+msgstr ""
+
+#: admin/settings-page.php:525 releases/v1.0.3/admin/settings-page.php:530
+#: releases/v1.1.0/admin/settings-page.php:531
+msgid "Disable"
+msgstr ""
+
+#: admin/settings-page.php:531 public/public.php:75
+#: releases/v1.0.3/admin/settings-page.php:536
+#: releases/v1.0.3/public/public.php:75
+#: releases/v1.1.0/admin/settings-page.php:537
+#: releases/v1.1.0/public/public.php:75
+msgid "Disable cookies"
+msgstr ""
+
+#: admin/settings-page.php:535 admin/settings-page.php:541 public/public.php:76
+#: releases/v1.0.3/admin/settings-page.php:540
+#: releases/v1.0.3/admin/settings-page.php:546
+#: releases/v1.0.3/public/public.php:76
+#: releases/v1.1.0/admin/settings-page.php:541
+#: releases/v1.1.0/admin/settings-page.php:547
+#: releases/v1.1.0/public/public.php:76
+msgid "Disabled"
+msgstr ""
+
+#: admin/settings-page.php:547 releases/v1.0.3/admin/settings-page.php:552
+#: releases/v1.1.0/admin/settings-page.php:553
+msgid "Always Enabled <br><small><em>Mandatory category</em></small>"
+msgstr ""
+
+#: admin/settings-page.php:553 public/public.php:77
+#: releases/v1.0.3/admin/settings-page.php:558
+#: releases/v1.0.3/public/public.php:77
+#: releases/v1.1.0/admin/settings-page.php:559
+#: releases/v1.1.0/public/public.php:77
+msgid "Always enabled"
+msgstr ""
+
+#: admin/settings-page.php:569 releases/v1.0.3/admin/settings-page.php:574
+#: releases/v1.1.0/admin/settings-page.php:575
+msgid "Select a category"
+msgstr ""
+
+#: admin/settings-page.php:607 releases/v1.0.3/admin/settings-page.php:612
+#: releases/v1.1.0/admin/settings-page.php:613
+msgid "Enable?"
+msgstr ""
+
+#: admin/settings-page.php:617 releases/v1.0.3/admin/settings-page.php:622
+#: releases/v1.1.0/admin/settings-page.php:623
+msgid "Category"
+msgstr ""
