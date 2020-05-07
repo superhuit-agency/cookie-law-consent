@@ -49,21 +49,15 @@ class SettingsPage {
 				'position'    => 1,
 				'mandatory'   => true,
 				'id'          => 'necessary',
-				'title'       => 'Necessary',
-				'description' => 'Necessary cookies are absolutely essential for the website to function ' .
-					'properly. This category only includes cookies that ensures basic ' .
-					'functionalities and security features of the website. These cookies do not ' .
-					'store any personal information.',
+				'title'       => __('Necessary', 'cookielawconsent'),
+				'description' => __('Necessary cookies are absolutely essential for the website to function properly. This category only includes cookies that ensures basic functionalities and security features of the website. These cookies do not store any personal information.', 'cookielawconsent'),
 			],
 			[
 				'position'    => 2,
 				'mandatory'   => false,
 				'id'          => 'analytics',
-				'title'       => 'Analytics',
-				'description' => 'Analytics cookies help us understand how our visitors interact ' .
-					'with the website. It helps us understand the number of visitors, where the visitors ' .
-					'are coming from, and the pages they navigate. The cookies collect this ' .
-					'data and are reported anonymously.',
+				'title'       => __('Analytics', 'cookielawconsent'),
+				'description' => __('Analytics cookies help us understand how our visitors interact with the website. It helps us understand the number of visitors, where the visitors are coming from, and the pages they navigate. The cookies collect this data and are reported anonymously.', 'cookielawconsent'),
 			]
 		];
 
