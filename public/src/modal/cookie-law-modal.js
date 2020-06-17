@@ -191,7 +191,7 @@ export default class CookieLawModal extends EventEmitter {
 		this.refs.el.id = this.genId();
 
 		this.refs.el.insertAdjacentHTML('beforeend', (
-			`<div class="cookie-law-modal__dialog" role="document" aria-labelledby="exampleModalCenterTitle">
+			`<div class="cookie-law-modal__dialog" role="document" aria-labelledby="cookie-law-modal:title">
 				<div class="cookie-law-modal__content">
 					<button class="cookie-law-modal__close">
 						<svg viewBox="0 0 24 24">
@@ -202,7 +202,7 @@ export default class CookieLawModal extends EventEmitter {
 					</button>
 					<div class="cookie-law-modal__body">
 						<header class="cookie-law-modal__head">
-							<h4 class="cookie-law-modal__title">${ this.config.texts.title }</h4>
+							<h4 id="cookie-law-modal:title" modalclass="cookie-law-modal__title">${ this.config.texts.title }</h4>
 							<p class="cookie-law-modal__desc">${ this.config.texts.description }</p>
 						</header>
 						<ul class="cookie-law-modal__categories"></ul>
