@@ -54,8 +54,9 @@ export default class CookieLaw {
 
 	destroy() {
 		this.refs.banner.off('acceptAll', this.acceptAll);
-		this.refs.banner.off('persoffalize', this.refs.modal.open);
-		this.refs.modal.on('categoryChange', this.onCategoryChange);
+		this.refs.banner.off('personalize', this.onPersonalizeClick);
+		this.refs.modal.off('categoryChange', this.onCategoryChange);
+		this.refs.modal.off('save', this.onModalSaved);
 		this.refs.modal.off('closed', this.onModalClosed);
 		window.removeEventListener('hashchange', this.onHashChange);
 
