@@ -202,7 +202,7 @@ export default class CookieLawModal extends EventEmitter {
 					</button>
 					<div class="cookie-law-modal__body">
 						<header class="cookie-law-modal__head">
-							<h4 id="cookie-law-modal:title" modalclass="cookie-law-modal__title">${ this.config.texts.title }</h4>
+							<h4 id="cookie-law-modal:title" class="cookie-law-modal__title">${ this.config.texts.title }</h4>
 							<p class="cookie-law-modal__desc">${ this.config.texts.description }</p>
 						</header>
 						<ul class="cookie-law-modal__categories"></ul>
