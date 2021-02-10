@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Cookie Law Consent
  * Description: Handle your Cookies and give the user the ability to Accept or not the cookies.
- * Version:     1.1.2
+ * Version:     1.2.0
  * Author URI:  https://profiles.wordpress.org/kuuak
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
  * CONSTANTS
  * =================
  * */
-define( 'CLC_PLUGIN_VERSION', '1.1.2' );
+define( 'CLC_PLUGIN_VERSION', '1.2.0' );
 
 require_once __DIR__ .'/available-services.php';
 require_once __DIR__ .'/public/public.php';
