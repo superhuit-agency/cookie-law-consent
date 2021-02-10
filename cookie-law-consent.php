@@ -67,16 +67,25 @@ function register_textdomain() {
 
 
 function is_multilingual() {
-	// TODO make it work with WMPL + Polylang
-	return class_exists('SitePress');
+	return ( is_wpml() || is_polylang() ) ;
+}
+
+function is_wpml() {
+	return class_exists( 'SitePress' );
+}
+
+function is_polylang() {
+	return defined( 'POLYLANG' );
 }
 
 function get_current_lang() {
-	// TODO make it work with WMPL + Polylang
 	$currentLang = null;
 
 	if ( is_multilingual() )       {
-		$currentLang = apply_filters( 'wpml_current_language', NULL );
+		$currentLang =  (is_wpml()
+			? apply_filters( 'wpml_current_language', NULL ) // WPML
+			: pll_current_language() // Polylang
+		);
 		$defaultLang = get_default_lang();
 		$currentLang = ( $currentLang === 'all' ? $defaultLang : $currentLang );
 	}
@@ -85,11 +94,13 @@ function get_current_lang() {
 }
 
 function get_default_lang() {
-	// TODO make it work with WMPL + Polylang
 	$defaultLang = null;
 
 	if ( is_multilingual() ) {
-		$defaultLang = apply_filters( 'wpml_default_language', NULL );
+		$defaultLang = (is_wpml()
+			? apply_filters( 'wpml_default_language', NULL ) // WPML
+			: pll_default_language() // Polylang
+		);
 	}
 
 	return $defaultLang;
@@ -106,4 +117,21 @@ function get_translated_text ($translations) {
 	else $text = array_shift($translations);
 
 	return $text;
+}
+
+function get_language_full_name() {
+	$fullname = '';
+
+	if ( is_multilingual() ) {
+		$current_lang = get_current_lang();
+		if ( is_wpml() ) {
+			$fullname = apply_filters( 'wpml_translated_language_name', NULL, $current_lang );
+		}
+		elseif ( is_polylang() ){
+			$idx = array_search($current_lang, pll_languages_list());
+			$fullname = pll_languages_list([ 'fields' => 'name' ])[$idx];
+		}
+	}
+
+	return $fullname;
 }

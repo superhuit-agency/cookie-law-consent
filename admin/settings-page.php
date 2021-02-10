@@ -5,6 +5,7 @@ namespace CookieLawConsent\Admin;
 use function CookieLawConsent\is_multilingual;
 use function CookieLawConsent\get_current_lang;
 use function CookieLawConsent\get_default_lang;
+use function CookieLawConsent\get_language_full_name;
 use function CookieLawConsent\get_translated_text;
 
 use const CookieLawConsent\SERVICES;
@@ -348,7 +349,7 @@ class SettingsPage {
 
 			<?php
 			if (is_multilingual()) {
-				$languageName = apply_filters( 'wpml_translated_language_name', NULL, get_current_lang() );
+				$languageName = get_language_full_name();
 
 				printf( '<p class="description">%s</p>',
 					sprintf(
