@@ -353,7 +353,7 @@ class SettingsPage {
 
 				printf( '<p class="description">%s</p>',
 					sprintf(
-						__('ℹ️ You are currently editing the <b>%s</b> version. The texts configuration need to be translated, but choices & enablings will be set for all languages.'),
+						__('ℹ️ You are currently editing the <b>%s</b> version. The texts configuration need to be translated, but choices & enablings will be set for all languages.', 'cookielawconsent'),
 						$languageName
 					)
 				);

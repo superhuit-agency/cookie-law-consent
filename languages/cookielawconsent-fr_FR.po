@@ -2,20 +2,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-05-07 18:09+0200\n"
-"PO-Revision-Date: 2020-05-07 18:10+0200\n"
+"PO-Revision-Date: 2021-02-10 16:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: admin/settings-page.php:52
 msgid "Necessary"
-msgstr ""
+msgstr "Nécessaire"
 
 #: admin/settings-page.php:53
 msgid ""
@@ -24,10 +24,14 @@ msgid ""
 "functionalities and security features of the website. These cookies do not "
 "store any personal information."
 msgstr ""
+"Les cookies nécessaires sont absolument essentiels pour le bon "
+"fonctionnement du site web. Cette catégorie ne comprend que les cookies qui "
+"assurent les fonctionnalités de base et les fonctions de sécurité du site "
+"web. Ces cookies ne stockent aucune information personnelle."
 
 #: admin/settings-page.php:59
 msgid "Analytics"
-msgstr ""
+msgstr "Statistiques"
 
 #: admin/settings-page.php:60
 msgid ""
@@ -36,6 +40,10 @@ msgid ""
 "are coming from, and the pages they navigate. The cookies collect this data "
 "and are reported anonymously."
 msgstr ""
+"Les cookies de statistiques nous aident à comprendre comment nos visiteurs "
+"interagissent avec le site web. Ils nous aident à comprendre le nombre de "
+"visiteurs, leur provenance et les pages sur lesquelles ils naviguent. Les "
+"cookies collectent ces données et sont signalés de manière anonyme."
 
 #: admin/settings-page.php:77 releases/v1.0.3/admin/settings-page.php:83
 #: releases/v1.1.0/admin/settings-page.php:83
@@ -45,7 +53,7 @@ msgstr "Options de Cookie Law Consent"
 #: admin/settings-page.php:78 releases/v1.0.3/admin/settings-page.php:84
 #: releases/v1.1.0/admin/settings-page.php:84
 msgid "Cookie Law Consent"
-msgstr ""
+msgstr "Cookie Law Consent"
 
 #: admin/settings-page.php:108 releases/v1.0.3/admin/settings-page.php:114
 #: releases/v1.1.0/admin/settings-page.php:114
@@ -58,6 +66,8 @@ msgid ""
 "If you wish to completely overide the style, you can enqueue your own style "
 "file with the following snippet"
 msgstr ""
+"Si vous souhaitez remplacer complètement le style, vous pouvez ajouter votre "
+"propre fichier de style avec l’extrait suivant"
 
 #: admin/settings-page.php:124 releases/v1.0.3/admin/settings-page.php:130
 #: releases/v1.1.0/admin/settings-page.php:130
@@ -103,7 +113,7 @@ msgstr "↘ Coin inférieur droit"
 #: admin/settings-page.php:139 releases/v1.1.0/admin/settings-page.php:145
 msgctxt "Option page select"
 msgid "↔ Bottom full width"
-msgstr ""
+msgstr "↔ Largeur complète inférieure"
 
 #: admin/settings-page.php:146 releases/v1.0.3/admin/settings-page.php:151
 #: releases/v1.1.0/admin/settings-page.php:152
@@ -313,7 +323,7 @@ msgstr "Obligatoire ?"
 #: admin/settings-page.php:494 releases/v1.0.3/admin/settings-page.php:499
 #: releases/v1.1.0/admin/settings-page.php:500
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #: admin/settings-page.php:500 releases/v1.0.3/admin/settings-page.php:505
 #: releases/v1.1.0/admin/settings-page.php:506
