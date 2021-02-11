@@ -1,6 +1,6 @@
 {
   "name": "cookie-law-consent",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Handle your Cookies and give the user the ability to Accept or not the cookies.",
   "main": "public/index.js",
   "author": "superhuit <tech@superhuit.ch>",
