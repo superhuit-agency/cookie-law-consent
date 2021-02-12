@@ -3,7 +3,8 @@
  * Plugin Name: Cookie Law Consent
  * Description: Handle your Cookies and give the user the ability to Accept or not the cookies.
  * Version:     1.2.0
- * Author URI:  https://profiles.wordpress.org/kuuak
+ * Author URI:  superhuit
+ * Author URI:  https://profiles.wordpress.org/superhuit
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: cookielawconsent
