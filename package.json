@@ -10,7 +10,7 @@
     "start": "webpack-dev-server --open",
     "build:dev": "webpack",
     "build:production": "cross-env NODE_ENV=production webpack",
-    "release": "yarn && yarn build:production && ./release.sh",
+    "release": "./scripts/build.sh",
     "watch": "webpack --watch"
   },
   "dependencies": {
