@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-05-07 18:09+0200\n"
-"PO-Revision-Date: 2021-02-10 16:14+0100\n"
+"PO-Revision-Date: 2021-02-11 15:26+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -154,7 +154,7 @@ msgstr "Lien de personalisation"
 #: releases/v1.1.0/public/public.php:83
 msgctxt "Banner Personalize"
 msgid "Personalize"
-msgstr "Personalisé"
+msgstr "Personnalisé"
 
 #: admin/settings-page.php:162 releases/v1.0.3/admin/settings-page.php:167
 #: releases/v1.1.0/admin/settings-page.php:168

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Cookie Law Consent
  * Description: Handle your Cookies and give the user the ability to Accept or not the cookies.
- * Version:     1.2.0
+ * Version:     1.2.1
  * Author URI:  superhuit
  * Author URI:  https://profiles.wordpress.org/superhuit
  * License:     GPL-2.0+
@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
  * CONSTANTS
  * =================
  * */
-define( 'CLC_PLUGIN_VERSION', '1.2.0' );
+define( 'CLC_PLUGIN_VERSION', '1.2.1' );
 
 require_once __DIR__ .'/available-services.php';
 require_once __DIR__ .'/public/public.php';
