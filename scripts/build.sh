@@ -15,6 +15,7 @@ mkdir -p "$PACKAGE_NAME/admin" "$PACKAGE_NAME/public"
 
 # Copy/move files to folder
 cp *.php "$PACKAGE_NAME/"
+cp composer.* "$PACKAGE_NAME/"
 cp admin/*.php "$PACKAGE_NAME/admin"
 cp public/*.php "$PACKAGE_NAME/public"
 cp -r languages "$PACKAGE_NAME/"
