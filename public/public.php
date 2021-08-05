@@ -60,6 +60,13 @@ function enqueue_assets() {
 	unset($config[SettingsPage::FIELD_BANNER_TEXTS]);
 	unset($config[SettingsPage::FIELD_MODAL_TEXTS]);
 
+	/**
+	 * Filters the config array
+	 *
+	 * @param array $config the config array
+	 */
+	$config = apply_filters( 'clc_config', $config );
+
 	// Enqueue the style
 	wp_enqueue_style( 'cookie-law-consent-style');
 
