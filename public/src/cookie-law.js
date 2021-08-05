@@ -22,7 +22,7 @@ export default class CookieLaw {
 
 		this.state = new Proxy(
 			{
-				bannerDismissed: true,
+				bannerDismissed: (getCookie(`${ this.config.cookieName }_banner`) === 'dismiss'),
 				loadedServices: [],
 			},
 			{ set: this.stateChange.bind(this) }
@@ -30,8 +30,8 @@ export default class CookieLaw {
 
 		this.refs = this.initRefs();
 
-		// force the state change
-		this.state.bannerDismissed = (getCookie(`${ this.config.cookieName }_banner`) === 'dismiss');
+		// Show banner
+		if ( !this.state.bannerDismissed ) this.refs.banner.show();
 
 		this.bindEvents();
 	}
@@ -85,7 +85,7 @@ export default class CookieLaw {
 		switch (property) {
 			case 'bannerDismissed':
 				this.refs.banner[ value ? 'hide' : 'show' ]();
-				setCookie(`${ this.config.cookieName }_banner`, 'dismiss', value ? null : 0);
+				setCookie(`${ this.config.cookieName }_banner`, 'dismiss');
 				break;
 		}
 
