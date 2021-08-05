@@ -1,11 +1,11 @@
 export function getCookie(name, dft = undefined) {
-	const value = ` ${ document.cookie }`;
-	const parts = value.split(` ${ name }=`);
-	return (parts.length < 2 ? dft : parts.pop().split(';').shift());
+	const cookies = document.cookie.split(';');
+	const idx = cookies.findIndex((c) => c.includes(name));
+	return (idx >= 0 ? cookies[idx].split('=')[1] : dft);
 }
 
-export function setCookie(name, value, expiryDays, domain, path, secure) {
+export function setCookie(name, value, expiryDays = 365, domain = null, path = '/', secure = true) {
 	const exdate = new Date();
-	exdate.setHours(exdate.getHours() + ((typeof expiryDays !== 'number' ? 365 : expiryDays) * 24));
-	document.cookie = `${ name }=${ value };expires=${ exdate.toUTCString() };path=${ path || '/' }${ domain ? `;domain=${ domain }` : '' }${ secure ? ';secure' : '' };sameSite=Strict`;
+	exdate.setDate(exdate.getDate() + expiryDays);
+	document.cookie = `${ name }=${ value };expires=${ exdate.toUTCString() };path=${ path }${ domain ? `;domain=${ domain }` : '' }${ secure ? ';secure' : '' };samesite=strict;`;
 }
