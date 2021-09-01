@@ -39,6 +39,7 @@ define( 'CLC_PLUGIN_VERSION', '1.2.2' );
 require_once __DIR__ .'/available-services.php';
 require_once __DIR__ .'/public/public.php';
 require_once __DIR__ .'/admin/settings-page.php';
+require_once __DIR__ .'/cookie-law-consent-api.php';
 
 /**
  * ACTIONS & FILTERS
@@ -136,3 +137,5 @@ function get_language_full_name() {
 
 	return $fullname;
 }
+
+
