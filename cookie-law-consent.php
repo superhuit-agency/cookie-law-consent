@@ -30,11 +30,13 @@ use CookieLawConsent\Admin\SettingsPage;
 /* Prevent loading this file directly */
 defined( 'ABSPATH' ) || exit;
 
+$plugin_data = get_file_data( __FILE__, ['version' => 'Version']);
+
 /**
  * CONSTANTS
  * =================
  * */
-define( 'CLC_PLUGIN_VERSION', '1.2.2' );
+define( 'CLC_PLUGIN_VERSION', $plugin_data['version'] );
 
 require_once __DIR__ .'/available-services.php';
 require_once __DIR__ .'/public/public.php';
