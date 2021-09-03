@@ -150,7 +150,7 @@ export default class CookieLaw {
 	getCategoriesSettings() {
 		return this.config.categories.map((cat) => {
 			const cookie = getCookie(`${ this.config.cookieName }_${ cat.id }_accepted`);
-			const enabled = (cookie === ACCEPTED_VALUE);
+			const enabled = (cat.mandatory || cookie === ACCEPTED_VALUE);
 
 			if (enabled && cat.services) {
 				cat.services.forEach(({name, ...data}) => {
