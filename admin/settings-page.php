@@ -21,7 +21,7 @@ class SettingsPage {
 	const SETTINGS_NAME  = 'cookie_law_consent';
 	const SETTINGS_GROUP = 'cookie_law_consent_setting_group';
 
-	const FIELD_BANNER_POSITION = 'banner_position';
+	// const FIELD_BANNER_POSITION = 'banner_position';
 	const FIELD_BANNER_TEXTS = 'banner_texts';
 	const FIELD_MODAL_TEXTS = 'modal_texts';
 	const FIELD_CATEGORIES = 'categories';
@@ -44,7 +44,7 @@ class SettingsPage {
 
 	public static function insert_default_settings() {
 		$default = [];
-		$default[self::FIELD_BANNER_POSITION] = 'bottom-right';
+		// $default[self::FIELD_BANNER_POSITION] = 'bottom-right';
 		$default[self::FIELD_CATEGORIES] = [
 			[
 				'position'    => 1,
@@ -107,40 +107,31 @@ class SettingsPage {
 		add_settings_section(
 			self::SECTION_NAME, // ID
 			__('Appearance', 'cookielawconsent'), // Title
-			function() {
-				echo '<em>'.__('If you wish to completely overide the style, you can enqueue your own style file with the following snippet', 'cookielawconsent').'</em>';
-				echo '<div><code>' .
-				 "add_action( 'init', function() {<br>".
-					"\tif (! wp_style_is('cookie-law-consent-style', 'registered') ) return;<br>" .
-					"\twp_deregister_style( 'cookie-law-consent-style' );<br>" .
-					"\twp_register_style( 'cookie-law-consent-style', 'path/to/your/theme/cookie-law-consent.css' );<br>" .
-				"}, 20);" .
-				'</code></div>';
-			},
+			null,
 			self::OPTIONS_PAGE_NAME // Page
 		);
 
-		add_settings_field(
-			self::FIELD_BANNER_POSITION, // ID -> field name
-			__('Banner position', 'cookielawconsent'), // Title
-			[$this, 'render_select_field'], // Callback
-			self::OPTIONS_PAGE_NAME, // Page
-			self::SECTION_NAME, // Section
-			[
-				'label_for' => self::FIELD_BANNER_POSITION,
-				'id'        => self::FIELD_BANNER_POSITION,
-				'value'     => (isset( $this->options[self::FIELD_BANNER_POSITION] ) ? $this->options[self::FIELD_BANNER_POSITION] : '-1'),
-				'options'   => [
-					'-1'           => _x( 'Select a position', 'Option page select', 'cookielawconsent' ),
-					'top-left'     => _x( '↖ Top left corner', 'Option page select', 'cookielawconsent' ),
-					'top-right'    => _x( '↗ Top right corner', 'Option page select', 'cookielawconsent' ),
-					'center'       => _x( '✛ Center', 'Option page select', 'cookielawconsent' ),
-					'bottom-left'  => _x( '↙ Bottom left corner', 'Option page select', 'cookielawconsent' ),
-					'bottom-right' => _x( '↘ Bottom right corner', 'Option page select', 'cookielawconsent' ),
-					'full-bottom'  => _x( '↔ Bottom full width', 'Option page select', 'cookielawconsent' ),
-				],
-			]
-		);
+		// add_settings_field(
+		// 	self::FIELD_BANNER_POSITION, // ID -> field name
+		// 	__('Banner position', 'cookielawconsent'), // Title
+		// 	[$this, 'render_select_field'], // Callback
+		// 	self::OPTIONS_PAGE_NAME, // Page
+		// 	self::SECTION_NAME, // Section
+		// 	[
+		// 		'label_for' => self::FIELD_BANNER_POSITION,
+		// 		'id'        => self::FIELD_BANNER_POSITION,
+		// 		'value'     => (isset( $this->options[self::FIELD_BANNER_POSITION] ) ? $this->options[self::FIELD_BANNER_POSITION] : '-1'),
+		// 		'options'   => [
+		// 			'-1'           => _x( 'Select a position', 'Option page select', 'cookielawconsent' ),
+		// 			'top-left'     => _x( '↖ Top left corner', 'Option page select', 'cookielawconsent' ),
+		// 			'top-right'    => _x( '↗ Top right corner', 'Option page select', 'cookielawconsent' ),
+		// 			'center'       => _x( '✛ Center', 'Option page select', 'cookielawconsent' ),
+		// 			'bottom-left'  => _x( '↙ Bottom left corner', 'Option page select', 'cookielawconsent' ),
+		// 			'bottom-right' => _x( '↘ Bottom right corner', 'Option page select', 'cookielawconsent' ),
+		// 			'full-bottom'  => _x( '↔ Bottom full width', 'Option page select', 'cookielawconsent' ),
+		// 		],
+		// 	]
+		// );
 
 		add_settings_section(
 			self::SECTION_TEXTS,
@@ -160,8 +151,9 @@ class SettingsPage {
 				'fields'    => [
 					[ 'name' => 'title', 'label' => _x('Title', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Cookies', 'Banner Title', 'cookielawconsent' ) ],
 					[ 'name' => 'personalize', 'label' => _x('Personalize link', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ) ],
-					[ 'name' => 'message', 'type' => 'textarea', 'label' => _x('Description', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ) ],
-					[ 'name' => 'acceptAll', 'label' => _x('Accept all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Ok, accept all', 'Banner Accept All', 'cookielawconsent' ) ],
+					[ 'name' => 'message', 'type' => 'textarea', 'label' => _x('Description', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('This website uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ) ],
+					[ 'name' => 'acceptAll', 'label' => _x('Accept all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Accept', 'Banner Accept All', 'cookielawconsent' ) ],
+					[ 'name' => 'rejectAll', 'label' => _x('Reject all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Reject', 'Banner Reject All', 'cookielawconsent' ) ],
 				],
 			]
 		);
@@ -174,10 +166,10 @@ class SettingsPage {
 			[
 				'id'        => self::FIELD_MODAL_TEXTS,
 				'fields'    => [
-					[ 'name' => 'title', 'label' => _x('Title', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Privacy Overview', 'Modal Title', 'cookielawconsent' ) ],
+					[ 'name' => 'title', 'label' => _x('Title', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Cookie Settings', 'Modal Title', 'cookielawconsent' ) ],
 					[ 'name' => 'close', 'label' => _x('Close button', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Close', 'Modal Personalize', 'cookielawconsent' ) ],
 					[ 'name' => 'description', 'type' => 'textarea', 'label' => _x('Description', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.', 'Modal Description', 'cookielawconsent' ) ],
-					[ 'name' => 'save', 'label' => _x('Save button', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Save & Accept', 'Modal Accept All', 'cookielawconsent' ) ],
+					[ 'name' => 'save', 'label' => _x('Save button', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Accept & save', 'Modal Accept All', 'cookielawconsent' ) ],
 				],
 			]
 		);
@@ -185,7 +177,7 @@ class SettingsPage {
 		add_settings_section(
 			self::SECTION_CATEGORIES,
 			__('Categories', 'cookielawconsent'),
-			function() { _e('Define the categories of cookies with a description for the user the understand and the cookies are intend for.', 'cookielawconsent'); },
+			function() { _e('Define the categories of cookies with a description for the user to understand what the cookies are intended for.', 'cookielawconsent'); },
 			self::OPTIONS_PAGE_NAME
 		);
 
@@ -223,9 +215,9 @@ class SettingsPage {
 
 		$settings = [];
 
-		if( isset( $fields[self::FIELD_BANNER_POSITION] ) ) {
-			$settings[self::FIELD_BANNER_POSITION] = sanitize_text_field( $fields[self::FIELD_BANNER_POSITION] );
-		}
+		// if( isset( $fields[self::FIELD_BANNER_POSITION] ) ) {
+		// 	$settings[self::FIELD_BANNER_POSITION] = sanitize_text_field( $fields[self::FIELD_BANNER_POSITION] );
+		// }
 
 
 		$settings[self::FIELD_BANNER_TEXTS] = array_filter($fields[self::FIELD_BANNER_TEXTS]);
@@ -455,7 +447,7 @@ class SettingsPage {
 				<div class="categories__tab-list" tab-list>
 					<?php /* rendered in javascript */ ?>
 				</div>
-				<button class="categories__add">+</button>
+				<!-- <button class="categories__add">+</button> -->
 			</nav>
 			<div class="categories__panel-list" panel-list>
 				<?php foreach ($categories as $i => $cat) : ?>

@@ -13,15 +13,56 @@ use function CookieLawConsent\get_translated_text;
  *
  * Register the actions & filters
  */
-add_action( 'init', __NAMESPACE__.'\register_assets');
-add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
+// add_action( 'init', __NAMESPACE__.'\register_assets');
+// add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
 
-function register_assets() {
-	wp_register_style( 'cookie-law-consent-style', plugins_url( 'cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
-	wp_register_script( 'cookie-law-consent-js', plugins_url( 'cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
-}
+// function register_assets() {
+// 	wp_register_style( 'cookie-law-consent-style', plugins_url( 'cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
+// 	wp_register_script( 'cookie-law-consent-js', plugins_url( 'cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
+// }
+
+
+/**
+ * Register logo defined in Customizer > Site Identity into WP Graphql
+ */
+// add_action( 'graphql_register_types', function() {
+// 	register_graphql_object_type('GdprType', [
+// 		'description' => __('Gdpr', 'wpnext'),
+// 		'fields' => [
+// 			'cookieName' => [
+// 				'type' => 'String',
+// 				'description' => __('', 'wpnext')
+// 			],
+// 			'hash' => [
+// 				'type' => 'String',
+// 				'description' => __('', 'wpnext')
+// 			],
+// 			'categories' => [
+// 				'type' => 'String',
+// 				'description' => __('', 'wpnext')
+// 			],
+// 			'banner' => [
+// 				'type' => 'String',
+// 				'description' => __('', 'wpnext')
+// 			],
+// 			'modal' => [
+// 				'type' => 'String',
+// 				'description' => __('', 'wpnext')
+// 			],
+// 		]
+// 	]);
+
+
+// 	register_graphql_field( 'RootQuery', 'gdpr', [
+// 		'type' => 'MediaItem',
+// 		'description' => __( 'The logo set in the customizer', 'spck' ),
+// 		'resolve' => __NAMESPACE__.'\enqueue_assets'
+// 	]);
+// });
 
 function enqueue_assets() {
+	var_dump("enqueue assets in public/public.php");
+
 	$config = get_option( SettingsPage::SETTINGS_NAME );
 
 	// Bail early as no services is configured
@@ -67,12 +108,14 @@ function enqueue_assets() {
 	 */
 	$config = apply_filters( 'clc_config', $config );
 
-	// Enqueue the style
-	wp_enqueue_style( 'cookie-law-consent-style');
+	var_dump($config);
 
-	// Localize & enqueue the script
-	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_encode($config));
-	wp_enqueue_script( 'cookie-law-consent-js' );
+	// // Enqueue the style
+	// wp_enqueue_style( 'cookie-law-consent-style');
+
+	// // Localize & enqueue the script
+	// wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_encode($config));
+	// wp_enqueue_script( 'cookie-law-consent-js' );
 }
 
 function get_category_texts( $texts = [] ) : Array {
@@ -89,12 +132,13 @@ function get_banner_texts( $texts = [] ) : Array {
 		'title'       => _x('Cookies', 'Banner Title', 'cookielawconsent' ),
 		'personalize' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ),
 		'message'     => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ),
-		'acceptAll'   => _x('Ok, accept all', 'Banner Accept All', 'cookielawconsent' ),
+		'acceptAll'   => _x('Accept', 'Banner Accept All', 'cookielawconsent' ),
+		'rejectAll'   => _x('Reject', 'Banner Reject All', 'cookielawconsent' ),
 	], (is_array($texts) ? $texts : []) );
 }
 function get_modal_texts( $texts = [] ) : Array {
 	return array_merge( [
-		'title'       => _x('Privacy Overview', 'Modal Title', 'cookielawconsent' ),
+		'title'       => _x('Cookie Settings', 'Modal Title', 'cookielawconsent' ),
 		'close'       => _x('Close', 'Modal Personalize', 'cookielawconsent' ),
 		'description' => _x('This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.', 'Modal Description', 'cookielawconsent' ),
 		'save'        => _x('Save & Accept', 'Modal Accept All', 'cookielawconsent' ),

@@ -1,6 +1,6 @@
 ## Project specifics
 build/*
-!build/index.html
+#!build/index.html
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/sass,node,macos,visualstudiocode,composer

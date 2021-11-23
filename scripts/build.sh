@@ -20,7 +20,6 @@ cp admin/*.php "$PACKAGE_NAME/admin"
 cp public/*.php "$PACKAGE_NAME/public"
 cp -r languages "$PACKAGE_NAME/"
 mv build/*-admin* "$PACKAGE_NAME/admin"
-mv build/cookie* "$PACKAGE_NAME/public"
 
 # Generate changelog
 for file in $(ls changelog | sort -r)

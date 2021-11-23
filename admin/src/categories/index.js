@@ -13,7 +13,7 @@ export default class Categories {
 
 		this.refs = {
 			tabList: this.el.querySelector('.categories__tab-list'),
-			btnAdd: this.el.querySelector('.categories__add'),
+			// btnAdd: this.el.querySelector('.categories__add'),
 
 			panelList: this.el.querySelector('.categories__panel-list'),
 
@@ -26,29 +26,29 @@ export default class Categories {
 
 		this.renderTabs();
 
-		this.onAddClick = this.onAddClick.bind(this);
+		// this.onAddClick = this.onAddClick.bind(this);
 		this.onCategoryChange = this.onCategoryChange.bind(this);
 
 		this.bind();
 	}
 
 	bind() {
-		this.refs.btnAdd.addEventListener('click', this.onAddClick);
+		// this.refs.btnAdd.addEventListener('click', this.onAddClick);
 		this.refs.categories.forEach(cat => cat.el.addEventListener('titleChange', this.onCategoryChange))
 	}
 
 
-	onAddClick(event) {
-		event.preventDefault();
+	// onAddClick(event) {
+	// 	event.preventDefault();
 
-		const newCat = new Category(undefined, this.props.settingName, this.refs.categories.length);
-		newCat.el.addEventListener('titleChange', this.onCategoryChange);
-		this.refs.panelList.insertAdjacentElement('beforeend', newCat.el)
-		this.refs.categories.push(newCat);
+	// 	const newCat = new Category(undefined, this.props.settingName, this.refs.categories.length);
+	// 	newCat.el.addEventListener('titleChange', this.onCategoryChange);
+	// 	this.refs.panelList.insertAdjacentElement('beforeend', newCat.el)
+	// 	this.refs.categories.push(newCat);
 
-		this.renderTabs();
-		this.refs.tabList.children[this.refs.categories.length - 1].click();
-	}
+	// 	this.renderTabs();
+	// 	this.refs.tabList.children[this.refs.categories.length - 1].click();
+	// }
 
 	onCategoryChange(event) {
 		const catIdx = this.refs.categories.findIndex((cat) => cat.getId() === event.detail.id);

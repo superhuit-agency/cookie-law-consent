@@ -7,6 +7,7 @@ BuildPluginRelease:
   stage: build
   only:
     - master
+    - admin-only-graphql-version
   before_script:
     - apt-get update && apt-get -y install jq zip
     - yarn 

@@ -5,7 +5,6 @@ module.exports = {
 	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	stats: 'minimal',
   entry: {
-		['cookie-law-consent']: './public/index.js',
 		['cookie-law-consent-admin']: './admin/src/index.js'
 	},
   output: {
