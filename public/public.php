@@ -13,70 +13,45 @@ use function CookieLawConsent\get_translated_text;
  *
  * Register the actions & filters
  */
-// add_action( 'init', __NAMESPACE__.'\register_assets');
-// add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
+add_action( 'init', __NAMESPACE__.'\register_assets');
 
-// function register_assets() {
-// 	wp_register_style( 'cookie-law-consent-style', plugins_url( 'cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
-// 	wp_register_script( 'cookie-law-consent-js', plugins_url( 'cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
-// }
+function register_assets() {
+	wp_register_style( 'cookie-law-consent-style', plugins_url( 'cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
+	wp_register_script( 'cookie-law-consent-js', plugins_url( 'cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
+}
 
 
 /**
- * Register logo defined in Customizer > Site Identity into WP Graphql
+ * Register cookie law consent configs in GraphQL
  */
-// add_action( 'graphql_register_types', function() {
-// 	register_graphql_object_type('GdprType', [
-// 		'description' => __('Gdpr', 'wpnext'),
-// 		'fields' => [
-// 			'cookieName' => [
-// 				'type' => 'String',
-// 				'description' => __('', 'wpnext')
-// 			],
-// 			'hash' => [
-// 				'type' => 'String',
-// 				'description' => __('', 'wpnext')
-// 			],
-// 			'categories' => [
-// 				'type' => 'String',
-// 				'description' => __('', 'wpnext')
-// 			],
-// 			'banner' => [
-// 				'type' => 'String',
-// 				'description' => __('', 'wpnext')
-// 			],
-// 			'modal' => [
-// 				'type' => 'String',
-// 				'description' => __('', 'wpnext')
-// 			],
-// 		]
-// 	]);
+add_action( 'graphql_register_types', function() {
+	register_graphql_field( 'RootQuery', 'gdpr', [
+		'type' => 'String',
+		'description' => __( 'Cookie Law Consent configs', 'cookielawconsent' ),
+		'args' => [
+			'language' => [
+				'type' => is_multilingual() ? 'LanguageCodeEnum' : 'String'
+			]
+		],
+		'resolve' => __NAMESPACE__.'\get_configs_json'
+	]);
+});
 
-
-// 	register_graphql_field( 'RootQuery', 'gdpr', [
-// 		'type' => 'MediaItem',
-// 		'description' => __( 'The logo set in the customizer', 'spck' ),
-// 		'resolve' => __NAMESPACE__.'\enqueue_assets'
-// 	]);
-// });
-
-function enqueue_assets() {
-	var_dump("enqueue assets in public/public.php");
-
+function get_configs_json($source, $args, $context, $info) {
 	$config = get_option( SettingsPage::SETTINGS_NAME );
 
 	// Bail early as no services is configured
-	if ( !(isset($config[SettingsPage::FIELD_SERVICES]) && count($config[SettingsPage::FIELD_SERVICES]) > 0) ) return;
+	if ( !(isset($config[SettingsPage::FIELD_SERVICES]) && count($config[SettingsPage::FIELD_SERVICES]) > 0) ) return null;
 
 	$config['texts'] = [
-		'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS])),
-		'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS])),
+		'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS], $args['language'])),
+		'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS], $args['language'])),
 	];
 
 	$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) {
-		$cat['title'] = get_translated_text($cat['title'] ?? '');
-		$cat['description'] = get_translated_text($cat['description'] ?? '');
-		$cat['texts'] = get_category_texts(get_translated_text($cat['texts'] ?? ''));
+		$cat['title'] = get_translated_text($cat['title'] ?? '', $args['language']);
+		$cat['description'] = get_translated_text($cat['description'] ?? '', $args['language']);
+		$cat['texts'] = get_category_texts(get_translated_text($cat['texts'] ?? '', $args['language']));
 
 		return $cat;
 	}, $config[SettingsPage::FIELD_CATEGORIES]);
@@ -101,21 +76,7 @@ function enqueue_assets() {
 	unset($config[SettingsPage::FIELD_BANNER_TEXTS]);
 	unset($config[SettingsPage::FIELD_MODAL_TEXTS]);
 
-	/**
-	 * Filters the config array
-	 *
-	 * @param array $config the config array
-	 */
-	$config = apply_filters( 'clc_config', $config );
-
-	var_dump($config);
-
-	// // Enqueue the style
-	// wp_enqueue_style( 'cookie-law-consent-style');
-
-	// // Localize & enqueue the script
-	// wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_encode($config));
-	// wp_enqueue_script( 'cookie-law-consent-js' );
+	return json_encode($config);
 }
 
 function get_category_texts( $texts = [] ) : Array {
@@ -130,10 +91,10 @@ function get_category_texts( $texts = [] ) : Array {
 function get_banner_texts( $texts = [] ) : Array {
 	return array_merge( [
 		'title'       => _x('Cookies', 'Banner Title', 'cookielawconsent' ),
-		'personalize' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ),
-		'message'     => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ),
 		'acceptAll'   => _x('Accept', 'Banner Accept All', 'cookielawconsent' ),
+		'message'     => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ),
 		'rejectAll'   => _x('Reject', 'Banner Reject All', 'cookielawconsent' ),
+		'personalize' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ),
 	], (is_array($texts) ? $texts : []) );
 }
 function get_modal_texts( $texts = [] ) : Array {

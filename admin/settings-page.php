@@ -22,6 +22,7 @@ class SettingsPage {
 	const SETTINGS_GROUP = 'cookie_law_consent_setting_group';
 
 	// const FIELD_BANNER_POSITION = 'banner_position';
+	const FIELD_HASH = 'hash';
 	const FIELD_BANNER_TEXTS = 'banner_texts';
 	const FIELD_MODAL_TEXTS = 'modal_texts';
 	const FIELD_CATEGORIES = 'categories';
@@ -39,12 +40,13 @@ class SettingsPage {
 		add_action( 'admin_menu', [$this, 'add_plugin_page'] );
 		add_action( 'admin_enqueue_scripts', [$this, 'enqueue_assets'] );
 
-		add_action( 'admin_init', [$this, 'regsiter_settings_fields'] );
+		add_action( 'admin_init', [$this, 'register_settings_fields'] );
 	}
 
 	public static function insert_default_settings() {
 		$default = [];
 		// $default[self::FIELD_BANNER_POSITION] = 'bottom-right';
+		$default[self::FIELD_HASH] = 'manage-cookies';
 		$default[self::FIELD_CATEGORIES] = [
 			[
 				'position'    => 1,
@@ -93,7 +95,7 @@ class SettingsPage {
 	/**
 	 * Register and add settings
 	 */
-	public function regsiter_settings_fields() {
+	public function register_settings_fields() {
 		// Set class property
 		$this->options = get_option(self::SETTINGS_NAME);
 
@@ -107,7 +109,9 @@ class SettingsPage {
 		add_settings_section(
 			self::SECTION_NAME, // ID
 			__('Appearance', 'cookielawconsent'), // Title
-			null,
+			function() {
+				echo '<em>'.__('The Hash below is used in order to display the GDPR modal at any time from a link having this same hash as its url (prefixed with #).', 'cookielawconsent').'</em>';
+			},
 			self::OPTIONS_PAGE_NAME // Page
 		);
 
@@ -133,6 +137,20 @@ class SettingsPage {
 		// 	]
 		// );
 
+		add_settings_field(
+			self::FIELD_HASH, // ID -> field name
+			__('Hash', 'cookielawconsent'), // Title
+			[$this, 'render_simple_text_field'], // Callback
+			self::OPTIONS_PAGE_NAME, // Page
+			self::SECTION_NAME, // Section
+			[
+				'label_for' => self::FIELD_HASH,
+				'id'          => self::FIELD_HASH,
+				'placeholder' => __('manage-cookies', 'cookielawconsent'),
+				'value'       => (isset( $this->options[self::FIELD_HASH] ) ? $this->options[self::FIELD_HASH] : ''),
+			]
+		);
+
 		add_settings_section(
 			self::SECTION_TEXTS,
 			_x('Custom texts', 'Global custom texts', 'cookielawconsent'),
@@ -150,10 +168,10 @@ class SettingsPage {
 				'id'        => self::FIELD_BANNER_TEXTS,
 				'fields'    => [
 					[ 'name' => 'title', 'label' => _x('Title', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Cookies', 'Banner Title', 'cookielawconsent' ) ],
-					[ 'name' => 'personalize', 'label' => _x('Personalize link', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ) ],
-					[ 'name' => 'message', 'type' => 'textarea', 'label' => _x('Description', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('This website uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ) ],
 					[ 'name' => 'acceptAll', 'label' => _x('Accept all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Accept', 'Banner Accept All', 'cookielawconsent' ) ],
+					[ 'name' => 'message', 'type' => 'textarea', 'label' => _x('Description', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('This website uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ) ],
 					[ 'name' => 'rejectAll', 'label' => _x('Reject all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Reject', 'Banner Reject All', 'cookielawconsent' ) ],
+					[ 'name' => 'personalize', 'label' => _x('Personalize link', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ) ],
 				],
 			]
 		);
@@ -219,6 +237,9 @@ class SettingsPage {
 		// 	$settings[self::FIELD_BANNER_POSITION] = sanitize_text_field( $fields[self::FIELD_BANNER_POSITION] );
 		// }
 
+		if( isset( $fields[self::FIELD_HASH] ) ) {
+			$settings[self::FIELD_HASH] = sanitize_text_field( $fields[self::FIELD_HASH] );
+		}
 
 		$settings[self::FIELD_BANNER_TEXTS] = array_filter($fields[self::FIELD_BANNER_TEXTS]);
 		$settings[self::FIELD_MODAL_TEXTS] = array_filter($fields[self::FIELD_MODAL_TEXTS]);
@@ -258,7 +279,7 @@ class SettingsPage {
 			$bannerTexts = [];
 			$prevBannerTexts = $this->options[self::FIELD_BANNER_TEXTS];
 			if ( is_array($prevBannerTexts) ) {
-				if ( count(array_intersect_key(['title', 'message', 'personalize', 'acceptAll'], $prevBannerTexts)) > 0 ) $bannerTexts[$defaultLang] = $prevBannerTexts;
+				if ( count(array_intersect_key(['title', 'message', 'personalize', 'acceptAll', 'rejectAll'], $prevBannerTexts)) > 0 ) $bannerTexts[$defaultLang] = $prevBannerTexts;
 				else $bannerTexts = $prevBannerTexts;
 			}
 			$bannerTexts[$currentLang] = $settings[self::FIELD_BANNER_TEXTS];
@@ -403,6 +424,20 @@ class SettingsPage {
 		);
 	}
 
+	public function render_simple_text_field($args) {
+		$name = isset($args['name'])
+			? $args['name']
+			: self::SETTINGS_NAME."[{$args['id']}]";
+
+		printf(
+			'<input id="%1$s" type="text" name="%2$s" placeholder="%3$s" value="%4$s" />',
+			$args['id'],
+			$name,
+			$args['placeholder'],
+			$args['value']
+		);
+	}
+
 	public function render_texts_field($args, $wrap_in_table = true) {
 		$values = ( isset($this->options[$args['id']]) ? get_translated_text( $this->options[$args['id']] ) : [] );
 
@@ -426,7 +461,7 @@ class SettingsPage {
 		}, $args['fields'] );
 
 		$rows = [];
-		for ($i=0; $i < (int)(count($fields) / 2); $i++) {
+		for ($i=0; $i < (int)ceil(count($fields) / 2); $i++) {
 			$rows[] = sprintf('<tr>%s%s</tr>',
 				$fields[$i*2],
 				(isset($fields[$i*2+1]) ? $fields[$i*2+1] : '')

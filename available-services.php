@@ -13,17 +13,6 @@ const SERVICES = [
 		]
 	],
 	[
-		'name'     => 'googleanalytics',
-		'title'    => 'Google Analytics',
-		'info'     => 'How to find your tracking ID <a href="https://support.google.com/analytics/answer/1008080" target="_blank">Set up Analytics tracking</a>',
-		'enabled'  => false,
-		'category' => null,
-		'fields'   => [
-			[ 'type' => 'text', 'name' => 'trackingID', 'label' => 'Tracking ID', 'placeholder' => 'UA-XXXXX-Y'],
-			[ 'type' => 'switch', 'name' => 'anonymizeIp', 'label' => 'Anonymize IP ?', 'default' => true ],
-		]
-	],
-	[
 		'name'     => 'facebookpixel',
 		'title'    => 'Facebook Pixel',
 		'info'     => '',

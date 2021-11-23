@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Cookie Law Consent
  * Description: Handle your Cookies and give the user the ability to Accept or not the cookies.
- * Version:     1.3.1
+ * Version:     1.4.0
  * Author:  superhuit
  * Author URI:  https://profiles.wordpress.org/superhuit
  * License:     GPL-2.0+
@@ -110,10 +110,10 @@ function get_default_lang() {
 	return $defaultLang;
 }
 
-function get_translated_text ($translations) {
+function get_translated_text ($translations, $language = null) {
 	if ( !(is_multilingual() && is_array($translations)) ) return $translations;
 
-	$currentLang = get_current_lang();
+	$currentLang = $language ?? get_current_lang();
 	$defaultLang = get_default_lang();
 
 	if ( isset($translations[$currentLang]) ) $text = $translations[$currentLang];
