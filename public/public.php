@@ -48,7 +48,7 @@ function get_configs_json($source, $args, $context, $info) {
 		'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS], $args['language'])),
 	];
 
-	$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) {
+	$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) use ($args) {
 		$cat['title'] = get_translated_text($cat['title'] ?? '', $args['language']);
 		$cat['description'] = get_translated_text($cat['description'] ?? '', $args['language']);
 		$cat['texts'] = get_category_texts(get_translated_text($cat['texts'] ?? '', $args['language']));

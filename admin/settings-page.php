@@ -314,7 +314,7 @@ class SettingsPage {
 				$desc[$currentLang] = $cat['description'];
 
 				$texts = [];
-				if ( is_array($prevCat['texts']) ) {
+				if ( isset($prevCat['texts']) && is_array($prevCat['texts']) ) {
 					if ( count(array_intersect_key(['enable', 'enabled', 'disable', 'disabled', 'alwaysEnabled'], $prevCat['texts'])) > 0 ) {
 						$texts[$defaultLang] = $prevCat['texts'];
 					}
