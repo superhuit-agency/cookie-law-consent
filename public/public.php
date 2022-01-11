@@ -40,9 +40,6 @@ add_action( 'graphql_register_types', function() {
 function get_configs_json($source, $args, $context, $info) {
 	$config = get_option( SettingsPage::SETTINGS_NAME );
 
-	// Bail early as no services is configured
-	if ( !(isset($config[SettingsPage::FIELD_SERVICES]) && count($config[SettingsPage::FIELD_SERVICES]) > 0) ) return null;
-
 	$config['texts'] = [
 		'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS], $args['language'])),
 		'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS], $args['language'])),
