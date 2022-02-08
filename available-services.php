@@ -44,4 +44,15 @@ const SERVICES = [
 			[ 'type' => 'text', 'name' => 'secretKey', 'label' => 'Secret Key', 'placeholder' => 'eqVpZdSLlGIRuBSx4QVs'],
 		]
 	],
+	[
+		'name'     => 'googlemaps',
+		'title'    => 'Google Maps',
+		'info'     => '',
+		'enabled'  => false,
+		'category' => null,
+		'fields'   => [
+			[ 'type' => 'text', 'name' => 'apiKey', 'label' => 'API Key', 'placeholder' => 'ABzaSyCP7ENwERjmhUGE1E2ch9CRTL51VKYUyCD'],
+		]
+	],
+
 ];

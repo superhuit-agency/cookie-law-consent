@@ -11,10 +11,12 @@ import googleanalytics from './googleanalytics';
 import googletagmanager from './googletagmanager';
 import facebookpixel from './facebookpixel';
 import recaptcha from './recaptcha';
+import googlemaps from './googlemaps';
 
 export default {
 	googleanalytics,
 	googletagmanager,
 	facebookpixel,
 	recaptcha,
+	googlemaps,
 };
