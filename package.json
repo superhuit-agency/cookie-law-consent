@@ -1,32 +1,32 @@
 {
-    "name": "cookie-law-consent",
-    "version": "2.0.1",
-    "description": "Handle your Cookies and give the user the ability to Accept or not the cookies.",
-    "author": "superhuit <tech@superhuit.ch>",
-    "license": "MIT",
-    "private": true,
-    "scripts": {
-        "start": "webpack-dev-server --open",
-        "build:dev": "webpack",
-        "build:production": "cross-env NODE_ENV=production webpack",
-        "release": "./scripts/build.sh",
-        "watch": "webpack --watch"
-    },
-    "dependencies": {
-        "delegate": "^3.2.0"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.7.5",
-        "@babel/preset-env": "^7.7.6",
-        "babel-loader": "^8.0.6",
-        "cross-env": "^6.0.3",
-        "css-loader": "^3.3.0",
-        "mini-css-extract-plugin": "^0.8.0",
-        "node-sass": "^4.13.0",
-        "sass-loader": "^8.0.0",
-        "style-loader": "^1.0.1",
-        "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.10",
-        "webpack-dev-server": "^3.10.1"
-    }
+	"name": "cookie-law-consent",
+	"version": "2.0.2",
+	"description": "Handle your Cookies and give the user the ability to Accept or not the cookies.",
+	"author": "superhuit <tech@superhuit.ch>",
+	"license": "MIT",
+	"private": true,
+	"scripts": {
+		"start": "webpack-dev-server --open",
+		"build:dev": "webpack",
+		"build:production": "cross-env NODE_ENV=production webpack",
+		"release": "./scripts/build.sh",
+		"watch": "webpack --watch"
+	},
+	"dependencies": {
+		"delegate": "^3.2.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.7.5",
+		"@babel/preset-env": "^7.7.6",
+		"babel-loader": "^8.0.6",
+		"cross-env": "^6.0.3",
+		"css-loader": "^3.3.0",
+		"mini-css-extract-plugin": "^0.8.0",
+		"node-sass": "^4.13.0",
+		"sass-loader": "^8.0.0",
+		"style-loader": "^1.0.1",
+		"webpack": "^4.41.2",
+		"webpack-cli": "^3.3.10",
+		"webpack-dev-server": "^3.10.1"
+	}
 }
