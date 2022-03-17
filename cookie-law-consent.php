@@ -51,6 +51,7 @@ require_once __DIR__ .'/cookie-law-consent-api.php';
  */
 register_activation_hook( __FILE__, __NAMESPACE__ .'\plugin_activation' );
 add_action( 'plugins_loaded', __NAMESPACE__.'\register_textdomain' );
+add_action( 'rest_api_init', __NAMESPACE__.'\register_settings_api_rest' );
 
 function plugin_activation() {
 	SettingsPage::insert_default_settings();
@@ -67,6 +68,20 @@ if( is_admin() ) new SettingsPage();
 function register_textdomain() {
 	load_textdomain( 'cookielawconsent', WP_LANG_DIR .'/cookie-law-consent/cookie-law-consent-' . get_locale() . '.mo' );
 	load_plugin_textdomain( 'cookielawconsent', false, dirname(plugin_basename(__FILE__)) . '/languages/' );
+}
+
+function register_settings_api_rest() {
+	$config = get_option( SettingsPage::SETTINGS_NAME );
+
+	register_setting(
+		'general',
+		'cookielawconsent',
+		[
+			'type'         => 'string',
+			'show_in_rest' => true,
+			'default' 		 => json_encode($config) // Need to stringify otherwise it doesn't work to send object directly..
+		],
+	);
 }
 
 
