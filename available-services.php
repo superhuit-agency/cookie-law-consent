@@ -21,5 +21,15 @@ const SERVICES = [
 		'fields'   => [
 			[ 'type' => 'text', 'name' => 'pixelID', 'label' => 'Pixel ID', 'placeholder' => '1234567890'],
 		]
-	]
+	],
+	[
+		'name'     => 'googlemaps',
+		'title'    => 'Google Maps',
+		'info'     => '',
+		'enabled'  => false,
+		'category' => null,
+		'fields'   => [
+			[ 'type' => 'text', 'name' => 'apiKey', 'label' => 'API Key', 'placeholder' => 'ABCdefGHI123klmNOpqR'],
+		]
+	],
 ];
