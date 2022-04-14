@@ -84,7 +84,7 @@ export default class CookieLawBanner extends EventEmitter {
 	onAcceptClick(event) {
 		event.stopPropagation();
 		this.emit('acceptAll');
-		this.state.hidden = true;
+		this.hide();
 	}
 
 	// ##############################

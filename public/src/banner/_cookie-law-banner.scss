@@ -147,6 +147,7 @@
 
 	position: fixed;
 	z-index: 99999;
+	display: none;
 
 	color: #000000;
 	background-color: #EFEFEF;
@@ -232,8 +233,8 @@
 	/**
 	 * STATES
 	 */
-	&[aria-hidden="true"] {
-		display: none;
+	&[aria-hidden="false"] {
+		display: block;
 	}
 }
 
