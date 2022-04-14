@@ -71,7 +71,7 @@ function enqueue_assets() {
 	wp_enqueue_style( 'cookie-law-consent-style');
 
 	// Localize & enqueue the script
-	wp_localize_script( 'cookie-law-consent-js', 'clc_config', json_encode($config));
+	wp_localize_script( 'cookie-law-consent-js', 'clc_config', $config);
 	wp_enqueue_script( 'cookie-law-consent-js' );
 }
 
