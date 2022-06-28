@@ -1,4 +1,8 @@
 .cookie-law-category {
+	$switch-width: 38px;
+	$switch-height: 20px;
+	$toggle-size: 14px;
+	$toggle-space: 3px;
 
 	&__tab {
 		display: flex;
@@ -61,7 +65,7 @@
 	}
 
 	&__switch {
-    position: relative;
+	  position: relative;
 		display: flex;
 		font-size: 14px;
 		z-index: 10;
@@ -88,8 +92,8 @@
 	&__label {
 		position: relative;
 		z-index: 1;
-		height: 20px;
-		width: 38px;
+		height: $switch-height;
+		width: $switch-width;
 		order: 2;
     cursor: pointer;
 
@@ -103,15 +107,15 @@
 		&::before {
 			content: "";
 			position: absolute;
-			top: calc(50% - 9px);
-			left: 2px;
+			top: ($switch-height / 2) - ($toggle-size / 2);
+			left: $toggle-space;
 			display: block;
-			height: 14px;
-			width: 14px;
+			height: $toggle-size;
+			width: $toggle-size;
 			border-radius: 50%;
 			background-color: transparent;
 			border: 2px solid #ffffff;
-			transition: background-color 0.2s ease-out, transform 0.2s ease-out;
+			transition: background-color 0.2s ease-out, left 0.2s ease-out;
 		}
 	}
 
@@ -178,7 +182,7 @@
 			background-color: #00A54B;
 
 			&::before {
-				transform: translateX(17px);
+				left: $switch-width - ($toggle-size + $toggle-space);
 				background-color: #ffffff;
 			}
 		}
