@@ -1,5 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
 	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
@@ -9,7 +11,7 @@ module.exports = {
 		['cookie-law-consent-admin']: './admin/src/index.js'
 	},
   output: {
-    filename: '[name].js',
+    filename: '[name].[hash:8].js',
     path: path.resolve(__dirname, 'build/'),
 	},
 	module: {
@@ -42,11 +44,18 @@ module.exports = {
     ],
 	},
 	plugins: [
+		new CleanWebpackPlugin({
+			cleanOnceBeforeBuildPatterns: [
+        '**/*',
+        '!index.html',
+    	],
+		}),
+		new WebpackManifestPlugin(),
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // all options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: '[name].[hash:8].css',
+      chunkFilename: '[id].[hash:8].css',
       ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
 	],
