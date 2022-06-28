@@ -12,6 +12,7 @@ import googletagmanager from './googletagmanager';
 import facebookpixel from './facebookpixel';
 import recaptcha from './recaptcha';
 import googlemaps from './googlemaps';
+import pardot from './pardot';
 
 export default {
 	googleanalytics,
@@ -19,4 +20,5 @@ export default {
 	facebookpixel,
 	recaptcha,
 	googlemaps,
+	pardot,
 };

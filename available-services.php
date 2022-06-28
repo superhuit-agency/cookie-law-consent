@@ -54,5 +54,16 @@ const SERVICES = [
 			[ 'type' => 'text', 'name' => 'apiKey', 'label' => 'API Key', 'placeholder' => 'ABzaSyCP7ENwERjmhUGE1E2ch9CRTL51VKYUyCD'],
 		]
 	],
+	[
+		'name'     => 'pardot',
+		'title'    => 'Pardot',
+		'info'     => '',
+		'enabled'  => false,
+		'category' => null,
+		'fields'   => [
+			[ 'type' => 'text', 'name' => 'piAId', 'label' => 'Pi AId', 'placeholder' => '789542' ],
+			[ 'type' => 'text', 'name' => 'piCId', 'label' => 'Pi CId', 'placeholder' => '64729' ],
+		]
+	],
 
 ];
