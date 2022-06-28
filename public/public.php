@@ -17,8 +17,23 @@ add_action( 'init', __NAMESPACE__.'\register_assets');
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
 
 function register_assets() {
-	wp_register_style( 'cookie-law-consent-style', plugins_url( 'cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
-	wp_register_script( 'cookie-law-consent-js', plugins_url( 'cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
+	$manifest_path = CLC_PLUGIN_PATH.'manifest.json';
+	if ( !file_exists($manifest_path) ) return;
+	$manifest = json_decode(file_get_contents($manifest_path, true));
+
+	wp_register_style(
+		'cookie-law-consent-style',
+		plugins_url( $manifest->{'cookie-law-consent.css'}, __FILE__ ),
+		null,
+		null
+	);
+	wp_register_script(
+		'cookie-law-consent-js',
+		plugins_url( $manifest->{'cookie-law-consent.js'}, __FILE__ ),
+		null,
+		null,
+		true
+	);
 }
 
 function enqueue_assets() {

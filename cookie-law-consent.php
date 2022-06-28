@@ -37,6 +37,7 @@ $plugin_data = get_file_data( __FILE__, ['version' => 'Version']);
  * =================
  * */
 define( 'CLC_PLUGIN_VERSION', $plugin_data['version'] );
+define( 'CLC_PLUGIN_PATH', plugin_dir_path(__FILE__) );
 
 require_once __DIR__ .'/available-services.php';
 require_once __DIR__ .'/public/public.php';

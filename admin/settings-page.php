@@ -86,8 +86,23 @@ class SettingsPage {
 	function enqueue_assets( $hook ) {
 		if( 'settings_page_cookie-law-consent-settings' !== $hook ) return;
 
-		wp_enqueue_style( 'cookie_law_consent-admin-styles', plugins_url('cookie-law-consent-admin.css', __FILE__), null, CLC_PLUGIN_VERSION );
-		wp_enqueue_script( 'cookie_law_consent-admin-js', plugins_url('cookie-law-consent-admin.js', __FILE__), null, CLC_PLUGIN_VERSION, true );
+		$manifest_path = CLC_PLUGIN_PATH.'manifest.json';
+		if ( !file_exists($manifest_path) ) return;
+		$manifest = json_decode(file_get_contents($manifest_path, true));
+
+		wp_enqueue_style(
+			'cookie_law_consent-admin-styles',
+			plugins_url($manifest->{'cookie-law-consent-admin.css'}, __FILE__),
+			null,
+			null
+		);
+		wp_enqueue_script(
+			'cookie_law_consent-admin-js',
+			plugins_url($manifest->{'cookie-law-consent-admin.js'}, __FILE__),
+			null,
+			null,
+			true
+		);
 	}
 
 	/**
