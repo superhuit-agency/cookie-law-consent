@@ -41,14 +41,14 @@ function get_configs_json($source, $args, $context, $info) {
 	$config = get_option( SettingsPage::SETTINGS_NAME );
 
 	$config['texts'] = [
-		'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS], $args['language'])),
-		'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS], $args['language'])),
+		'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS], $args['language'] ?? null)),
+		'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS], $args['language'] ?? null)),
 	];
 
 	$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) use ($args) {
-		$cat['title'] = get_translated_text($cat['title'] ?? '', $args['language']);
-		$cat['description'] = get_translated_text($cat['description'] ?? '', $args['language']);
-		$cat['texts'] = get_category_texts(get_translated_text($cat['texts'] ?? '', $args['language']));
+		$cat['title'] = get_translated_text($cat['title'] ?? '', $args['language'] ?? null);
+		$cat['description'] = get_translated_text($cat['description'] ?? '', $args['language'] ?? null);
+		$cat['texts'] = get_category_texts(get_translated_text($cat['texts'] ?? '', $args['language'] ?? null));
 
 		return $cat;
 	}, $config[SettingsPage::FIELD_CATEGORIES]);
