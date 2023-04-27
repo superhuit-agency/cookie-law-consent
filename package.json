@@ -12,6 +12,9 @@
 		"release": "./scripts/build.sh",
 		"watch": "webpack --watch"
 	},
+	"engines": {
+		"node": "14.x"
+	},
 	"dependencies": {
 		"delegate": "^3.2.0"
 	},
