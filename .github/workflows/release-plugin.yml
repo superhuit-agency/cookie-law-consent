@@ -1,0 +1,75 @@
+---
+name: 'Release Cookie-Law-Consent plugin'
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  release:
+    name: "Release"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      # PHP Composer dependencies
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+        env:
+          COMPOSER_TOKEN: ${{ github.token }}
+      - id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - shell: bash
+        run: composer install --no-dev --prefer-dist --no-progress
+
+      # Nodejs dependencies
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      - name: Install node dependencies
+        shell: bash
+        run: yarn install --frozen-lockfile
+      - name: Build assets
+        shell: bash
+        run: yarn build:production
+
+      # Generate plugin zip asset
+      - shell: bash
+        run: |
+            rsync -r \
+            --exclude .git \
+            --exclude .github \
+            --exclude .gitignore \
+            --exclude .editorconfig \
+            --exclude .nvmrc \
+            --exclude composer.json \
+            --exclude composer.lock \
+            --exclude node_modules \
+            --exclude webpack.config.js \
+            --exclude yarn.lock \
+            . ./cookie-law-consent          
+      - name: Archive Release
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r cookie-law-consent.zip cookie-law-consent
+
+      # Release
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            cookie-law-consent.zip
