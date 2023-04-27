@@ -4,6 +4,13 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [1.6.0] - 2023-04-27
+- Move repo to Github
+- Adapt project stack & structure to Github
+- Add CI release workflow
+- Upgrade node version in stack to v14
+- Minor fixes
+
 # [1.5.0] - 2022-06-28
 ## Add
 - Pardot service
