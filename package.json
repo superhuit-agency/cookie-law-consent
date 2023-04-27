@@ -10,7 +10,6 @@
         "start": "webpack-dev-server --open",
         "build:dev": "webpack",
         "build:production": "cross-env NODE_ENV=production webpack",
-        "release": "./scripts/build.sh",
         "watch": "webpack --watch"
     },
 		"engines": {

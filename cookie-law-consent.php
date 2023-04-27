@@ -36,6 +36,7 @@ $plugin_data = get_file_data( __FILE__, ['version' => 'Version']);
  * CONSTANTS
  * =================
  * */
+define( 'CLC_PLUGIN_URL', plugin_dir_url(__FILE__) );
 define( 'CLC_PLUGIN_VERSION', $plugin_data['version'] );
 define( 'CLC_PLUGIN_PATH', plugin_dir_path(__FILE__) );
 

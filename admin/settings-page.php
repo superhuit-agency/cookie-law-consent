@@ -92,13 +92,13 @@ class SettingsPage {
 
 		wp_enqueue_style(
 			'cookie_law_consent-admin-styles',
-			plugins_url($manifest->{'cookie-law-consent-admin.css'}, __FILE__),
+			CLC_PLUGIN_URL.'/dist/'.$manifest->{'cookie-law-consent-admin.css'},
 			null,
 			null
 		);
 		wp_enqueue_script(
 			'cookie_law_consent-admin-js',
-			plugins_url($manifest->{'cookie-law-consent-admin.js'}, __FILE__),
+			CLC_PLUGIN_URL.'/dist/'.$manifest->{'cookie-law-consent-admin.js'},
 			null,
 			null,
 			true

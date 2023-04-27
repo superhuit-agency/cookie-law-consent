@@ -12,7 +12,7 @@ module.exports = {
 	},
   output: {
     filename: '[name].[hash:8].js',
-    path: path.resolve(__dirname, 'build/'),
+    path: path.resolve(__dirname, 'dist/'),
 	},
 	module: {
     rules: [
@@ -45,7 +45,7 @@ module.exports = {
 	},
 	plugins: [
 		new CleanWebpackPlugin({
-			cleanOnceBeforeBuildPatterns: [
+			cleanOnceBeforedistPatterns: [
         '**/*',
         '!index.html',
     	],
@@ -60,6 +60,6 @@ module.exports = {
     }),
 	],
 	devServer: {
-    contentBase: './build',
+    contentBase: './dist',
   },
 };
