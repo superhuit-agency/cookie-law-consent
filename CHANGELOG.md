@@ -4,6 +4,14 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [2.1.0] - 2023-04-27
+- Move repo to Github
+- Adapt project stack & structure to Github
+- Add CI release workflow
+- Upgrade node version in stack to v14
+- Fix #1: undefined array key language
+- Minor fixes
+
 # [2.0.2] - 2022-03-17
 ## Added
 - Google Maps service
