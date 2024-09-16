@@ -13,6 +13,16 @@ const SERVICES = [
 		]
 	],
 	[
+		'name'     => 'googleanalytics',
+		'title'    => 'Google Analytics 4',
+		'info'     => 'Google Analytics is a web analytics service offered by Google that tracks and reports website traffic. Before activating it, create an account and a "property" at <a href="https://analytics.google.com" target="_blank">analytics.google.com</a>',
+		'enabled'  => false,
+		'category' => null,
+		'fields'   => [
+			[ 'type' => 'text', 'name' => 'propertyID', 'label' => 'Property ID', 'placeholder' => 'G-XXX'],
+		]
+	],
+	[
 		'name'     => 'facebookpixel',
 		'title'    => 'Facebook Pixel',
 		'info'     => '',
