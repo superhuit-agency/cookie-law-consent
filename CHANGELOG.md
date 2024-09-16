@@ -4,6 +4,9 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [2.2.0] - 2024-04-27
+- Add Google Analytics 4 service
+
 # [2.1.0] - 2023-04-27
 - Move repo to Github
 - Adapt project stack & structure to Github
