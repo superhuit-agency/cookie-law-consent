@@ -9,7 +9,7 @@
  *
  * @see https://fr-fr.facebook.com/business/help/www/651294705016616
  */
-export default function facebookpixel({ pixelID, callback }) {
+export function onAccept({ pixelID, callback }) {
 	/* eslint-disable */
 	let n;
 	if (window.fbq) return {};
@@ -23,14 +23,10 @@ export default function facebookpixel({ pixelID, callback }) {
 	n.queue = [];
 	/* eslint-enable */
 
-	/* eslint-disable curly */
-	return {
-		url: "https://connect.facebook.net/en_US/fbevents.js",
-		callback: () => {
-			fbq("init", pixelID);
-			fbq("track", "PageView");
+	this.addScript("https://connect.facebook.net/en_US/fbevents.js", () => {
+		fbq("init", pixelID);
+		fbq("track", "PageView");
 
-			if (typeof callback === "function") callback();
-		},
-	};
+		if (typeof callback === "function") callback();
+	});
 }

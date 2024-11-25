@@ -9,11 +9,8 @@
  *
  * @see https://policies.google.com/privacy
  */
-export default function googlemaps({
-	apiKey,
-	selector = "data-gmaps",
-	callback = null,
-}) {
+
+export function onAccept({ apiKey, selector = "data-gmaps", callback = null }) {
 	window.gmapsCallback =
 		window.gmapsCallback ||
 		function () {
@@ -33,8 +30,8 @@ export default function googlemaps({
 			});
 		};
 
-	return {
-		url: `//maps.googleapis.com/maps/api/js?v=3.exp&key=${apiKey}&callback=gmapsCallback`,
-		callback,
-	};
+	this.addScript(
+		`//maps.googleapis.com/maps/api/js?v=3.exp&key=${apiKey}&callback=gmapsCallback`,
+		callback
+	);
 }

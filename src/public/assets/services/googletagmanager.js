@@ -11,15 +11,15 @@
  * dev documentation
  * @see https://support.google.com/tagmanager/answer/6103696
  */
-export default function googletagmanager({ containerID, callback }) {
+export function onAccept({ containerID, callback }) {
 	window.dataLayer = window.dataLayer || [];
 	window.dataLayer.push({
 		"gtm.start": new Date().getTime(),
 		event: "gtm.js",
 	});
 
-	return {
-		url: `https://www.googletagmanager.com/gtm.js?id=${containerID}`,
-		callback,
-	};
+	this.addScript(
+		`https://www.googletagmanager.com/gtm.js?id=${containerID}`,
+		callback
+	);
 }

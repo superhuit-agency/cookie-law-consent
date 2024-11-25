@@ -24,7 +24,8 @@ export default class CookieLaw {
 			{
 				bannerDismissed:
 					getCookie(`${this.config.cookieName}_banner`) === "dismiss",
-				loadedServices: [],
+				acceptedServices: [],
+				initedServices: [],
 			},
 			{ set: this.stateChange.bind(this) }
 		);
@@ -154,9 +155,11 @@ export default class CookieLaw {
 			`${this.config.cookieName}_${category.id}_accepted`,
 			accepted ? ACCEPTED_VALUE : REFUSED_VALUE
 		);
-		if (accepted && category.services) {
+		if (category.services) {
 			category.services.forEach(({ name, ...data }) => {
-				this.loadService(name, data);
+				accepted
+					? this.acceptService(name, data)
+					: this.rejectService(name, data);
 			});
 		}
 	}
@@ -166,9 +169,9 @@ export default class CookieLaw {
 			const cookie = getCookie(`${this.config.cookieName}_${cat.id}_accepted`);
 			const enabled = cat.mandatory || cookie === ACCEPTED_VALUE;
 
-			if (enabled && cat.services) {
+			if (cat.services) {
 				cat.services.forEach(({ name, ...data }) => {
-					this.loadService(name, data);
+					this.initService(name, enabled, data);
 				});
 			}
 
@@ -176,20 +179,41 @@ export default class CookieLaw {
 		});
 	}
 
-	loadService(name, data) {
+	initService(name, enabled = false, data = {}) {
 		if (typeof services[name] === "undefined") return;
-		if (
-			typeof this.state.loadedServices.find((serv) => serv.name === name) !==
-			"undefined"
-		)
-			return;
+		if (this.state.initedServices.includes(name)) return;
 
-		const { url, callback } = services[name](data);
+		const init = services[name]?.init;
+		if (typeof init === "function")
+			init.call(this, {
+				...data,
+				callback: () => {
+					if (enabled) this.acceptService(name, data);
+				},
+			});
+		this.state.initedServices[name] = true;
+	}
 
-		this.state.loadedServices.push({
-			name,
-			script: this.addScript(url, callback),
-		});
+	acceptService(name, data) {
+		if (typeof services[name] === "undefined") return;
+		if (this.state.acceptedServices.includes(name)) return;
+
+		const onAccept = services[name]?.onAccept;
+		if (typeof onAccept === "function") onAccept.call(this, data);
+
+		this.state.acceptedServices.push(name);
+	}
+
+	rejectService(name, data) {
+		if (typeof services[name] === "undefined") return;
+		if (!this.state.acceptedServices.includes(name)) return;
+
+		const onReject = services[name]?.onReject;
+		if (typeof onReject === "function") onReject.call(this, data);
+
+		this.state.acceptedServices = this.state.acceptedServices.filter(
+			(serv) => serv !== name
+		);
 	}
 
 	addScript(url, callback) {
