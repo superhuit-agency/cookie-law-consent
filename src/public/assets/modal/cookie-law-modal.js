@@ -34,6 +34,7 @@ export default class CookieLawModal extends EventEmitter {
 		this.state = new Proxy(
 			{
 				hidden: true,
+				events: {},
 			},
 			{ set: this.stateChange.bind(this) }
 		);
@@ -98,7 +99,7 @@ export default class CookieLawModal extends EventEmitter {
 	}
 
 	onCategoryChange(event) {
-		this.emit("categoryChange", event);
+		this.state.events[event.name] = event;
 	}
 
 	onSave(event) {
@@ -108,7 +109,15 @@ export default class CookieLawModal extends EventEmitter {
 
 	onClose(event) {
 		event.stopPropagation();
+
 		this.close();
+
+		// Restore initial config
+		this.config.categories.forEach((cat) =>
+			this.refs.categories
+				.find((el) => el.getId() === cat.id)
+				.setEnabled(cat.enabled)
+		);
 	}
 
 	onLostFocus(event) {
@@ -134,7 +143,7 @@ export default class CookieLawModal extends EventEmitter {
 	}
 
 	save() {
-		this.emit("save");
+		this.emit("save", Object.values(this.state.events));
 		this.close();
 	}
 
@@ -143,6 +152,10 @@ export default class CookieLawModal extends EventEmitter {
 
 		this.state.hidden = true;
 		this.unbindEvents();
+
+		// Clear events
+		this.state.events = {};
+
 		this.emit("closed");
 	}
 
