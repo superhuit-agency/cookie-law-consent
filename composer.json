@@ -1,15 +1,37 @@
 {
-    "name": "superhuit/cookie-law-consent",
-    "description": "Handle your Cookies and give the user the ability to Accept or not the cookies.",
-    "type": "wordpress-plugin",
-    "license": "MIT",
-    "authors": [{
-        "name": "superhuit",
-        "email": "tech@superhuit.ch",
-        "homepage": "https://www.superhuit.ch"
-    }],
-    "require": {
-        "php": ">=7.0",
-        "composer/installers": "^1.9"
-    }
+	"name": "superhuit/cookie-law-consent",
+	"description": "Handle your Cookies and give the user the ability to Accept or not the cookies.",
+	"type": "wordpress-plugin",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "superhuit",
+			"email": "tech@superhuit.ch",
+			"homepage": "https://www.superhuit.ch"
+		}
+	],
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://wpackagist.org",
+			"only": [
+				"wpackagist-plugin/*",
+				"wpackagist-theme/*"
+			]
+		}
+	],
+	"require": {
+		"php": ">=7.0",
+		"composer/installers": "^1.9"
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"johnpbloch/wordpress-core-installer": false
+		}
+	},
+	"require-dev": {
+		"johnpbloch/wordpress": "^6.7",
+		"wpackagist-plugin/polylang": "^3.6"
+	}
 }
