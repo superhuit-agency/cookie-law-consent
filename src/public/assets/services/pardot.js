@@ -9,14 +9,10 @@
  *
  * @see https://www.salesforce.com/company/privacy/full_privacy/
  */
-export default function pardot({ piAId, piCId, callback }) {
+export function onAccept({ piAId, piCId, callback }) {
 	window.piAId = piAId;
 	window.piCId = piCId;
 	window.piHostname = "pi.pardot.com";
 
-	/* eslint-disable curly */
-	return {
-		url: "https://pi.pardot.com/pd.js",
-		callback,
-	};
+	this.addScript("https://pi.pardot.com/pd.js", callback);
 }

@@ -12,11 +12,8 @@
  * dev documentation
  * @see https://developers.google.com/analytics/devguides/collection/analyticsjs
  */
-export default function googleanalytics({
-	trackingID,
-	callback,
-	anonymizeIp = true,
-}) {
+
+export function onAccept({ trackingID, callback, anonymizeIp = true }) {
 	window.GoogleAnalyticsObject = "ga";
 	window.ga =
 		window.ga ||
@@ -27,14 +24,15 @@ export default function googleanalytics({
 
 	window.ga.l = new Date();
 
-	return {
-		url: "https://www.google-analytics.com/analytics.js",
-		callback: () => {
+	this.addScript(
+		"https://www.google-analytics.com/analytics.js",
+		() => {
 			ga("create", trackingID, { cookieExpires: 34128000 });
 			ga("set", "anonymizeIp", anonymizeIp);
 			ga("send", "pageview");
 
 			if (typeof callback === "function") callback();
 		},
-	};
+		callback
+	);
 }
