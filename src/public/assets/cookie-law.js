@@ -119,8 +119,9 @@ export default class CookieLaw {
 		);
 	}
 
-	onModalSaved() {
+	onModalSaved(events) {
 		this.state.bannerDismissed = true;
+		events.forEach((event) => this.onCategoryChange(event));
 	}
 
 	onCategoryChange(event) {
