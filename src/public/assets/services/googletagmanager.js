@@ -11,15 +11,44 @@
  * dev documentation
  * @see https://support.google.com/tagmanager/answer/6103696
  */
-export function onAccept({ containerID, callback }) {
+export function init({ containerID, callback }) {
 	window.dataLayer = window.dataLayer || [];
 	window.dataLayer.push({
 		"gtm.start": new Date().getTime(),
 		event: "gtm.js",
 	});
 
+	// Set default consent to 'denied' as a placeholder
+	// Determine actual values based on your own requirements
+	dataLayer.push("consent", "default", {
+		ad_storage: "denied",
+		ad_user_data: "denied",
+		ad_personalization: "denied",
+		analytics_storage: "denied",
+	});
+
 	this.addScript(
 		`https://www.googletagmanager.com/gtm.js?id=${containerID}`,
 		callback
 	);
+}
+
+export function onAccept({ callback }) {
+	dataLayer.push("consent", "update", {
+		ad_storage: "granted",
+		ad_user_data: "granted",
+		ad_personalization: "granted",
+		analytics_storage: "granted",
+	});
+
+	if (typeof callback === "function") callback();
+}
+
+export function onReject() {
+	dataLayer.push("consent", "update", {
+		ad_storage: "denied",
+		ad_user_data: "denied",
+		ad_personalization: "denied",
+		analytics_storage: "denied",
+	});
 }
