@@ -40,10 +40,10 @@ define( 'CLC_PLUGIN_URL', plugin_dir_url(__FILE__) );
 define( 'CLC_PLUGIN_VERSION', $plugin_data['version'] );
 define( 'CLC_PLUGIN_PATH', plugin_dir_path(__FILE__) );
 
-require_once __DIR__ .'/available-services.php';
-require_once __DIR__ .'/public/public.php';
-require_once __DIR__ .'/admin/settings-page.php';
-require_once __DIR__ .'/cookie-law-consent-api.php';
+require_once __DIR__ .'/src/available-services.php';
+require_once __DIR__ .'/src/public/public.php';
+require_once __DIR__ .'/src/admin/settings-page.php';
+require_once __DIR__ .'/src/cookie-law-consent-api.php';
 
 /**
  * ACTIONS & FILTERS

@@ -1,0 +1,16 @@
+@use 'placeholders';
+@use 'modal/cookie-law-modal';
+@use 'banner/cookie-law-banner';
+@use 'category/cookie-law-category';
+
+
+
+.cookie-law {
+	font-family: sans-serif;
+	color: #000000;
+
+	&,
+	* {
+		box-sizing: border-box;
+	}
+}

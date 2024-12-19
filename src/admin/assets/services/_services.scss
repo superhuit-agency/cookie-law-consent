@@ -1,0 +1,18 @@
+@use '../_common/variables' as *;
+@use '../tabulation/tabulation';
+
+.services {
+	&__nav {
+		@extend %tab-nav;
+		transform: translateY(1px);
+	}
+
+	&__tab {
+		@extend %tab;
+	}
+}
+
+
+.service {
+	@extend %tab-panel;
+}

@@ -1,37 +1,36 @@
 {
-    "name": "cookie-law-consent",
-    "version": "1.6.0",
-    "description": "Handle your Cookies and give the user the ability to Accept or not the cookies.",
-    "main": "public/index.js",
-    "author": "superhuit <tech@superhuit.ch>",
-    "license": "MIT",
-    "private": true,
-    "scripts": {
-        "start": "webpack-dev-server --open",
-        "build:dev": "webpack",
-        "build:production": "cross-env NODE_ENV=production webpack",
-        "watch": "webpack --watch"
-    },
-		"engines": {
-			"node": "14.x"
-		},
-    "dependencies": {
-        "delegate": "^3.2.0"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.7.5",
-        "@babel/preset-env": "^7.7.6",
-        "babel-loader": "^8.0.6",
-        "clean-webpack-plugin": "^4.0.0",
-        "cross-env": "^6.0.3",
-        "css-loader": "^3.3.0",
-        "mini-css-extract-plugin": "^0.8.0",
-        "node-sass": "^4.13.0",
-        "sass-loader": "^8.0.0",
-        "style-loader": "^1.0.1",
-        "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.10",
-        "webpack-dev-server": "^3.10.1",
-        "webpack-manifest-plugin": "^4.1.1"
-    }
+	"name": "cookie-law-consent",
+	"version": "1.6.0",
+	"description": "Handle your Cookies and give the user the ability to Accept or not the cookies.",
+	"main": "public/index.js",
+	"author": "superhuit <tech@superhuit.ch>",
+	"license": "MIT",
+	"private": true,
+	"scripts": {
+		"start": "webpack-dev-server --open",
+		"build:dev": "webpack",
+		"build:production": "cross-env NODE_ENV=production webpack",
+		"watch": "webpack --watch"
+	},
+	"engines": {
+		"node": "20.x"
+	},
+	"dependencies": {
+		"delegate": "^3.2.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.26.0",
+		"@babel/preset-env": "^7.26.0",
+		"babel-loader": "^9.2.1",
+		"cross-env": "^7.0.3",
+		"css-loader": "^7.1.2",
+		"mini-css-extract-plugin": "^2.9.2",
+		"sass": "^1.81.0",
+		"sass-loader": "^16.0.3",
+		"style-loader": "^4.0.0",
+		"webpack": "^5.96.1",
+		"webpack-cli": "^5.1.4",
+		"webpack-dev-server": "^5.1.0",
+		"webpack-manifest-plugin": "^5.0.0"
+	}
 }

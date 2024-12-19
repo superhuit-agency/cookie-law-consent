@@ -1,0 +1,40 @@
+@use '../_common/variables' as *;
+@use '../tabulation/tabulation';
+
+.categories {
+	&__nav {
+		display: flex;
+		transform: translateY(1px);
+	}
+
+	&__tab-list {
+		@extend %tab-nav;
+	}
+
+	&__tab {
+		@extend %tab;
+	}
+
+	&__add {
+		border: 1px solid transparent;
+		padding: 5px 15px 4px;
+		border-radius: 2px 2px 0 0;
+		background-color: rgba(255,255,255,.8);
+		font-size: 1.1rem;
+		font-weight: bold;
+		cursor: pointer;
+		margin: 4px 5px 1px;
+
+		&:hover {
+			background-color: #ffffff;
+			color: $wp-theme-color-light;
+		}
+
+		&:focus {
+			box-shadow: 0 0 0 1px $wp-theme-color;
+			outline: none;
+		}
+	}
+}
+
+

@@ -1,8 +1,3 @@
-## Project specifics
-dist/*
-!dist/index.html
-
-
 # Created by https://www.toptal.com/developers/gitignore/api/sass,node,macos,visualstudiocode,composer
 # Edit at https://www.toptal.com/developers/gitignore?templates=sass,node,macos,visualstudiocode,composer
 
@@ -175,3 +170,5 @@ dist
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/sass,node,macos,visualstudiocode,composer
+
+wp-content
