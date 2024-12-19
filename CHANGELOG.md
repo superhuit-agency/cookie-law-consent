@@ -5,6 +5,14 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [1.7.0] - 2024-12-19
+
+- feat: ✨ Consent Mode v2
+- refactor: ♻️ refactor services for init, accept & reject callbacks
+- chore: ⬆️ upgrade dependencies & restructure plugin files (node 20, webpack 5, project structure)
+- chore: 🔧 Improve dev index.html
+- fix: 🐛 Only load accepted services when "save & accept" button is clicked
+
 # [1.6.0] - 2023-04-27
 
 - Move repo to Github
