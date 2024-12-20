@@ -5,6 +5,10 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [1.7.1] - 2024-12-20
+
+- fix: 🚑 Consent mode v2 not correctly executed
+
 # [1.7.0] - 2024-12-19
 
 - feat: ✨ Consent Mode v2
