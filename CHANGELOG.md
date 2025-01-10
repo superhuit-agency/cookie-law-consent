@@ -5,6 +5,10 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [1.7.2] - 2025-01-10
+
+- fix: 🚑 One more fix on the Google Consent Mode v2
+
 # [1.7.1] - 2024-12-20
 
 - fix: 🚑 Consent mode v2 not correctly executed
