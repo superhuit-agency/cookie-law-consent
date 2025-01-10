@@ -1,7 +1,4 @@
-const gtag = () => {
-	window.dataLayer = window.dataLayer || [];
-	dataLayer.push(arguments);
-};
+window.dataLayer = window.dataLayer || [];
 
 /**
  * Google Tag Manager (gtm.js)
@@ -25,12 +22,16 @@ export function init({ containerID, callback }) {
 
 	// Set default consent to 'denied' as a placeholder
 	// Determine actual values based on your own requirements
-	gtag("consent", "default", {
-		ad_storage: "denied",
-		ad_user_data: "denied",
-		ad_personalization: "denied",
-		analytics_storage: "denied",
-	});
+	dataLayer.push([
+		"consent",
+		"default",
+		{
+			ad_storage: "denied",
+			ad_user_data: "denied",
+			ad_personalization: "denied",
+			analytics_storage: "denied",
+		},
+	]);
 
 	this.addScript(
 		`https://www.googletagmanager.com/gtm.js?id=${containerID}`,
@@ -39,21 +40,29 @@ export function init({ containerID, callback }) {
 }
 
 export function onAccept({ callback }) {
-	gtag("consent", "update", {
-		ad_storage: "granted",
-		ad_user_data: "granted",
-		ad_personalization: "granted",
-		analytics_storage: "granted",
-	});
+	dataLayer.push([
+		"consent",
+		"update",
+		{
+			ad_storage: "granted",
+			ad_user_data: "granted",
+			ad_personalization: "granted",
+			analytics_storage: "granted",
+		},
+	]);
 
 	if (typeof callback === "function") callback();
 }
 
 export function onReject() {
-	gtag("consent", "update", {
-		ad_storage: "denied",
-		ad_user_data: "denied",
-		ad_personalization: "denied",
-		analytics_storage: "denied",
-	});
+	dataLayer.push([
+		"consent",
+		"update",
+		{
+			ad_storage: "denied",
+			ad_user_data: "denied",
+			ad_personalization: "denied",
+			analytics_storage: "denied",
+		},
+	]);
 }
