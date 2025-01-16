@@ -1,5 +1,9 @@
 window.dataLayer = window.dataLayer || [];
 
+function clc_gtag() {
+	window.dataLayer.push(arguments);
+}
+
 /**
  * Google Tag Manager (gtm.js)
  *
@@ -20,18 +24,20 @@ export function init({ containerID, callback }) {
 		event: "gtm.js",
 	});
 
-	// Set default consent to 'denied' as a placeholder
-	// Determine actual values based on your own requirements
-	dataLayer.push([
-		"consent",
-		"default",
-		{
+	// Check if consent is already defined in dataLayer
+	const hasExistingConsent = window.dataLayer?.some((item) => {
+		return item[0] === "consent" && item[1] === "default";
+	});
+
+	// do not set default consent if it is already defined ("Google Analytics for WooCommerce" plugin does include the default consent very early)
+	if (!hasExistingConsent) {
+		clc_gtag("consent", "default", {
 			ad_storage: "denied",
 			ad_user_data: "denied",
 			ad_personalization: "denied",
 			analytics_storage: "denied",
-		},
-	]);
+		});
+	}
 
 	this.addScript(
 		`https://www.googletagmanager.com/gtm.js?id=${containerID}`,
@@ -40,29 +46,21 @@ export function init({ containerID, callback }) {
 }
 
 export function onAccept({ callback }) {
-	dataLayer.push([
-		"consent",
-		"update",
-		{
-			ad_storage: "granted",
-			ad_user_data: "granted",
-			ad_personalization: "granted",
-			analytics_storage: "granted",
-		},
-	]);
+	clc_gtag("consent", "update", {
+		ad_storage: "granted",
+		ad_user_data: "granted",
+		ad_personalization: "granted",
+		analytics_storage: "granted",
+	});
 
 	if (typeof callback === "function") callback();
 }
 
 export function onReject() {
-	dataLayer.push([
-		"consent",
-		"update",
-		{
-			ad_storage: "denied",
-			ad_user_data: "denied",
-			ad_personalization: "denied",
-			analytics_storage: "denied",
-		},
-	]);
+	clc_gtag("consent", "update", {
+		ad_storage: "denied",
+		ad_user_data: "denied",
+		ad_personalization: "denied",
+		analytics_storage: "denied",
+	});
 }
