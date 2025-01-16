@@ -7,4 +7,6 @@ if (typeof config.categories === "object")
 		(key) => config.categories[key]
 	);
 
-new CookieLaw(config);
+document.addEventListener("DOMContentLoaded", () => {
+	new CookieLaw(config);
+});

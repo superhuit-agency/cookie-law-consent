@@ -14,7 +14,7 @@ use function CookieLawConsent\get_translated_text;
  * Register the actions & filters
  */
 add_action( 'init', __NAMESPACE__.'\register_assets');
-add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets');
+add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets', 5);
 
 function register_assets() {
 	$manifest_path = CLC_PLUGIN_PATH.'dist/manifest.json';
@@ -32,7 +32,7 @@ function register_assets() {
 		CLC_PLUGIN_URL.'dist/'.$manifest->{'cookie-law-consent.js'},
 		null,
 		null,
-		true
+		false
 	);
 }
 
