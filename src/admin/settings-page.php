@@ -450,7 +450,7 @@ class SettingsPage {
 		}, $args['fields'] );
 
 		$rows = [];
-		for ($i=0; $i < (int)(count($fields) / 2); $i++) {
+		for ($i=0; $i < (int)(ceil(count($fields) / 2)); $i++) {
 			$rows[] = sprintf('<tr>%s%s</tr>',
 				$fields[$i*2],
 				(isset($fields[$i*2+1]) ? $fields[$i*2+1] : '')
