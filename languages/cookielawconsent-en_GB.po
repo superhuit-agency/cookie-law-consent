@@ -1,17 +1,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Cookie Law Consent\n"
-"POT-Creation-Date: 2020-05-07 18:09+0200\n"
-"PO-Revision-Date: 2020-05-07 18:10+0200\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cookie-law-"
+"consent\n"
+"POT-Creation-Date: 2025-02-04T15:49:52+00:00\n"
+"PO-Revision-Date: 2025-02-04 16:51+0100\n"
 "Last-Translator: \n"
 "Language-Team: superhuit <tech@superhuit.ch>\n"
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
-"X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
+"X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_n:1,2;_ex:1,2c;_nx:4c,1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: build\n"
@@ -19,217 +21,210 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-2: *.js\n"
 "X-Poedit-SearchPathExcluded-3: *.css\n"
 
-#: admin/settings-page.php:52
-msgid "Necessary"
+#. Plugin Name of the plugin
+#: cookie-law-consent.php src/admin/settings-page.php:79
+msgid "Cookie Law Consent"
+msgstr "Cookie Law Consent"
+
+#. Description of the plugin
+#: cookie-law-consent.php
+msgid ""
+"Handle your Cookies and give the user the ability to Accept or not the "
+"cookies."
+msgstr ""
+"Gérez vos cookies et donnez à l’utilisateur la possibilité d’accepter ou non "
+"les cookies."
+
+#. Author of the plugin
+#: cookie-law-consent.php
+msgid "superhuit"
 msgstr ""
 
-#: admin/settings-page.php:53
+#. Author URI of the plugin
+#: cookie-law-consent.php
+msgid "https://profiles.wordpress.org/superhuit"
+msgstr ""
+
+#: src/admin/settings-page.php:53
+msgid "Necessary"
+msgstr "Nécessaire"
+
+#: src/admin/settings-page.php:54
 msgid ""
 "Necessary cookies are absolutely essential for the website to function "
 "properly. This category only includes cookies that ensures basic "
 "functionalities and security features of the website. These cookies do not "
 "store any personal information."
 msgstr ""
+"Les cookies nécessaires sont absolument essentiels pour le bon "
+"fonctionnement du site web. Cette catégorie ne comprend que les cookies qui "
+"assurent les fonctionnalités de base et les fonctions de sécurité du site "
+"web. Ces cookies ne stockent aucune information personnelle."
 
-#: admin/settings-page.php:59
+#: src/admin/settings-page.php:60
 msgid "Analytics"
-msgstr ""
+msgstr "Statistiques"
 
-#: admin/settings-page.php:60
+#: src/admin/settings-page.php:61
 msgid ""
 "Analytics cookies help us understand how our visitors interact with the "
 "website. It helps us understand the number of visitors, where the visitors "
 "are coming from, and the pages they navigate. The cookies collect this data "
 "and are reported anonymously."
 msgstr ""
+"Les cookies de statistiques nous aident à comprendre comment nos visiteurs "
+"interagissent avec le site web. Ils nous aident à comprendre le nombre de "
+"visiteurs, leur provenance et les pages sur lesquelles ils naviguent. Les "
+"cookies collectent ces données et sont signalés de manière anonyme."
 
-#: admin/settings-page.php:77 releases/v1.0.3/admin/settings-page.php:83
-#: releases/v1.1.0/admin/settings-page.php:83
+#: src/admin/settings-page.php:78
 msgid "Cookie law Consent Options"
-msgstr ""
+msgstr "Options de Cookie Law Consent"
 
-#: admin/settings-page.php:78 releases/v1.0.3/admin/settings-page.php:84
-#: releases/v1.1.0/admin/settings-page.php:84
-msgid "Cookie Law Consent"
-msgstr ""
-
-#: admin/settings-page.php:108 releases/v1.0.3/admin/settings-page.php:114
-#: releases/v1.1.0/admin/settings-page.php:114
+#: src/admin/settings-page.php:124
 msgid "Appearance"
-msgstr ""
+msgstr "Apparence"
 
-#: admin/settings-page.php:110 releases/v1.0.3/admin/settings-page.php:116
-#: releases/v1.1.0/admin/settings-page.php:116
+#: src/admin/settings-page.php:126
 msgid ""
 "If you wish to completely overide the style, you can enqueue your own style "
 "file with the following snippet"
 msgstr ""
+"Si vous souhaitez remplacer complètement le style, vous pouvez ajouter votre "
+"propre fichier de style avec l’extrait suivant"
 
-#: admin/settings-page.php:124 releases/v1.0.3/admin/settings-page.php:130
-#: releases/v1.1.0/admin/settings-page.php:130
+#: src/admin/settings-page.php:140
 msgid "Banner position"
-msgstr ""
+msgstr "Position de la bannière"
 
-#: admin/settings-page.php:133 releases/v1.0.3/admin/settings-page.php:139
-#: releases/v1.1.0/admin/settings-page.php:139
+#: src/admin/settings-page.php:149
 msgctxt "Option page select"
 msgid "Select a position"
-msgstr ""
+msgstr "Définir la position"
 
-#: admin/settings-page.php:134 releases/v1.0.3/admin/settings-page.php:140
-#: releases/v1.1.0/admin/settings-page.php:140
+#: src/admin/settings-page.php:150
 msgctxt "Option page select"
 msgid "↖ Top left corner"
-msgstr ""
+msgstr "↖ Coin supérieur gauche"
 
-#: admin/settings-page.php:135 releases/v1.0.3/admin/settings-page.php:141
-#: releases/v1.1.0/admin/settings-page.php:141
+#: src/admin/settings-page.php:151
 msgctxt "Option page select"
 msgid "↗ Top right corner"
-msgstr ""
+msgstr "↗ Coin supérieur droit"
 
-#: admin/settings-page.php:136 releases/v1.0.3/admin/settings-page.php:142
-#: releases/v1.1.0/admin/settings-page.php:142
+#: src/admin/settings-page.php:152
 msgctxt "Option page select"
 msgid "✛ Center"
-msgstr ""
+msgstr "✛ Centre"
 
-#: admin/settings-page.php:137 releases/v1.0.3/admin/settings-page.php:143
-#: releases/v1.1.0/admin/settings-page.php:143
+#: src/admin/settings-page.php:153
 msgctxt "Option page select"
 msgid "↙ Bottom left corner"
-msgstr ""
+msgstr "↙ Coin inférieur gauche"
 
-#: admin/settings-page.php:138 releases/v1.0.3/admin/settings-page.php:144
-#: releases/v1.1.0/admin/settings-page.php:144
+#: src/admin/settings-page.php:154
 msgctxt "Option page select"
 msgid "↘ Bottom right corner"
-msgstr ""
+msgstr "↘ Coin inférieur droit"
 
-#: admin/settings-page.php:139 releases/v1.1.0/admin/settings-page.php:145
+#: src/admin/settings-page.php:155
 msgctxt "Option page select"
 msgid "↔ Bottom full width"
-msgstr ""
+msgstr "↔ Largeur complète inférieure"
 
-#: admin/settings-page.php:146 releases/v1.0.3/admin/settings-page.php:151
-#: releases/v1.1.0/admin/settings-page.php:152
+#: src/admin/settings-page.php:162
 msgctxt "Global custom texts"
 msgid "Custom texts"
-msgstr ""
+msgstr "Textes personnalisés"
 
-#: admin/settings-page.php:153 releases/v1.0.3/admin/settings-page.php:158
-#: releases/v1.1.0/admin/settings-page.php:159
+#: src/admin/settings-page.php:169
 msgid "Banner texts"
-msgstr ""
+msgstr "Textes de la bannière"
 
-#: admin/settings-page.php:160 releases/v1.0.3/admin/settings-page.php:165
-#: releases/v1.1.0/admin/settings-page.php:166
+#: src/admin/settings-page.php:176
 msgctxt "Banner text"
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
-#: admin/settings-page.php:160 public/public.php:82
-#: releases/v1.0.3/admin/settings-page.php:165
-#: releases/v1.0.3/public/public.php:82
-#: releases/v1.1.0/admin/settings-page.php:166
-#: releases/v1.1.0/public/public.php:82
+#: src/admin/settings-page.php:176 src/public/public.php:104
 msgctxt "Banner Title"
 msgid "Cookies"
-msgstr ""
+msgstr "Cookies"
 
-#: admin/settings-page.php:161 releases/v1.0.3/admin/settings-page.php:166
-#: releases/v1.1.0/admin/settings-page.php:167
+#: src/admin/settings-page.php:177
 msgctxt "Banner text"
 msgid "Personalize link"
-msgstr ""
+msgstr "Lien de personalisation"
 
-#: admin/settings-page.php:161 public/public.php:83
-#: releases/v1.0.3/admin/settings-page.php:166
-#: releases/v1.0.3/public/public.php:83
-#: releases/v1.1.0/admin/settings-page.php:167
-#: releases/v1.1.0/public/public.php:83
+#: src/admin/settings-page.php:177 src/public/public.php:105
 msgctxt "Banner Personalize"
 msgid "Personalize"
-msgstr ""
+msgstr "Personnalisé"
 
-#: admin/settings-page.php:162 releases/v1.0.3/admin/settings-page.php:167
-#: releases/v1.1.0/admin/settings-page.php:168
+#: src/admin/settings-page.php:178
 msgctxt "Banner text"
 msgid "Description"
-msgstr ""
+msgstr "Ordre"
 
-#: admin/settings-page.php:162 public/public.php:84
-#: releases/v1.0.3/admin/settings-page.php:167
-#: releases/v1.0.3/public/public.php:84
-#: releases/v1.1.0/admin/settings-page.php:168
-#: releases/v1.1.0/public/public.php:84
+#: src/admin/settings-page.php:178 src/public/public.php:106
 msgctxt "Banner Message"
 msgid ""
 "This site uses cookies to help improve your user experience and gives you "
 "control over what you want to activate."
 msgstr ""
+"Ce site utilise des cookies pour améliorer votre expérience utilisateur et "
+"vous permet de contrôler ce que vous souhaitez activer."
 
-#: admin/settings-page.php:163 releases/v1.0.3/admin/settings-page.php:168
-#: releases/v1.1.0/admin/settings-page.php:169
+#: src/admin/settings-page.php:179
 msgctxt "Banner text"
 msgid "Accept all button"
-msgstr ""
+msgstr "Bouton Tous Accepter"
 
-#: admin/settings-page.php:163 public/public.php:85
-#: releases/v1.0.3/admin/settings-page.php:168
-#: releases/v1.0.3/public/public.php:85
-#: releases/v1.1.0/admin/settings-page.php:169
-#: releases/v1.1.0/public/public.php:85
+#: src/admin/settings-page.php:179 src/public/public.php:107
 msgctxt "Banner Accept All"
 msgid "Ok, accept all"
-msgstr ""
+msgstr "Ok, j’accepte tous"
 
-#: admin/settings-page.php:169 releases/v1.0.3/admin/settings-page.php:174
-#: releases/v1.1.0/admin/settings-page.php:175
+#: src/admin/settings-page.php:180
+msgctxt "Banner text"
+msgid "Deny all button"
+msgstr "Bouton Tout Refuser"
+
+#: src/admin/settings-page.php:180 src/public/public.php:108
+msgctxt "Banner Deny All"
+msgid "Deny all"
+msgstr "Tout refuser"
+
+#: src/admin/settings-page.php:186
 msgid "Modal texts"
-msgstr ""
+msgstr "Textes de la modal"
 
-#: admin/settings-page.php:176 releases/v1.0.3/admin/settings-page.php:181
-#: releases/v1.1.0/admin/settings-page.php:182
+#: src/admin/settings-page.php:193
 msgctxt "Modal text"
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
-#: admin/settings-page.php:176 public/public.php:90
-#: releases/v1.0.3/admin/settings-page.php:181
-#: releases/v1.0.3/public/public.php:90
-#: releases/v1.1.0/admin/settings-page.php:182
-#: releases/v1.1.0/public/public.php:90
+#: src/admin/settings-page.php:193 src/public/public.php:113
 msgctxt "Modal Title"
 msgid "Privacy Overview"
-msgstr ""
+msgstr "Présentation de la confidentialité"
 
-#: admin/settings-page.php:177 releases/v1.0.3/admin/settings-page.php:182
-#: releases/v1.1.0/admin/settings-page.php:183
+#: src/admin/settings-page.php:194
 msgctxt "Modal text"
 msgid "Close button"
-msgstr ""
+msgstr "Bouton fermer"
 
-#: admin/settings-page.php:177 public/public.php:91
-#: releases/v1.0.3/admin/settings-page.php:182
-#: releases/v1.0.3/public/public.php:91
-#: releases/v1.1.0/admin/settings-page.php:183
-#: releases/v1.1.0/public/public.php:91
+#: src/admin/settings-page.php:194 src/public/public.php:114
 msgctxt "Modal Personalize"
 msgid "Close"
-msgstr ""
+msgstr "Fermer"
 
-#: admin/settings-page.php:178 releases/v1.0.3/admin/settings-page.php:183
-#: releases/v1.1.0/admin/settings-page.php:184
+#: src/admin/settings-page.php:195
 msgctxt "Modal text"
 msgid "Description"
-msgstr ""
+msgstr "Ordre"
 
-#: admin/settings-page.php:178 public/public.php:92
-#: releases/v1.0.3/admin/settings-page.php:183
-#: releases/v1.0.3/public/public.php:92
-#: releases/v1.1.0/admin/settings-page.php:184
-#: releases/v1.1.0/public/public.php:92
+#: src/admin/settings-page.php:195 src/public/public.php:115
 msgctxt "Modal Description"
 msgid ""
 "This website uses cookies to improve your experience while you navigate "
@@ -241,145 +236,116 @@ msgid ""
 "the option to opt-out of these cookies. But opting out of some of these "
 "cookies may have an effect on your browsing experience."
 msgstr ""
+"Ce site Web utilise des cookies pour améliorer votre expérience lorsque vous "
+"naviguez sur le site Web. Parmi ces cookies, les cookies classés comme "
+"nécessaires sont stockés sur votre navigateur car ils sont essentiels pour "
+"le fonctionnement des fonctionnalités de base du site Web. Nous utilisons "
+"également des cookies tiers qui nous aident à analyser et à comprendre "
+"comment vous utilisez ce site Web. Ces cookies ne seront stockés dans votre "
+"navigateur qu’avec votre consentement. Vous avez également la possibilité de "
+"désactiver ces cookies. Mais la désactivation de certains de ces cookies "
+"peut avoir un effet sur votre expérience de navigation."
 
-#: admin/settings-page.php:179 releases/v1.0.3/admin/settings-page.php:184
-#: releases/v1.1.0/admin/settings-page.php:185
+#: src/admin/settings-page.php:196
 msgctxt "Modal text"
 msgid "Save button"
-msgstr ""
+msgstr "Bouton Sauvegarder"
 
-#: admin/settings-page.php:179 public/public.php:93
-#: releases/v1.0.3/admin/settings-page.php:184
-#: releases/v1.0.3/public/public.php:93
-#: releases/v1.1.0/admin/settings-page.php:185
-#: releases/v1.1.0/public/public.php:93
+#: src/admin/settings-page.php:196 src/public/public.php:116
 msgctxt "Modal Accept All"
 msgid "Save & Accept"
-msgstr ""
+msgstr "Sauver et accepter"
 
-#: admin/settings-page.php:186 releases/v1.0.3/admin/settings-page.php:191
-#: releases/v1.1.0/admin/settings-page.php:192
+#: src/admin/settings-page.php:203
 msgid "Categories"
-msgstr ""
+msgstr "Catégories"
 
-#: admin/settings-page.php:187 releases/v1.0.3/admin/settings-page.php:192
-#: releases/v1.1.0/admin/settings-page.php:193
+#: src/admin/settings-page.php:204
 msgid ""
 "Define the categories of cookies with a description for the user the "
 "understand and the cookies are intend for."
 msgstr ""
+"Définissez les catégories de cookies avec une description pour l’utilisateur "
+"que vous comprenez et les cookies sont destinés."
 
-#: admin/settings-page.php:202 releases/v1.0.3/admin/settings-page.php:207
-#: releases/v1.1.0/admin/settings-page.php:208
+#: src/admin/settings-page.php:219
 msgid "Services"
-msgstr ""
+msgstr "Services"
 
-#: admin/settings-page.php:203 releases/v1.0.3/admin/settings-page.php:208
-#: releases/v1.1.0/admin/settings-page.php:209
+#: src/admin/settings-page.php:220
 msgid "Enable and define external services"
-msgstr ""
+msgstr "Activer et définir les services externes"
 
-#: admin/settings-page.php:355 releases/v1.0.3/admin/settings-page.php:360
-#: releases/v1.1.0/admin/settings-page.php:361
-#, php-format
+#: src/admin/settings-page.php:372
 msgid ""
 "ℹ️ You are currently editing the <b>%s</b> version. The texts configuration "
 "need to be translated, but choices & enablings will be set for all languages."
 msgstr ""
+"ℹ️ Vous modifiez actuellement la version <b>%s</b>. La configuration des "
+"textes doit être traduite, mais les choix et les activations seront définis "
+"pour toutes les langues."
 
-#: admin/settings-page.php:473 releases/v1.0.3/admin/settings-page.php:478
-#: releases/v1.1.0/admin/settings-page.php:479
+#: src/admin/settings-page.php:490
 msgid "Position"
-msgstr ""
+msgstr "Ordre"
 
-#: admin/settings-page.php:479 admin/settings-page.php:483
-#: releases/v1.0.3/admin/settings-page.php:484
-#: releases/v1.0.3/admin/settings-page.php:488
-#: releases/v1.1.0/admin/settings-page.php:485
-#: releases/v1.1.0/admin/settings-page.php:489
+#: src/admin/settings-page.php:496 src/admin/settings-page.php:500
 msgid "Mandatory?"
-msgstr ""
+msgstr "Obligatoire ?"
 
-#: admin/settings-page.php:494 releases/v1.0.3/admin/settings-page.php:499
-#: releases/v1.1.0/admin/settings-page.php:500
+#: src/admin/settings-page.php:511
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
-#: admin/settings-page.php:500 releases/v1.0.3/admin/settings-page.php:505
-#: releases/v1.1.0/admin/settings-page.php:506
+#: src/admin/settings-page.php:517
 msgid "Custom Texts"
-msgstr ""
+msgstr "Textes personnalisés"
 
-#: admin/settings-page.php:503 releases/v1.0.3/admin/settings-page.php:508
-#: releases/v1.1.0/admin/settings-page.php:509
+#: src/admin/settings-page.php:520
 msgid "Enable"
-msgstr ""
+msgstr "Activer"
 
-#: admin/settings-page.php:509 public/public.php:73
-#: releases/v1.0.3/admin/settings-page.php:514
-#: releases/v1.0.3/public/public.php:73
-#: releases/v1.1.0/admin/settings-page.php:515
-#: releases/v1.1.0/public/public.php:73
+#: src/admin/settings-page.php:526 src/public/public.php:95
 msgid "Enable cookies"
-msgstr ""
+msgstr "Activer les cookies"
 
-#: admin/settings-page.php:513 admin/settings-page.php:519 public/public.php:74
-#: releases/v1.0.3/admin/settings-page.php:518
-#: releases/v1.0.3/admin/settings-page.php:524
-#: releases/v1.0.3/public/public.php:74
-#: releases/v1.1.0/admin/settings-page.php:519
-#: releases/v1.1.0/admin/settings-page.php:525
-#: releases/v1.1.0/public/public.php:74
+#: src/admin/settings-page.php:530 src/admin/settings-page.php:536
+#: src/public/public.php:96
 msgid "Enabled"
-msgstr ""
+msgstr "Activé"
 
-#: admin/settings-page.php:525 releases/v1.0.3/admin/settings-page.php:530
-#: releases/v1.1.0/admin/settings-page.php:531
+#: src/admin/settings-page.php:542
 msgid "Disable"
-msgstr ""
+msgstr "Désactiver"
 
-#: admin/settings-page.php:531 public/public.php:75
-#: releases/v1.0.3/admin/settings-page.php:536
-#: releases/v1.0.3/public/public.php:75
-#: releases/v1.1.0/admin/settings-page.php:537
-#: releases/v1.1.0/public/public.php:75
+#: src/admin/settings-page.php:548 src/public/public.php:97
 msgid "Disable cookies"
-msgstr ""
+msgstr "Désactiver les cookies"
 
-#: admin/settings-page.php:535 admin/settings-page.php:541 public/public.php:76
-#: releases/v1.0.3/admin/settings-page.php:540
-#: releases/v1.0.3/admin/settings-page.php:546
-#: releases/v1.0.3/public/public.php:76
-#: releases/v1.1.0/admin/settings-page.php:541
-#: releases/v1.1.0/admin/settings-page.php:547
-#: releases/v1.1.0/public/public.php:76
+#: src/admin/settings-page.php:552 src/admin/settings-page.php:558
+#: src/public/public.php:98
 msgid "Disabled"
-msgstr ""
+msgstr "Désactivé"
 
-#: admin/settings-page.php:547 releases/v1.0.3/admin/settings-page.php:552
-#: releases/v1.1.0/admin/settings-page.php:553
+#: src/admin/settings-page.php:564
 msgid "Always Enabled <br><small><em>Mandatory category</em></small>"
-msgstr ""
+msgstr "Toujours activé <br><small><em>Catégorie obligatoire</em></small>"
 
-#: admin/settings-page.php:553 public/public.php:77
-#: releases/v1.0.3/admin/settings-page.php:558
-#: releases/v1.0.3/public/public.php:77
-#: releases/v1.1.0/admin/settings-page.php:559
-#: releases/v1.1.0/public/public.php:77
+#: src/admin/settings-page.php:570 src/public/public.php:99
 msgid "Always enabled"
-msgstr ""
+msgstr "Toujours activé"
 
-#: admin/settings-page.php:569 releases/v1.0.3/admin/settings-page.php:574
-#: releases/v1.1.0/admin/settings-page.php:575
+#: src/admin/settings-page.php:586
 msgid "Select a category"
-msgstr ""
+msgstr "Choisir une catégorie"
 
-#: admin/settings-page.php:607 releases/v1.0.3/admin/settings-page.php:612
-#: releases/v1.1.0/admin/settings-page.php:613
+#: src/admin/settings-page.php:624
 msgid "Enable?"
-msgstr ""
+msgstr "Activer ?"
 
-#: admin/settings-page.php:617 releases/v1.0.3/admin/settings-page.php:622
-#: releases/v1.1.0/admin/settings-page.php:623
+#: src/admin/settings-page.php:634
 msgid "Category"
-msgstr ""
+msgstr "Catégorie"
+
+#~ msgid "External styles"
+#~ msgstr "Styles externes"

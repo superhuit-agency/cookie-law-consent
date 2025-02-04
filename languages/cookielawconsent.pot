@@ -1,0 +1,303 @@
+# Copyright (C) 2025 superhuit
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Cookie Law Consent 1.8.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cookie-law-consent\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-02-04T15:49:52+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: cookielawconsent\n"
+
+#. Plugin Name of the plugin
+#: cookie-law-consent.php
+#: src/admin/settings-page.php:79
+msgid "Cookie Law Consent"
+msgstr ""
+
+#. Description of the plugin
+#: cookie-law-consent.php
+msgid "Handle your Cookies and give the user the ability to Accept or not the cookies."
+msgstr ""
+
+#. Author of the plugin
+#: cookie-law-consent.php
+msgid "superhuit"
+msgstr ""
+
+#. Author URI of the plugin
+#: cookie-law-consent.php
+msgid "https://profiles.wordpress.org/superhuit"
+msgstr ""
+
+#: src/admin/settings-page.php:53
+msgid "Necessary"
+msgstr ""
+
+#: src/admin/settings-page.php:54
+msgid "Necessary cookies are absolutely essential for the website to function properly. This category only includes cookies that ensures basic functionalities and security features of the website. These cookies do not store any personal information."
+msgstr ""
+
+#: src/admin/settings-page.php:60
+msgid "Analytics"
+msgstr ""
+
+#: src/admin/settings-page.php:61
+msgid "Analytics cookies help us understand how our visitors interact with the website. It helps us understand the number of visitors, where the visitors are coming from, and the pages they navigate. The cookies collect this data and are reported anonymously."
+msgstr ""
+
+#: src/admin/settings-page.php:78
+msgid "Cookie law Consent Options"
+msgstr ""
+
+#: src/admin/settings-page.php:124
+msgid "Appearance"
+msgstr ""
+
+#: src/admin/settings-page.php:126
+msgid "If you wish to completely overide the style, you can enqueue your own style file with the following snippet"
+msgstr ""
+
+#: src/admin/settings-page.php:140
+msgid "Banner position"
+msgstr ""
+
+#: src/admin/settings-page.php:149
+msgctxt "Option page select"
+msgid "Select a position"
+msgstr ""
+
+#: src/admin/settings-page.php:150
+msgctxt "Option page select"
+msgid "↖ Top left corner"
+msgstr ""
+
+#: src/admin/settings-page.php:151
+msgctxt "Option page select"
+msgid "↗ Top right corner"
+msgstr ""
+
+#: src/admin/settings-page.php:152
+msgctxt "Option page select"
+msgid "✛ Center"
+msgstr ""
+
+#: src/admin/settings-page.php:153
+msgctxt "Option page select"
+msgid "↙ Bottom left corner"
+msgstr ""
+
+#: src/admin/settings-page.php:154
+msgctxt "Option page select"
+msgid "↘ Bottom right corner"
+msgstr ""
+
+#: src/admin/settings-page.php:155
+msgctxt "Option page select"
+msgid "↔ Bottom full width"
+msgstr ""
+
+#: src/admin/settings-page.php:162
+msgctxt "Global custom texts"
+msgid "Custom texts"
+msgstr ""
+
+#: src/admin/settings-page.php:169
+msgid "Banner texts"
+msgstr ""
+
+#: src/admin/settings-page.php:176
+msgctxt "Banner text"
+msgid "Title"
+msgstr ""
+
+#: src/admin/settings-page.php:176
+#: src/public/public.php:104
+msgctxt "Banner Title"
+msgid "Cookies"
+msgstr ""
+
+#: src/admin/settings-page.php:177
+msgctxt "Banner text"
+msgid "Personalize link"
+msgstr ""
+
+#: src/admin/settings-page.php:177
+#: src/public/public.php:105
+msgctxt "Banner Personalize"
+msgid "Personalize"
+msgstr ""
+
+#: src/admin/settings-page.php:178
+msgctxt "Banner text"
+msgid "Description"
+msgstr ""
+
+#: src/admin/settings-page.php:178
+#: src/public/public.php:106
+msgctxt "Banner Message"
+msgid "This site uses cookies to help improve your user experience and gives you control over what you want to activate."
+msgstr ""
+
+#: src/admin/settings-page.php:179
+msgctxt "Banner text"
+msgid "Accept all button"
+msgstr ""
+
+#: src/admin/settings-page.php:179
+#: src/public/public.php:107
+msgctxt "Banner Accept All"
+msgid "Ok, accept all"
+msgstr ""
+
+#: src/admin/settings-page.php:180
+msgctxt "Banner text"
+msgid "Deny all button"
+msgstr ""
+
+#: src/admin/settings-page.php:180
+#: src/public/public.php:108
+msgctxt "Banner Deny All"
+msgid "Deny all"
+msgstr ""
+
+#: src/admin/settings-page.php:186
+msgid "Modal texts"
+msgstr ""
+
+#: src/admin/settings-page.php:193
+msgctxt "Modal text"
+msgid "Title"
+msgstr ""
+
+#: src/admin/settings-page.php:193
+#: src/public/public.php:113
+msgctxt "Modal Title"
+msgid "Privacy Overview"
+msgstr ""
+
+#: src/admin/settings-page.php:194
+msgctxt "Modal text"
+msgid "Close button"
+msgstr ""
+
+#: src/admin/settings-page.php:194
+#: src/public/public.php:114
+msgctxt "Modal Personalize"
+msgid "Close"
+msgstr ""
+
+#: src/admin/settings-page.php:195
+msgctxt "Modal text"
+msgid "Description"
+msgstr ""
+
+#: src/admin/settings-page.php:195
+#: src/public/public.php:115
+msgctxt "Modal Description"
+msgid "This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience."
+msgstr ""
+
+#: src/admin/settings-page.php:196
+msgctxt "Modal text"
+msgid "Save button"
+msgstr ""
+
+#: src/admin/settings-page.php:196
+#: src/public/public.php:116
+msgctxt "Modal Accept All"
+msgid "Save & Accept"
+msgstr ""
+
+#: src/admin/settings-page.php:203
+msgid "Categories"
+msgstr ""
+
+#: src/admin/settings-page.php:204
+msgid "Define the categories of cookies with a description for the user the understand and the cookies are intend for."
+msgstr ""
+
+#: src/admin/settings-page.php:219
+msgid "Services"
+msgstr ""
+
+#: src/admin/settings-page.php:220
+msgid "Enable and define external services"
+msgstr ""
+
+#: src/admin/settings-page.php:372
+msgid "ℹ️ You are currently editing the <b>%s</b> version. The texts configuration need to be translated, but choices & enablings will be set for all languages."
+msgstr ""
+
+#: src/admin/settings-page.php:490
+msgid "Position"
+msgstr ""
+
+#: src/admin/settings-page.php:496
+#: src/admin/settings-page.php:500
+msgid "Mandatory?"
+msgstr ""
+
+#: src/admin/settings-page.php:511
+msgid "Description"
+msgstr ""
+
+#: src/admin/settings-page.php:517
+msgid "Custom Texts"
+msgstr ""
+
+#: src/admin/settings-page.php:520
+msgid "Enable"
+msgstr ""
+
+#: src/admin/settings-page.php:526
+#: src/public/public.php:95
+msgid "Enable cookies"
+msgstr ""
+
+#: src/admin/settings-page.php:530
+#: src/admin/settings-page.php:536
+#: src/public/public.php:96
+msgid "Enabled"
+msgstr ""
+
+#: src/admin/settings-page.php:542
+msgid "Disable"
+msgstr ""
+
+#: src/admin/settings-page.php:548
+#: src/public/public.php:97
+msgid "Disable cookies"
+msgstr ""
+
+#: src/admin/settings-page.php:552
+#: src/admin/settings-page.php:558
+#: src/public/public.php:98
+msgid "Disabled"
+msgstr ""
+
+#: src/admin/settings-page.php:564
+msgid "Always Enabled <br><small><em>Mandatory category</em></small>"
+msgstr ""
+
+#: src/admin/settings-page.php:570
+#: src/public/public.php:99
+msgid "Always enabled"
+msgstr ""
+
+#: src/admin/settings-page.php:586
+msgid "Select a category"
+msgstr ""
+
+#: src/admin/settings-page.php:624
+msgid "Enable?"
+msgstr ""
+
+#: src/admin/settings-page.php:634
+msgid "Category"
+msgstr ""
