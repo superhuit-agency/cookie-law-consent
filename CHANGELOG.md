@@ -5,6 +5,10 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [1.8.0] - 2025-02-04
+
+- feat: ✨ Add "Deny all" button
+
 # [1.7.3] - 2025-01-16
 
 - fix: 🐛 Consent Mode v2 not corectly setup
