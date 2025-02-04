@@ -5,6 +5,11 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [1.8.1] - 2025-02-04
+
+- feat: 🌐 Update languages for new Deny all button
+- fix: 🐛 Display all fields in Section texts settings
+
 # [1.8.0] - 2025-02-04
 
 - feat: ✨ Add "Deny all" button
