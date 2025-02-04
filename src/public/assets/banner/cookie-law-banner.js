@@ -13,6 +13,7 @@ import DEFAULT_CONFIG from "./default-config.json";
  * Constants
  */
 const SELECTOR_ACCEPT = ".cookie-law-banner__accept";
+const SELECTOR_DENY = ".cookie-law-banner__deny";
 const SELECTOR_PERSONALIZE = ".cookie-law-banner__personalize";
 
 export default class CookieLawBanner extends EventEmitter {
@@ -31,10 +32,12 @@ export default class CookieLawBanner extends EventEmitter {
 			el,
 			personalize: el.querySelector(SELECTOR_PERSONALIZE),
 			accept: el.querySelector(SELECTOR_ACCEPT),
+			deny: el.querySelector(SELECTOR_DENY),
 		};
 
 		this.onPersonalizeClick = this.onPersonalizeClick.bind(this);
 		this.onAcceptClick = this.onAcceptClick.bind(this);
+		this.onDenyClick = this.onDenyClick.bind(this)
 
 		this.bindEvents();
 	}
@@ -42,11 +45,13 @@ export default class CookieLawBanner extends EventEmitter {
 	bindEvents() {
 		this.refs.personalize.addEventListener("click", this.onPersonalizeClick);
 		this.refs.accept.addEventListener("click", this.onAcceptClick);
+		this.refs.deny.addEventListener("click", this.onDenyClick);
 	}
 
 	destroy() {
 		this.refs.personalize.removeEventListener("click", this.onPersonalizeClick);
 		this.refs.accept.removeEventListener("click", this.onAcceptClick);
+		this.refs.deny.removeEventListener("click", this.onDenyClick);
 	}
 
 	// ##############################
@@ -87,6 +92,12 @@ export default class CookieLawBanner extends EventEmitter {
 		this.hide();
 	}
 
+	onDenyClick(event) {
+		event.stopPropagation();
+		this.emit("denyAll");
+		this.hide();
+	}
+
 	// ##############################
 	// #endregion
 	// ##############################
@@ -123,6 +134,9 @@ export default class CookieLawBanner extends EventEmitter {
 			<div id="cookie-law-banner:desc" class="cookie-law-banner__message">${this.config.texts.message}</div>
 			<div class="cookie-law-banner__personalize-cell">
 				<button class="cookie-law-banner__personalize">${this.config.texts.personalize}</button>
+			</div>
+			<div class="cookie-law-banner__deny-cell">
+				<button class="cookie-law-banner__deny">${this.config.texts.denyAll}</button>
 			</div>
 			<div class="cookie-law-banner__accept-cell">
 				<button class="cookie-law-banner__accept">${this.config.texts.acceptAll}</button>

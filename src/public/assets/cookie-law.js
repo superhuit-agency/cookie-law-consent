@@ -40,6 +40,7 @@ export default class CookieLaw {
 
 	bindEvents() {
 		this.acceptAll = this.acceptAll.bind(this);
+		this.denyAll = this.denyAll.bind(this);
 		this.onHashChange = this.onHashChange.bind(this);
 		this.onModalClosed = this.onModalClosed.bind(this);
 		this.onModalSaved = this.onModalSaved.bind(this);
@@ -47,6 +48,7 @@ export default class CookieLaw {
 		this.onPersonalizeClick = this.onPersonalizeClick.bind(this);
 
 		this.refs.banner.on("acceptAll", this.acceptAll);
+		this.refs.banner.on("denyAll", this.denyAll);
 		this.refs.banner.on("personalize", this.onPersonalizeClick);
 		this.refs.modal.on("categoryChange", this.onCategoryChange);
 		this.refs.modal.on("save", this.onModalSaved);
@@ -56,6 +58,7 @@ export default class CookieLaw {
 
 	destroy() {
 		this.refs.banner.off("acceptAll", this.acceptAll);
+		this.refs.banner.off("denyAll", this.denyAll);
 		this.refs.banner.off("personalize", this.onPersonalizeClick);
 		this.refs.modal.off("categoryChange", this.onCategoryChange);
 		this.refs.modal.off("save", this.onModalSaved);
@@ -144,6 +147,14 @@ export default class CookieLaw {
 		this.config.categories.forEach((cat) => {
 			this.setCategoryCookie(cat, true);
 			this.refs.modal.setCategoryEnabled(cat, true);
+		});
+	}
+
+	denyAll() {
+		this.state.bannerDismissed = true;
+		this.config.categories.forEach((cat) => {
+			this.setCategoryCookie(cat, false);
+			this.refs.modal.setCategoryEnabled(cat, false);
 		});
 	}
 

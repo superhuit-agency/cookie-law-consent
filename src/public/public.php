@@ -105,6 +105,7 @@ function get_banner_texts( $texts = [] ) : Array {
 		'personalize' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ),
 		'message'     => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ),
 		'acceptAll'   => _x('Ok, accept all', 'Banner Accept All', 'cookielawconsent' ),
+		'denyAll'     => _x('Deny all', 'Banner Deny All', 'cookielawconsent' ),
 	], (is_array($texts) ? $texts : []) );
 }
 function get_modal_texts( $texts = [] ) : Array {

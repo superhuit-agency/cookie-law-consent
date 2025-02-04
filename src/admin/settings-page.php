@@ -177,6 +177,7 @@ class SettingsPage {
 					[ 'name' => 'personalize', 'label' => _x('Personalize link', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ) ],
 					[ 'name' => 'message', 'type' => 'textarea', 'label' => _x('Description', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ) ],
 					[ 'name' => 'acceptAll', 'label' => _x('Accept all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Ok, accept all', 'Banner Accept All', 'cookielawconsent' ) ],
+					[ 'name' => 'denyAll', 'label' => _x('Deny all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Deny all', 'Banner Deny All', 'cookielawconsent' ) ],
 				],
 			]
 		);
@@ -281,7 +282,7 @@ class SettingsPage {
 			$bannerTexts = [];
 			$prevBannerTexts = $this->options[self::FIELD_BANNER_TEXTS];
 			if ( is_array($prevBannerTexts) ) {
-				if ( count(array_intersect_key(['title', 'message', 'personalize', 'acceptAll'], $prevBannerTexts)) > 0 ) $bannerTexts[$defaultLang] = $prevBannerTexts;
+				if ( count(array_intersect_key(['title', 'message', 'personalize', 'acceptAll', 'denyAll'], $prevBannerTexts)) > 0 ) $bannerTexts[$defaultLang] = $prevBannerTexts;
 				else $bannerTexts = $prevBannerTexts;
 			}
 			$bannerTexts[$currentLang] = $settings[self::FIELD_BANNER_TEXTS];
