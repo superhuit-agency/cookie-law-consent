@@ -9,7 +9,7 @@
  *
  * @see https://policies.google.com/privacy
  */
-export function onAccept({ callback }) {
+export function init({ callback }) {
 	window.recaptchaOnLoad = () => {
 		if (typeof callback === "function") callback();
 	};

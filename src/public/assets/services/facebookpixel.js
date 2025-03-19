@@ -9,7 +9,7 @@
  *
  * @see https://fr-fr.facebook.com/business/help/www/651294705016616
  */
-export function onAccept({ pixelID, callback }) {
+export function init({ pixelID, callback }) {
 	/* eslint-disable */
 	let n;
 	if (window.fbq) return {};

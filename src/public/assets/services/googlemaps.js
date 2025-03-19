@@ -10,7 +10,7 @@
  * @see https://policies.google.com/privacy
  */
 
-export function onAccept({ apiKey, selector = "data-gmaps", callback = null }) {
+export function init({ apiKey, selector = "data-gmaps", callback = null }) {
 	window.gmapsCallback =
 		window.gmapsCallback ||
 		function () {

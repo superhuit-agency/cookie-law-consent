@@ -13,7 +13,7 @@
  * @see https://developers.google.com/analytics/devguides/collection/analyticsjs
  */
 
-export function onAccept({ trackingID, callback, anonymizeIp = true }) {
+export function init({ trackingID, callback, anonymizeIp = true }) {
 	window.GoogleAnalyticsObject = "ga";
 	window.ga =
 		window.ga ||

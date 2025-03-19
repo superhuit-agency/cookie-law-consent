@@ -9,7 +9,7 @@
  *
  * @see https://www.salesforce.com/company/privacy/full_privacy/
  */
-export function onAccept({ piAId, piCId, callback }) {
+export function init({ piAId, piCId, callback }) {
 	window.piAId = piAId;
 	window.piCId = piCId;
 	window.piHostname = "pi.pardot.com";
