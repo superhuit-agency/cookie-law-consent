@@ -15,6 +15,7 @@ use function CookieLawConsent\get_translated_text;
  */
 add_action( 'init', __NAMESPACE__.'\register_assets');
 add_action( 'wp_enqueue_scripts', __NAMESPACE__.'\enqueue_assets', 5);
+add_filter( 'clc_config', __NAMESPACE__.'\filter_recaptcha_config', 5);
 
 function register_assets() {
 	$manifest_path = CLC_PLUGIN_PATH.'dist/manifest.json';
@@ -115,4 +116,24 @@ function get_modal_texts( $texts = [] ) : Array {
 		'description' => _x('This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.', 'Modal Description', 'cookielawconsent' ),
 		'save'        => _x('Save & Accept', 'Modal Accept All', 'cookielawconsent' ),
 	], (is_array($texts) ? $texts : []) );
+}
+
+/**
+ * Filter ReCaptcha config to remove the secret key from FE.
+ * Avoid leaking the secret key in the JS.
+ *
+ * @param array $config the config array
+ *
+ * @return array the filtered config array
+ */
+function filter_recaptcha_config( $config ) {
+	foreach ($config['categories'] as $cat_id => $cat) {
+		foreach ($cat['services'] as $srv_id => $srv) {
+			if ($srv['name'] === 'recaptcha') {
+				unset( $config['categories'][$cat_id]['services'][$srv_id]['secretKey'] );
+			}
+		}
+	}
+
+	return $config;
 }
