@@ -2,16 +2,16 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Cookie Law Consent 1.8.1\n"
+"Project-Id-Version: Cookie Law Consent 1.8.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cookie-law-consent\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-04T15:49:52+00:00\n"
+"POT-Creation-Date: 2025-03-19T08:59:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: cookielawconsent\n"
 
 #. Plugin Name of the plugin
@@ -117,7 +117,7 @@ msgid "Title"
 msgstr ""
 
 #: src/admin/settings-page.php:176
-#: src/public/public.php:104
+#: src/public/public.php:105
 msgctxt "Banner Title"
 msgid "Cookies"
 msgstr ""
@@ -128,7 +128,7 @@ msgid "Personalize link"
 msgstr ""
 
 #: src/admin/settings-page.php:177
-#: src/public/public.php:105
+#: src/public/public.php:106
 msgctxt "Banner Personalize"
 msgid "Personalize"
 msgstr ""
@@ -139,7 +139,7 @@ msgid "Description"
 msgstr ""
 
 #: src/admin/settings-page.php:178
-#: src/public/public.php:106
+#: src/public/public.php:107
 msgctxt "Banner Message"
 msgid "This site uses cookies to help improve your user experience and gives you control over what you want to activate."
 msgstr ""
@@ -150,7 +150,7 @@ msgid "Accept all button"
 msgstr ""
 
 #: src/admin/settings-page.php:179
-#: src/public/public.php:107
+#: src/public/public.php:108
 msgctxt "Banner Accept All"
 msgid "Ok, accept all"
 msgstr ""
@@ -161,7 +161,7 @@ msgid "Deny all button"
 msgstr ""
 
 #: src/admin/settings-page.php:180
-#: src/public/public.php:108
+#: src/public/public.php:109
 msgctxt "Banner Deny All"
 msgid "Deny all"
 msgstr ""
@@ -176,7 +176,7 @@ msgid "Title"
 msgstr ""
 
 #: src/admin/settings-page.php:193
-#: src/public/public.php:113
+#: src/public/public.php:114
 msgctxt "Modal Title"
 msgid "Privacy Overview"
 msgstr ""
@@ -187,7 +187,7 @@ msgid "Close button"
 msgstr ""
 
 #: src/admin/settings-page.php:194
-#: src/public/public.php:114
+#: src/public/public.php:115
 msgctxt "Modal Personalize"
 msgid "Close"
 msgstr ""
@@ -198,7 +198,7 @@ msgid "Description"
 msgstr ""
 
 #: src/admin/settings-page.php:195
-#: src/public/public.php:115
+#: src/public/public.php:116
 msgctxt "Modal Description"
 msgid "This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience."
 msgstr ""
@@ -209,7 +209,7 @@ msgid "Save button"
 msgstr ""
 
 #: src/admin/settings-page.php:196
-#: src/public/public.php:116
+#: src/public/public.php:117
 msgctxt "Modal Accept All"
 msgid "Save & Accept"
 msgstr ""
@@ -230,74 +230,75 @@ msgstr ""
 msgid "Enable and define external services"
 msgstr ""
 
-#: src/admin/settings-page.php:372
+#. translators: %s is the language name
+#: src/admin/settings-page.php:373
 msgid "ℹ️ You are currently editing the <b>%s</b> version. The texts configuration need to be translated, but choices & enablings will be set for all languages."
 msgstr ""
 
-#: src/admin/settings-page.php:490
+#: src/admin/settings-page.php:491
 msgid "Position"
 msgstr ""
 
-#: src/admin/settings-page.php:496
-#: src/admin/settings-page.php:500
+#: src/admin/settings-page.php:497
+#: src/admin/settings-page.php:501
 msgid "Mandatory?"
 msgstr ""
 
-#: src/admin/settings-page.php:511
+#: src/admin/settings-page.php:512
 msgid "Description"
 msgstr ""
 
-#: src/admin/settings-page.php:517
+#: src/admin/settings-page.php:518
 msgid "Custom Texts"
 msgstr ""
 
-#: src/admin/settings-page.php:520
+#: src/admin/settings-page.php:521
 msgid "Enable"
 msgstr ""
 
-#: src/admin/settings-page.php:526
-#: src/public/public.php:95
+#: src/admin/settings-page.php:527
+#: src/public/public.php:96
 msgid "Enable cookies"
 msgstr ""
 
-#: src/admin/settings-page.php:530
-#: src/admin/settings-page.php:536
-#: src/public/public.php:96
+#: src/admin/settings-page.php:531
+#: src/admin/settings-page.php:537
+#: src/public/public.php:97
 msgid "Enabled"
 msgstr ""
 
-#: src/admin/settings-page.php:542
+#: src/admin/settings-page.php:543
 msgid "Disable"
 msgstr ""
 
-#: src/admin/settings-page.php:548
-#: src/public/public.php:97
+#: src/admin/settings-page.php:549
+#: src/public/public.php:98
 msgid "Disable cookies"
 msgstr ""
 
-#: src/admin/settings-page.php:552
-#: src/admin/settings-page.php:558
-#: src/public/public.php:98
+#: src/admin/settings-page.php:553
+#: src/admin/settings-page.php:559
+#: src/public/public.php:99
 msgid "Disabled"
 msgstr ""
 
-#: src/admin/settings-page.php:564
+#: src/admin/settings-page.php:565
 msgid "Always Enabled <br><small><em>Mandatory category</em></small>"
 msgstr ""
 
-#: src/admin/settings-page.php:570
-#: src/public/public.php:99
+#: src/admin/settings-page.php:571
+#: src/public/public.php:100
 msgid "Always enabled"
 msgstr ""
 
-#: src/admin/settings-page.php:586
+#: src/admin/settings-page.php:587
 msgid "Select a category"
 msgstr ""
 
-#: src/admin/settings-page.php:624
+#: src/admin/settings-page.php:625
 msgid "Enable?"
 msgstr ""
 
-#: src/admin/settings-page.php:634
+#: src/admin/settings-page.php:635
 msgid "Category"
 msgstr ""
