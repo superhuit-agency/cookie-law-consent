@@ -128,7 +128,7 @@ function get_modal_texts( $texts = [] ) : Array {
  */
 function filter_recaptcha_config( $config ) {
 	foreach ($config['categories'] as $cat_id => $cat) {
-		foreach ($cat['services'] as $srv_id => $srv) {
+		foreach ($cat['services'] ?? [] as $srv_id => $srv) {
 			if ($srv['name'] === 'recaptcha') {
 				unset( $config['categories'][$cat_id]['services'][$srv_id]['secretKey'] );
 			}
