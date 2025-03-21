@@ -5,6 +5,10 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [1.8.3] - 2025-03-21
+
+fix: 🐛 potential undefinned services key
+
 # [1.8.2] - 2025-03-19
 
 - fix: 🐛 services functions. regreation #bf257f798d5a5722f736faef0f3d87472b2e6042
