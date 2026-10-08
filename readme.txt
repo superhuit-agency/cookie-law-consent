@@ -21,7 +21,7 @@ Cookie Law Consent lets you manage the configuration of your cookie consent solu
 * Settings page under Settings > Cookie Law Consent.
 * Custom banner texts: title, description, "Accept all", "Reject all" and "Personalize".
 * Custom modal texts: title, description, "Close" and "Save".
-* Cookie categories with position, mandatory flag, title, description and custom texts (enable, enabled, disable, disabled, always enabled). "Necessary" (mandatory) and "Analytics" categories are created on activation.
+* Cookie categories with position, mandatory flag, title, description and custom texts (enable, enabled, disable, disabled, always enabled). "Necessary" (mandatory) and "Analytics" categories are created on activation. New categories cannot be added from the settings page.
 * Third-party services that can be enabled, assigned to a category and configured.
 * A configurable hash (default `manage-cookies`) so the front end can reopen the consent modal from any link to `#manage-cookies`.
 * Multilingual support with WPML and Polylang: texts are translated per language, while choices and enabled services are shared by all languages.
@@ -47,9 +47,9 @@ Full documentation and source code: [github.com/superhuit-agency/cookie-law-cons
 == Installation ==
 
 1. Download `cookie-law-consent.zip` from the [GitHub releases](https://github.com/superhuit-agency/cookie-law-consent/releases).
-2. In your WordPress admin go to Plugins > Add New > Upload Plugin, select the zip and click "Install Now". You can also unzip it into `/wp-content/plugins/cookie-law-consent/`.
+2. In your WordPress admin go to Plugins > Add New > Upload Plugin, select the zip and click "Install Now". You can also unzip it into `/wp-content/plugins/` (the zip contains a `cookie-law-consent` folder).
 3. Activate the plugin from the Plugins screen.
-4. Go to Settings > Cookie Law Consent to set up texts, categories and services.
+4. Go to Settings > Cookie Law Consent to set up texts, categories and services, and save the page once. Some keys of the configuration are only created on the first save.
 5. Install and activate WPGraphQL if your front end reads the configuration through GraphQL.
 
 = Installing from source =
@@ -64,7 +64,7 @@ No. Since version 2.0.0 the plugin only stores the configuration. Your theme or 
 
 = How do I get the configuration in my front end? =
 
-With WPGraphQL active, query `{ gdpr }` and parse the returned JSON string. On a WPML or Polylang site, pass a language, for example `{ gdpr(language: FR) }`.
+With WPGraphQL active, query `{ gdpr }` and parse the returned JSON string. On a WPML or Polylang site, pass a language, for example `{ gdpr(language: FR) }`. The `LanguageCodeEnum` type of this argument is not registered by this plugin: it must come from a WPGraphQL language extension such as WPGraphQL for Polylang.
 
 = How do I check whether a service is enabled in PHP? =
 
@@ -80,11 +80,11 @@ With WPML or Polylang active, switch the admin language and save the settings pa
 
 = How do I delete a category? =
 
-Empty its title and save. Categories without a title are removed.
+Empty its title and save. Categories without a title are removed. A removed category cannot be added back from the settings page.
 
 = What happens to my settings when I delete the plugin? =
 
-The `cookie_law_consent` option is deleted when the plugin is uninstalled.
+The uninstall routine is meant to delete the `cookie_law_consent` option. In version 2.2.0 it relies on a class that is not loaded during uninstall, so it may fail. If the option is still there after you delete the plugin, remove it manually, for example with `wp option delete cookie_law_consent`.
 
 == Changelog ==
 

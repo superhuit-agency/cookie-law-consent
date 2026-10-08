@@ -22,8 +22,8 @@ Cookie Law Consent is a WordPress plugin that stores the **configuration** of a 
 ## Features
 
 - Settings page under **Settings > Cookie Law Consent**.
-- Customisable **banner texts** (title, description, accept all, reject all, personalize) and **modal texts** (title, description, close, save).
-- **Cookie categories** with position, a "mandatory" flag, title, description and per-category custom texts (enable / enabled / disable / disabled / always enabled). Two categories are created on activation: *Necessary* (mandatory) and *Analytics*.
+- Customizable **banner texts** (title, description, accept all, reject all, personalize) and **modal texts** (title, description, close, save).
+- **Cookie categories** with position, a "mandatory" flag, title, description and per-category custom texts (enable / enabled / disable / disabled / always enabled). Two categories are created on activation: *Necessary* (mandatory) and *Analytics*. New categories cannot be added from the settings page.
 - **Third-party services** that can be enabled, assigned to a category and configured (IDs / API keys).
 - A configurable **hash** (default `manage-cookies`) meant to be used by the front end to reopen the consent modal from any link pointing to `#<hash>`.
 - **Multilingual** support with [WPML](https://wpml.org/) and [Polylang](https://polylang.pro/): texts are stored per language, while choices and enabled services are shared across languages.
@@ -38,6 +38,7 @@ Cookie Law Consent is a WordPress plugin that stores the **configuration** of a 
 | PHP | 7.3 or later (the code uses trailing commas in function calls) |
 | [WPGraphQL](https://wordpress.org/plugins/wp-graphql/) | Optional, needed for the `gdpr` GraphQL field |
 | WPML or Polylang | Optional, for multilingual texts |
+| A WPGraphQL language extension (for example [WPGraphQL for Polylang](https://github.com/valu-digital/wp-graphql-polylang)) | Required on multilingual sites that use the `gdpr` GraphQL field: it must register the `LanguageCodeEnum` type used by the `language` argument |
 
 To build from source you also need Node.js 14 (see `.nvmrc` / `package.json` `engines`), Yarn and, optionally, Composer.
 
@@ -82,13 +83,13 @@ Then activate the plugin in **Plugins**.
 
 ## Configuration
 
-On activation the plugin creates the `cookie_law_consent` option with the default hash and the *Necessary* and *Analytics* categories.
+On activation the plugin creates the `cookie_law_consent` option with the default hash and the *Necessary* and *Analytics* categories. The texts and services keys are only added the first time the settings page is saved, so save it once after activation (see [GraphQL](#graphql)).
 
 Go to **Settings > Cookie Law Consent** (requires the `manage_options` capability). The page has four sections:
 
 1. **Appearance**: the **Hash**. The front end can open the consent modal from any link whose URL is this hash prefixed with `#` (for example `<a href="#manage-cookies">`).
-2. **Custom texts**: banner and modal texts. Empty fields fall back to the translated defaults when the configuration is read (see the [`gdpr` output](#graphql)).
-3. **Categories**: one tab per category with *Position*, *Mandatory?*, *Title*, *Description* and custom texts. A category with an empty title is removed on save. Categories are sorted by position.
+2. **Custom texts**: banner and modal texts. Empty fields fall back to the translated defaults when the configuration is read through GraphQL (see the [`gdpr` output](#graphql)).
+3. **Categories**: one tab per category with *Position*, *Mandatory?*, *Title*, *Description* and custom texts. A category with an empty title is removed on save, and it cannot be added back from the settings page (the "add category" button is disabled in the code). Categories are sorted by position.
 4. **Services**: one tab per available service. When **Enable?** is switched on, its category and fields become required. Only enabled services are saved.
 
 On a multilingual site (WPML or Polylang), the page shows which language you are editing. Switch the admin language to translate the texts; categories, positions, mandatory flags and services apply to all languages.
@@ -112,7 +113,7 @@ The plugin does not register any custom actions, filters or shortcodes, and load
 
 ### Stored option
 
-All settings are stored in a single, non-autoloaded option named `cookie_law_consent` (`CookieLawConsent\Admin\SettingsPage::SETTINGS_NAME`):
+All settings are stored in a single option named `cookie_law_consent` (`CookieLawConsent\Admin\SettingsPage::SETTINGS_NAME`):
 
 ```php
 [
@@ -142,10 +143,10 @@ On multilingual sites, `banner_texts`, `modal_texts` and each category's `title`
 ### PHP: `cookielawconsent_get_service()`
 
 ```php
-cookielawconsent_get_service( string $name ): array
+cookielawconsent_get_service( $name )
 ```
 
-Returns the saved configuration of a service, with `enabled` cast to a boolean. If the service was never saved, it returns `[ 'enabled' => false ]`.
+`$name` is a service `name` key (see [Available services](#available-services)). The function is declared in the global namespace and has no type declarations. It returns an array: the saved configuration of a service, with `enabled` cast to a boolean. If the service was never saved, it returns `[ 'enabled' => false ]`.
 
 ```php
 $gtm = cookielawconsent_get_service( 'googletagmanager' );
@@ -170,7 +171,11 @@ query {
 }
 ```
 
-If `language` is omitted, the current language is used, then the default language, then the first available translation. Decoded output:
+On a WPML or Polylang site the `LanguageCodeEnum` type is not registered by this plugin: it must come from a WPGraphQL language extension (see [Requirements](#requirements)). If `language` is omitted, the current language is used, then the default language, then the first available translation.
+
+The resolver expects the `services` key to exist in the option. It is only created when the settings page is saved, so before that first save the query fails on PHP 8 (`array_filter()` receives `null`). Save the settings page once after activation.
+
+Decoded output:
 
 ```json
 {
@@ -228,7 +233,7 @@ const config = JSON.parse(data.gdpr);
 
 On `rest_api_init` the plugin registers a `cookielawconsent` setting (type `string`, `show_in_rest`) in the `general` group. Its default value is the JSON-encoded raw `cookie_law_consent` option, so it is available on the core settings endpoint:
 
-```
+```http
 GET /wp-json/wp/v2/settings
 ```
 
@@ -255,7 +260,7 @@ The core `/wp/v2/settings` endpoint requires an authenticated user with the `man
 
 ### Uninstall
 
-`uninstall.php` deletes the `cookie_law_consent` option when the plugin is deleted from the WordPress admin.
+`uninstall.php` is meant to delete the `cookie_law_consent` option when the plugin is deleted from the WordPress admin. It references `CookieLawConsent\Admin\SettingsPage::SETTINGS_NAME`, but WordPress does not load the plugin's main file when it runs `uninstall.php`, so the class is not defined and uninstall will most likely fail with a fatal error. Until this is fixed, remove the option manually if needed, for example with `wp option delete cookie_law_consent`.
 
 ## Development
 
@@ -272,7 +277,7 @@ Webpack compiles `admin/src/index.js` (and its SCSS) to `dist/cookie-law-consent
 
 Project structure:
 
-```
+```text
 cookie-law-consent.php      Plugin bootstrap, constants, REST setting, multilingual helpers
 cookie-law-consent-api.php  Public PHP API (cookielawconsent_get_service)
 available-services.php      List of supported services and their fields
@@ -295,6 +300,7 @@ Add an entry to `CookieLawConsent\SERVICES` in `available-services.php`:
 	'enabled'  => false,
 	'category' => null,
 	'fields'   => [
+		// 'type' is used as the <input> type; 'switch' renders a toggle instead
 		[ 'type' => 'text', 'name' => 'apiKey', 'label' => 'API Key', 'placeholder' => 'XXX' ],
 	],
 ],
