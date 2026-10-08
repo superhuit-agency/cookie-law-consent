@@ -12,7 +12,7 @@ Cookie banner and preferences modal that lets visitors accept or refuse cookies 
 
 == Description ==
 
-Cookie Law Consent displays a cookie banner and a preferences modal on your site. Third-party services are grouped into cookie categories, and visitors choose which categories they accept.
+Cookie Law Consent displays a cookie banner and a preferences modal on your site. Third-party services are grouped into cookie categories, and visitors choose which categories they accept. Their choice is stored in a cookie and, for Google Tag Manager, sent to Google as Consent Mode v2 signals.
 
 = Features =
 
@@ -29,6 +29,10 @@ Cookie Law Consent displays a cookie banner and a preferences modal on your site
 = Google Consent Mode v2 =
 
 When the Google Tag Manager service is enabled, the plugin sets the Consent Mode defaults to "denied" (`ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`), unless a default consent is already defined in the `dataLayer`. It then sends a consent update ("granted" or "denied") whenever the visitor accepts or refuses the category the service belongs to.
+
+= How services are loaded =
+
+In version 1.x, the visitor's choice does not block third-party scripts. Every enabled service that is assigned to a category is loaded on every page view, whether the visitor accepted its category, refused it or has not chosen yet. Only Google Tag Manager acts on the choice, through Google Consent Mode v2. Google Analytics, Facebook Pixel, Google reCAPTCHA, Google Maps and Pardot load and run regardless of consent. If these services must wait for consent, load them through Google Tag Manager and configure them to respect Consent Mode.
 
 = For developers =
 
@@ -55,7 +59,7 @@ The banner is only output when at least one service is enabled in **Settings > C
 
 = How can visitors change their choice later? =
 
-Add a link pointing to `#cookie-law-settings` anywhere on your site, for example in the footer or on your privacy policy page: `<a href="#cookie-law-settings">Cookie settings</a>`. Clicking it opens the preferences modal.
+Add a link pointing to `#cookie-law-settings` anywhere on your site, for example in the footer or on your privacy policy page: `<a href="#cookie-law-settings">Cookie settings</a>`. Clicking it opens the preferences modal on the current page. Opening a URL that already ends with `#cookie-law-settings` from another page does not open the modal.
 
 = How do I remove a category? =
 
@@ -63,7 +67,7 @@ Clear the category title and save the settings. Categories without a title are r
 
 = Which cookies does the plugin set? =
 
-`cookie-law-consent_banner` remembers that the banner was dismissed. `cookie-law-consent_{category}_accepted` stores "yes" or "no" for each non-mandatory category. Both last one year.
+`cookie-law-consent_banner` remembers that the banner was dismissed. `cookie-law-consent_{category}_accepted` stores "yes" or "no" for each non-mandatory category. Both last one year and are set with the `secure` flag, so they are only stored on sites served over HTTPS. The third-party services you enable set their own cookies.
 
 = Can I use my own styles? =
 

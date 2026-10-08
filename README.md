@@ -2,7 +2,7 @@
 
 > Handle your cookies and give your visitors the ability to accept or refuse them.
 
-**Cookie Law Consent** is a lightweight WordPress plugin by [superhuit](https://www.superhuit.ch) that displays a cookie consent banner and a preferences modal, groups third-party services into cookie categories and loads/configures those services according to the visitor's choices.
+**Cookie Law Consent** is a lightweight WordPress plugin by [superhuit](https://www.superhuit.ch) that displays a cookie consent banner and a preferences modal, groups third-party services into cookie categories and stores the visitor's choice for each category. For Google Tag Manager, that choice is passed on as Google Consent Mode v2 signals.
 
 > [!NOTE]
 > This branch (`master-v1`) is the **v1.x maintenance line** of the plugin. It only receives fixes and small improvements. New development happens on `master` (v2.x), which differs significantly from what is documented here.
@@ -35,7 +35,7 @@
 - **Preferences modal** listing every cookie category with an on/off switch and a description.
 - Six **banner positions**: top left, top right, center, bottom left, bottom right (default) and full-width bottom.
 - Unlimited, sortable **cookie categories**, each of which can be marked as *mandatory* (always enabled, cannot be refused).
-- Built-in **services**: Google Tag Manager (with Google Consent Mode v2), Google Analytics, Facebook Pixel, Google reCAPTCHA, Google Maps and Salesforce Pardot.
+- Built-in **services**: Google Tag Manager (with Google Consent Mode v2), Google Analytics, Facebook Pixel, Google reCAPTCHA, Google Maps and Salesforce Pardot. Their scripts load on every page view whatever the visitor chose; see [How services are loaded](#how-services-are-loaded).
 - All front-end **texts are customizable** from the settings page (banner, modal and per-category labels).
 - **Multilingual** support for [WPML](https://wpml.org) and [Polylang](https://wordpress.org/plugins/polylang/): texts are stored per language, while categories enabling and services are shared across languages.
 - Any page can re-open the preferences modal with a simple `#cookie-law-settings` link.
@@ -46,7 +46,7 @@
 
 | Requirement | Version |
 | --- | --- |
-| WordPress | A recent WordPress version (developed against WordPress 6.7) |
+| WordPress | 5.0 or higher, tested up to 6.7 (same values as `readme.txt`) |
 | PHP | 7.0 or higher (`composer.json`); release builds use PHP 7.4 |
 | Node.js *(build only)* | 20.x (`.nvmrc` / `package.json` `engines`) |
 | Yarn *(build only)* | 1.22 (`packageManager` in `package.json`) |
@@ -142,7 +142,7 @@ Add a category with the **+** button. To remove one, clear its title and save: c
 For each [available service](#available-services): switch **Enable?** on, pick the **Category** it belongs to and fill in its fields. Only enabled services are saved.
 
 > [!NOTE]
-> The front-end banner is only output when at least one service is enabled.
+> The front-end banner is only output when at least one service is enabled. An enabled service that has no category assigned is not loaded on the front end.
 
 ### Multilingual sites
 
@@ -156,26 +156,35 @@ Any link pointing to `#cookie-law-settings` opens the preferences modal, e.g. in
 <a href="#cookie-law-settings">Cookie settings</a>
 ```
 
+The modal opens on the browser's `hashchange` event, so the link has to change the hash of the current page. Loading a URL that already ends with `#cookie-law-settings` (for example a link from another page) does not open it.
+
 ## Available services
 
 Services are defined in [`src/available-services.php`](src/available-services.php) (admin fields) and implemented in [`src/public/assets/services/`](src/public/assets/services/) (front end).
 
-| Service | Key | Settings fields | Front-end behaviour |
+| Service | Key | Settings fields | Front-end behaviour (every page view) |
 | --- | --- | --- | --- |
-| Google Tag Manager | `googletagmanager` | `containerID` (e.g. `GTM-XXX`) | Loads `gtm.js` and sets **Google Consent Mode v2** defaults to `denied` (`ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`), unless a `consent default` entry already exists in `dataLayer`. Sends a `consent update` with `granted`/`denied` when the category is accepted/refused. |
-| Google Analytics | `googleanalytics` | `trackingID` (e.g. `UA-XXXXX-Y`), `anonymizeIp` (switch, default on) | Loads `analytics.js` (Universal Analytics), creates the tracker and sends a pageview. |
+| Google Tag Manager | `googletagmanager` | `containerID` (e.g. `GTM-XXX`) | Loads `gtm.js` and sets **Google Consent Mode v2** defaults to `denied` (`ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`), unless a `consent default` entry already exists in `dataLayer`. Sends a `consent update` with `granted` when the category is accepted (also on page load if it was accepted earlier, or always if the category is mandatory) and with `denied` when it is refused after having been accepted during the same page view. |
+| Google Analytics | `googleanalytics` | `trackingID` (e.g. `UA-XXXXX-Y`), `anonymizeIp` (switch, default on) | Loads `analytics.js` (Universal Analytics), creates the tracker and sends a pageview. Google has retired Universal Analytics; for GA4, use Google Tag Manager. |
 | Facebook Pixel | `facebookpixel` | `pixelID` | Loads `fbevents.js`, then calls `fbq('init', pixelID)` and tracks `PageView`. |
 | Google reCAPTCHA | `recaptcha` | `siteKey`, `secretKey` | Loads `https://www.google.com/recaptcha/api.js`. The `secretKey` is stripped from the front-end config. |
 | Google Maps | `googlemaps` | `apiKey` | Loads the Maps JavaScript API and renders a map in every element with a `data-gmaps` attribute (see [below](#google-maps-markup)). |
 | Pardot | `pardot` | `piAId`, `piCId` | Sets `piAId`, `piCId`, `piHostname` and loads `pd.js`. |
 
+### How services are loaded
+
+> [!IMPORTANT]
+> On this branch, consent does **not** block third-party scripts. When the DOM is ready (`DOMContentLoaded`), every enabled service that is assigned to a category runs its `init()` function, and `init()` is what loads the service's script. This happens on every page view, whether the visitor accepted the category, refused it or has not chosen yet.
+>
+> The visitor's choice is stored in the [consent cookies](#how-consent-is-stored), but only **Google Tag Manager** acts on it: it sets Google Consent Mode v2 defaults to `denied` and updates them when the category is accepted or refused. Google Analytics, Facebook Pixel, reCAPTCHA, Google Maps and Pardot load and run regardless of consent. If you need these services blocked until consent is given, load them through Google Tag Manager and rely on Consent Mode, or handle them yourself.
+
 ### Service lifecycle
 
 Each front-end service module may export three functions, all called with the service settings as argument and the main `CookieLaw` instance as `this`:
 
-- `init(data)`: called once on page load for every service configured in a category; receives a `callback` to call once the service is ready; it triggers `onAccept` when the service's category is enabled.
-- `onAccept(data)`: called when the service's category is accepted: on page load (via the `init` callback) if consent was already given, or after *Accept all* / *Save & Accept*.
-- `onReject(data)`: called when a previously accepted category is refused.
+- `init(data)`: called once on page load (`DOMContentLoaded`) for every service assigned to a category, **whatever the consent state**. It also receives a `callback` to call once the service is ready; that callback runs `onAccept` if the service's category is enabled (mandatory, or accepted earlier).
+- `onAccept(data)`: called when the service's category is accepted: on page load (via the `init` callback) if consent was already given, after *Accept all*, or after *Save & Accept* for a category switched on in the modal.
+- `onReject(data)`: called when a category that was accepted during the current page view is refused (*Deny all*, or switched off and saved in the modal).
 
 On this branch only **Google Tag Manager** implements `onAccept`/`onReject` (to update the Consent Mode state); the other services only implement `init`.
 
@@ -189,7 +198,7 @@ On this branch only **Google Tag Manager** implements `onAccept`/`onReject` (to 
 
 ## How consent is stored
 
-All cookies are set for one year, on path `/`, with `secure` and `samesite=strict`. The prefix is `cookie-law-consent` by default (see `cookieName` in the [front-end config](#front-end-config-object)).
+All cookies are set for one year, on path `/`, with `secure` and `samesite=strict`. The prefix is `cookie-law-consent` by default (see `cookieName` in the [front-end config](#front-end-config-object)). Because the `secure` flag is always set, browsers will not store these cookies on a site served over plain HTTP, so the visitor's choice is not remembered there.
 
 | Cookie | Value | Meaning |
 | --- | --- | --- |
@@ -202,7 +211,7 @@ Mandatory categories never get a cookie: they are always considered accepted.
 
 ### PHP filter: `clc_config`
 
-Filters the configuration array passed to the front-end script (as the `clc_config` JS global) right before the assets are enqueued on `wp_enqueue_scripts`.
+Filters the configuration array passed to the front-end script (as the `clc_config` JS global) right before the assets are enqueued on `wp_enqueue_scripts`. It only runs on the front end, and only when at least one service is enabled (otherwise the plugin outputs nothing).
 
 ```php
 apply_filters( 'clc_config', array $config );
@@ -329,7 +338,10 @@ A `cookielawconsent.pot` template is provided.
 
 ### Uninstall
 
-Deleting the plugin from the WordPress admin runs [`uninstall.php`](uninstall.php), whose purpose is to delete the `cookie_law_consent` option.
+Deleting the plugin from the WordPress admin runs [`uninstall.php`](uninstall.php), which is meant to delete the `cookie_law_consent` option.
+
+> [!WARNING]
+> Known issue on this branch: `uninstall.php` reads the option name from the `SettingsPage` class, but WordPress does not load the plugin's main file before running `uninstall.php`, so the class is not defined at that point. The uninstall is therefore expected to fail and leave the option in the database. You can remove it manually, e.g. with `wp option delete cookie_law_consent`.
 
 ## Development
 
@@ -348,9 +360,9 @@ composer install        # also installs WordPress & Polylang as dev dependencies
 
 ### Project structure
 
-```
+```text
 cookie-law-consent.php      Plugin bootstrap, constants, i18n & multilingual helpers
-uninstall.php               Removes the plugin option
+uninstall.php               Meant to remove the plugin option (see Uninstall)
 src/
 ├── available-services.php  Service definitions (admin fields)
 ├── cookie-law-consent-api.php  Public PHP API (cookielawconsent_get_service)
