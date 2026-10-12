@@ -635,7 +635,9 @@ class SettingsPage {
 									// A switch saved before values were stored as booleans may be absent:
 									// show the default, which is what the front-end applies in that case.
 									? ( array_key_exists($fld['name'], $data) ? self::to_bool($data[$fld['name']]) : !empty($fld['default']) )
-									: $data[$fld['name']]
+									// A field added to the service after it was saved may be absent:
+									// keep the definition's default value (or none, rendered empty).
+									: ( array_key_exists($fld['name'], $data) ? $data[$fld['name']] : ($fld['value'] ?? null) )
 								);
 							}
 						}
