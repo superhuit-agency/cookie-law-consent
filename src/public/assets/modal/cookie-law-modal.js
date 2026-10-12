@@ -39,6 +39,11 @@ export default class CookieLawModal extends EventEmitter {
 			{ set: this.stateChange.bind(this) }
 		);
 
+		// Last saved consent per category id, restored when closing without saving
+		this.saved = Object.fromEntries(
+			this.config.categories.map((cat) => [cat.id, cat.enabled])
+		);
+
 		this.onSave = this.onSave.bind(this);
 		this.onClose = this.onClose.bind(this);
 		this.onCategoryChange = this.onCategoryChange.bind(this);
@@ -112,11 +117,9 @@ export default class CookieLawModal extends EventEmitter {
 
 		this.close();
 
-		// Restore initial config
-		this.config.categories.forEach((cat) =>
-			this.refs.categories
-				.find((el) => el.getId() === cat.id)
-				.setEnabled(cat.enabled)
+		// Discard unsaved changes: restore the last saved consent
+		this.refs.categories.forEach((cat) =>
+			cat.setEnabled(this.saved[cat.getId()])
 		);
 	}
 
@@ -143,7 +146,12 @@ export default class CookieLawModal extends EventEmitter {
 	}
 
 	save() {
-		this.emit("save", Object.values(this.state.events));
+		const events = Object.values(this.state.events);
+		events.forEach(({ id, enabled }) => {
+			this.saved[id] = enabled;
+		});
+
+		this.emit("save", events);
 		this.close();
 	}
 
@@ -160,6 +168,7 @@ export default class CookieLawModal extends EventEmitter {
 	}
 
 	setCategoryEnabled(category, enabled = false) {
+		this.saved[category.id] = enabled;
 		this.refs.categories
 			.find((cat) => cat.getId() === category.id)
 			.setEnabled(enabled);
