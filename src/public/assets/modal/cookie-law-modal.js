@@ -99,7 +99,7 @@ export default class CookieLawModal extends EventEmitter {
 	}
 
 	onCategoryChange(event) {
-		this.state.events[event.name] = event;
+		this.state.events[event.id] = event;
 	}
 
 	onSave(event) {
