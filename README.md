@@ -343,10 +343,7 @@ A `cookielawconsent.pot` template is provided.
 
 ### Uninstall
 
-Deleting the plugin from the WordPress admin runs [`uninstall.php`](uninstall.php), which is meant to delete the `cookie_law_consent` option.
-
-> [!WARNING]
-> Known issue on this branch: `uninstall.php` reads the option name from the `SettingsPage` class, but WordPress does not load the plugin's main file before running `uninstall.php`, so the class is not defined at that point. The uninstall is therefore expected to fail and leave the option in the database. You can remove it manually, e.g. with `wp option delete cookie_law_consent`.
+Deleting the plugin from the WordPress admin runs [`uninstall.php`](uninstall.php), which deletes the `cookie_law_consent` option.
 
 ## Development
 
@@ -367,7 +364,7 @@ composer install        # also installs WordPress & Polylang as dev dependencies
 
 ```text
 cookie-law-consent.php      Plugin bootstrap, constants, i18n & multilingual helpers
-uninstall.php               Meant to remove the plugin option (see Uninstall)
+uninstall.php               Removes the plugin option (see Uninstall)
 src/
 ├── available-services.php  Service definitions (admin fields)
 ├── cookie-law-consent-api.php  Public PHP API (cookielawconsent_get_service)
