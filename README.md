@@ -231,7 +231,7 @@ const config = JSON.parse(data.gdpr);
 
 ### REST API
 
-On `rest_api_init` the plugin registers a `cookielawconsent` setting (type `string`, `show_in_rest`) in the `general` group. Its default value is the JSON-encoded raw `cookie_law_consent` option, so it is available on the core settings endpoint:
+On `rest_api_init` the plugin registers a `cookielawconsent` setting (type `string`, `show_in_rest`) in the `general` group. Its value is always the JSON-encoded current `cookie_law_consent` option, so it is available on the core settings endpoint:
 
 ```http
 GET /wp-json/wp/v2/settings
@@ -243,6 +243,8 @@ GET /wp-json/wp/v2/settings
   "cookielawconsent": "{\"hash\":\"manage-cookies\",\"categories\":[…],\"services\":{…}}"
 }
 ```
+
+The setting is read-only: a `cookielawconsent` value sent to `POST /wp/v2/settings` (or passed to `update_option()`) is ignored and never stored, while the other settings in the same request are saved as usual. A `cookielawconsent` option stored by an earlier version is ignored too.
 
 The core `/wp/v2/settings` endpoint requires an authenticated user with the `manage_options` capability. Unlike the GraphQL field, this value is the raw stored option: texts are not translated or filled with defaults, and services are not grouped by category.
 
