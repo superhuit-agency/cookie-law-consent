@@ -338,6 +338,20 @@ class SettingsPage {
 	}
 
 	/**
+	 * Escape a stored value for an HTML attribute or element text, so that the browser
+	 * shows (and the form submits back) exactly the stored value.
+	 * Unlike `esc_attr()` / `esc_html()`, entities already in the value are encoded again,
+	 * as `esc_textarea()` does: a value stored as `R&amp;D` is shown as `R&amp;D`, instead of
+	 * being decoded to `R&D` and saved as such on the next save.
+	 *
+	 * @param mixed $value
+	 * @return string
+	 */
+	private static function esc_value( $value ) {
+		return htmlspecialchars( (string) $value, ENT_QUOTES, get_option( 'blog_charset' ), true );
+	}
+
+	/**
 	 * Sanitize each setting field as needed
 	 *
 	 * @param array $input Contains all settings fields as array keys
@@ -395,17 +409,22 @@ class SettingsPage {
 			}
 		);
 
-		// Store `switch` fields as explicit booleans: an unchecked checkbox is not submitted,
-		// so without this an "off" switch would be absent and the front-end default would apply.
 		foreach (SERVICES as $srvDef) {
 			if ( !isset($settings[self::FIELD_SERVICES][$srvDef['name']]) ) continue;
 
 			foreach ($srvDef['fields'] as $fld) {
-				if ( $fld['type'] !== 'switch' ) continue;
-
-				$settings[self::FIELD_SERVICES][$srvDef['name']][$fld['name']] = self::to_bool(
-					$settings[self::FIELD_SERVICES][$srvDef['name']][$fld['name']] ?? false
-				);
+				if ( $fld['type'] === 'switch' ) {
+					// Store `switch` fields as explicit booleans: an unchecked checkbox is not submitted,
+					// so without this an "off" switch would be absent and the front-end default would apply.
+					$settings[self::FIELD_SERVICES][$srvDef['name']][$fld['name']] = self::to_bool(
+						$settings[self::FIELD_SERVICES][$srvDef['name']][$fld['name']] ?? false
+					);
+				}
+				else if ( isset($settings[self::FIELD_SERVICES][$srvDef['name']][$fld['name']]) ) {
+					$settings[self::FIELD_SERVICES][$srvDef['name']][$fld['name']] = sanitize_text_field(
+						$settings[self::FIELD_SERVICES][$srvDef['name']][$fld['name']]
+					);
+				}
 			}
 		}
 
@@ -521,8 +540,8 @@ class SettingsPage {
 			$options[] = sprintf('<option %s %s value="%s">%s</option>',
 				selected( $value, $args['value'], false ),
 				($value == '-1' ? 'disabled' : ''),
-				$value,
-				$label
+				self::esc_value( $value ),
+				self::esc_value( $label )
 			);
 		}
 
@@ -559,10 +578,14 @@ class SettingsPage {
 			$name  = sprintf( '%s[%s][%s]', self::SETTINGS_NAME, $args['id'], $field['name'] );
 			$value = ( isset($values[$field['name']]) ? $values[$field['name']] : '' );
 
-			$tple = ( (isset($field['type']) && $field['type'] === 'textarea' )
-				? '<textarea id="%1$s" name="%3$s" placeholder="%4$s">%5$s</textarea>'
-				: '<input id="%1$s" type="text" name="%3$s" placeholder="%4$s" value="%5$s" />'
-			);
+			if ( isset($field['type']) && $field['type'] === 'textarea' ) {
+				$tple  = '<textarea id="%1$s" name="%3$s" placeholder="%4$s">%5$s</textarea>';
+				$value = esc_textarea( $value );
+			}
+			else {
+				$tple  = '<input id="%1$s" type="text" name="%3$s" placeholder="%4$s" value="%5$s" />';
+				$value = self::esc_value( $value );
+			}
 
 			return sprintf( '<th><label for="%1$s">%2$s</label></th><td>'.$tple.'</td>',
 				$id,
@@ -607,34 +630,34 @@ class SettingsPage {
 					}
 					?>
 
-					<div id="category_<?php echo $cat['id']; ?>" class="category<?php if ($i === 0) echo ' is-active'; ?>" data-idx="<?php echo $i; ?>">
-						<input name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][id]" type="hidden" value="<?php echo $cat['id']; ?>"/>
+					<div id="category_<?php echo self::esc_value( $cat['id'] ); ?>" class="category<?php if ($i === 0) echo ' is-active'; ?>" data-idx="<?php echo $i; ?>">
+						<input name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][id]" type="hidden" value="<?php echo self::esc_value( $cat['id'] ); ?>"/>
 						<table class="form-table">
 							<tr class="row">
-								<th><label for="<?php echo $cat['id']; ?>-position"><?php _e('Position', 'cookielawconsent'); ?></label></th>
+								<th><label for="<?php echo self::esc_value( $cat['id'] ); ?>-position"><?php _e('Position', 'cookielawconsent'); ?></label></th>
 								<td>
-									<input id="<?php echo $cat['id']; ?>-position" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][position]" type="number" min="1" step="1" value="<?php echo $cat['position']; ?>"/>
+									<input id="<?php echo self::esc_value( $cat['id'] ); ?>-position" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][position]" type="number" min="1" step="1" value="<?php echo self::esc_value( $cat['position'] ); ?>"/>
 								</td>
 							</tr>
 							<tr class="row">
-								<th><label for="<?php echo $cat['id']; ?>-mandatory"><?php _e('Mandatory?', 'cookielawconsent'); ?></label></th>
+								<th><label for="<?php echo self::esc_value( $cat['id'] ); ?>-mandatory"><?php _e('Mandatory?', 'cookielawconsent'); ?></label></th>
 								<td>
 									<div class="switch">
-										<input id="<?php echo $cat['id']; ?>-mandatory" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][mandatory]" type="checkbox" class="switch__chk" <?php if ($cat['mandatory']) echo 'checked'; ?>/>
-										<label for="<?php echo $cat['id']; ?>-mandatory" class="switch__label"><?php _e('Mandatory?', 'cookielawconsent'); ?></label>
+										<input id="<?php echo self::esc_value( $cat['id'] ); ?>-mandatory" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][mandatory]" type="checkbox" class="switch__chk" <?php if ($cat['mandatory']) echo 'checked'; ?>/>
+										<label for="<?php echo self::esc_value( $cat['id'] ); ?>-mandatory" class="switch__label"><?php _e('Mandatory?', 'cookielawconsent'); ?></label>
 									</div>
 								</td>
 							</tr>
 							<tr class="row">
-								<th><label for="<?php echo $cat['id']; ?>-title">Title</label></th>
+								<th><label for="<?php echo self::esc_value( $cat['id'] ); ?>-title">Title</label></th>
 								<td>
-									<input id="<?php echo $cat['id']; ?>-title" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][title]" type="text" value="<?php echo get_translated_text($cat['title']); ?>" class="category__title"/>
+									<input id="<?php echo self::esc_value( $cat['id'] ); ?>-title" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][title]" type="text" value="<?php echo self::esc_value( get_translated_text($cat['title']) ); ?>" class="category__title"/>
 								</td>
 							</tr>
 							<tr class="row">
-								<th><label for="<?php echo $cat['id']; ?>-description"><?php _e('Description', 'cookielawconsent'); ?></label></th>
+								<th><label for="<?php echo self::esc_value( $cat['id'] ); ?>-description"><?php _e('Description', 'cookielawconsent'); ?></label></th>
 								<td>
-									<textarea id="<?php echo $cat['id']; ?>-description" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][description]" ><?php echo get_translated_text($cat['description']); ?></textarea>
+									<textarea id="<?php echo self::esc_value( $cat['id'] ); ?>-description" name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][description]" ><?php echo esc_textarea( get_translated_text($cat['description']) ); ?></textarea>
 								</td>
 							</tr>
 							<tr class="row">
@@ -643,14 +666,14 @@ class SettingsPage {
 <?php foreach ( array_chunk( self::category_text_fields(), 2 ) as $row ) : ?>
 							<tr>
 <?php foreach ( $row as $field ) : ?>
-								<th><label for="<?php echo $cat['id']; ?>-texts-<?php echo $field['name']; ?>"><?php echo $field['label']; ?></label></th>
+								<th><label for="<?php echo self::esc_value( $cat['id'] ); ?>-texts-<?php echo $field['name']; ?>"><?php echo $field['label']; ?></label></th>
 								<td>
 									<input
-										id="<?php echo $cat['id']; ?>-texts-<?php echo $field['name']; ?>"
+										id="<?php echo self::esc_value( $cat['id'] ); ?>-texts-<?php echo $field['name']; ?>"
 										type="text"
 										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][<?php echo $field['name']; ?>]"
 										placeholder="<?php echo $field['placeholder']; ?>"
-										value="<?php if (isset($cat['texts'][$field['name']])) echo $cat['texts'][$field['name']]; ?>"
+										value="<?php if (isset($cat['texts'][$field['name']])) echo self::esc_value( $cat['texts'][$field['name']] ); ?>"
 									/>
 								</td>
 <?php endforeach ?>
@@ -747,7 +770,7 @@ class SettingsPage {
 												break;
 
 											default:
-												echo '<input id="'. $field['name'] .'" name="'. $name .'" type="'. $field['type'] .'" value="'. $value .'" placeholder="'. $field['placeholder'] .'"/>';
+												echo '<input id="'. $field['name'] .'" name="'. $name .'" type="'. $field['type'] .'" value="'. self::esc_value( $value ) .'" placeholder="'. $field['placeholder'] .'"/>';
 												break;
 										}
 										?>
