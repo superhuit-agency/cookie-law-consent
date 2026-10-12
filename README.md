@@ -83,7 +83,7 @@ Then activate the plugin in **Plugins**.
 
 ## Configuration
 
-On activation the plugin creates the `cookie_law_consent` option with the default hash and the *Necessary* and *Analytics* categories. The texts and services keys are only added the first time the settings page is saved, so save it once after activation (see [GraphQL](#graphql)).
+On activation the plugin creates the `cookie_law_consent` option with the default hash, the *Necessary* and *Analytics* categories, and empty texts and services. Until the settings page is saved, the [`gdpr` GraphQL field](#graphql) uses the default texts and lists no services.
 
 Go to **Settings > Cookie Law Consent** (requires the `manage_options` capability). The page has four sections:
 
@@ -173,8 +173,6 @@ query {
 
 On a WPML or Polylang site the `LanguageCodeEnum` type is not registered by this plugin: it must come from a WPGraphQL language extension (see [Requirements](#requirements)). If `language` is omitted, the current language is used, then the default language, then the first available translation.
 
-The resolver expects the `services` key to exist in the option. It is only created when the settings page is saved, so before that first save the query fails on PHP 8 (`array_filter()` receives `null`). Save the settings page once after activation.
-
 Decoded output:
 
 ```json
@@ -215,6 +213,7 @@ Decoded output:
 ```
 
 - Missing texts are filled with the plugin's translated defaults.
+- Missing keys in the stored option are treated as empty: before the settings page is first saved, every text is a default and no category has services. If the option does not exist at all, `hash` is `manage-cookies` and `categories` is empty.
 - Enabled services are grouped under the category they are assigned to (`services` key), without their `enabled` and `category` keys. Categories without services have no `services` key.
 
 Example (JavaScript):

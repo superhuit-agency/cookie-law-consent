@@ -28,6 +28,8 @@ class SettingsPage {
 	const FIELD_CATEGORIES = 'categories';
 	const FIELD_SERVICES = 'services';
 
+	const DEFAULT_HASH = 'manage-cookies';
+
 	/**
 	 * Holds the values to be used in the fields callbacks
 	 */
@@ -51,7 +53,7 @@ class SettingsPage {
 	public static function insert_default_settings() {
 		$default = [];
 		// $default[self::FIELD_BANNER_POSITION] = 'bottom-right';
-		$default[self::FIELD_HASH] = 'manage-cookies';
+		$default[self::FIELD_HASH] = self::DEFAULT_HASH;
 		// Same shape as the saved settings form, so the defaults are stored the same
 		// whether or not `sanitize()` runs on them.
 		$default[self::FIELD_BANNER_TEXTS] = [];

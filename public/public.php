@@ -31,11 +31,23 @@ add_action( 'graphql_register_types', function() {
 });
 
 function get_configs_json($source, $args, $context, $info) {
-	$config = get_option( SettingsPage::SETTINGS_NAME );
+	$option = get_option( SettingsPage::SETTINGS_NAME );
+
+	// Until the settings page is saved once, the option only holds the hash and the categories,
+	// and it can be missing altogether. Fill in the missing keys so the output keeps its shape.
+	$config = array_merge(
+		[
+			SettingsPage::FIELD_HASH       => SettingsPage::DEFAULT_HASH,
+			SettingsPage::FIELD_CATEGORIES => [],
+		],
+		is_array($option) ? $option : []
+	);
+	if ( !is_array($config[SettingsPage::FIELD_CATEGORIES]) ) $config[SettingsPage::FIELD_CATEGORIES] = [];
+	$all_services = is_array($config[SettingsPage::FIELD_SERVICES] ?? null) ? $config[SettingsPage::FIELD_SERVICES] : [];
 
 	$config['texts'] = [
-		'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS], $args['language'] ?? null)),
-		'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS], $args['language'] ?? null)),
+		'banner' => get_banner_texts(get_translated_text($config[SettingsPage::FIELD_BANNER_TEXTS] ?? [], $args['language'] ?? null)),
+		'modal' => get_modal_texts(get_translated_text($config[SettingsPage::FIELD_MODAL_TEXTS] ?? [], $args['language'] ?? null)),
 	];
 
 	$config[SettingsPage::FIELD_CATEGORIES] = array_map(function($cat) use ($args) {
@@ -48,7 +60,7 @@ function get_configs_json($source, $args, $context, $info) {
 
 	foreach ($config[SettingsPage::FIELD_CATEGORIES] as $i => $cat) {
 		$services = array_filter(
-			$config[SettingsPage::FIELD_SERVICES],
+			$all_services,
 			function($srv) use ($cat){
 				return ( isset($srv['category']) && $srv['category'] === $cat['id'] );
 			}
