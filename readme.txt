@@ -49,7 +49,7 @@ Full documentation and source code: [github.com/superhuit-agency/cookie-law-cons
 1. Download `cookie-law-consent.zip` from the [GitHub releases](https://github.com/superhuit-agency/cookie-law-consent/releases).
 2. In your WordPress admin go to Plugins > Add New > Upload Plugin, select the zip and click "Install Now". You can also unzip it into `/wp-content/plugins/` (the zip contains a `cookie-law-consent` folder).
 3. Activate the plugin from the Plugins screen.
-4. Go to Settings > Cookie Law Consent to set up texts, categories and services, and save the page once. Some keys of the configuration are only created on the first save.
+4. Go to Settings > Cookie Law Consent to set up texts, categories and services.
 5. Install and activate WPGraphQL if your front end reads the configuration through GraphQL.
 
 = Installing from source =
