@@ -33,6 +33,11 @@ class SettingsPage {
 	private $options;
 
 	/**
+	 * The last value returned by sanitize()
+	 */
+	private $sanitized;
+
+	/**
 	 * Start up
 	 */
 	public function __construct() {
@@ -45,6 +50,10 @@ class SettingsPage {
 	public static function insert_default_settings() {
 		$default = [];
 		$default[self::FIELD_BANNER_POSITION] = 'bottom-right';
+		// Same shape as the saved settings form, so the defaults are stored the same
+		// whether or not `sanitize()` runs on them.
+		$default[self::FIELD_BANNER_TEXTS] = [];
+		$default[self::FIELD_MODAL_TEXTS] = [];
 		$default[self::FIELD_CATEGORIES] = [
 			[
 				'position'    => 1,
@@ -61,6 +70,7 @@ class SettingsPage {
 				'description' => __('Analytics cookies help us understand how our visitors interact with the website. It helps us understand the number of visitors, where the visitors are coming from, and the pages they navigate. The cookies collect this data and are reported anonymously.', 'cookielawconsent'),
 			]
 		];
+		$default[self::FIELD_SERVICES] = [];
 
 		add_option( self::SETTINGS_NAME, $default, false );
 	}
@@ -242,11 +252,31 @@ class SettingsPage {
 	}
 
 	/**
+	 * Treat a missing (null) or non-array value as an empty collection.
+	 *
+	 * @param mixed $value
+	 * @return array
+	 */
+	private static function to_array( $value ) {
+		return is_array( $value ) ? $value : [];
+	}
+
+	/**
 	 * Sanitize each setting field as needed
 	 *
 	 * @param array $input Contains all settings fields as array keys
 	 */
 	public function sanitize( $fields ) {
+
+		// Besides the settings form POST, this runs on the default settings (`add_option()` on activation)
+		// and on its own output (code writing the stored value back), so any key may be missing:
+		// missing collections are treated as empty.
+		if ( !is_array($fields) ) $fields = [];
+
+		// `update_option()` on a missing option sanitizes, then passes the result to `add_option()`,
+		// which sanitizes it again: return it as is, as on a multilingual site a second pass would
+		// merge the texts into the per-language structure once more.
+		if ( isset($this->sanitized) && $fields === $this->sanitized ) return $fields;
 
 		$settings = [];
 
@@ -255,22 +285,25 @@ class SettingsPage {
 		}
 
 
-		$settings[self::FIELD_BANNER_TEXTS] = array_filter($fields[self::FIELD_BANNER_TEXTS]);
-		$settings[self::FIELD_MODAL_TEXTS] = array_filter($fields[self::FIELD_MODAL_TEXTS]);
+		$settings[self::FIELD_BANNER_TEXTS] = array_filter( self::to_array($fields[self::FIELD_BANNER_TEXTS] ?? null) );
+		$settings[self::FIELD_MODAL_TEXTS] = array_filter( self::to_array($fields[self::FIELD_MODAL_TEXTS] ?? null) );
 
 		$settings[self::FIELD_CATEGORIES] = array_values(array_map(
 			function(Array $cat) {
-				$cat['mandatory'] = isset( $cat['mandatory'] );
-				$cat['position'] = (int)$cat['position'];
-				$cat['texts'] = array_filter($cat['texts']);
+				// The form posts the checkbox as "on" when checked and omits it otherwise,
+				// while stored settings hold a boolean: `false` must stay `false`.
+				$cat['mandatory'] = self::to_bool( $cat['mandatory'] ?? false );
+				$cat['position'] = (int)($cat['position'] ?? 0);
+				// Empty texts are removed below, so they may be missing on a later pass.
+				$cat['texts'] = array_filter( self::to_array($cat['texts'] ?? null) );
 				if (count($cat['texts']) === 0 ) unset($cat['texts']);
 
 				return $cat;
 			},
 			array_filter(
-				$fields[self::FIELD_CATEGORIES],
+				self::to_array($fields[self::FIELD_CATEGORIES] ?? null),
 				function($cat) {
-					return !empty($cat['title']);
+					return is_array($cat) && !empty($cat['title']);
 				}
 			)
 		));
@@ -280,9 +313,9 @@ class SettingsPage {
 		});
 
 		$settings[self::FIELD_SERVICES] = array_filter(
-			$fields[self::FIELD_SERVICES],
+			self::to_array($fields[self::FIELD_SERVICES] ?? null),
 			function($srv) {
-				return isset($srv['enabled']);
+				return is_array($srv) && isset($srv['enabled']);
 			}
 		);
 
@@ -304,8 +337,11 @@ class SettingsPage {
 			$currentLang = get_current_lang();
 			$defaultLang = get_default_lang();
 
+			// No stored option yet (`get_option()` returned false): no previous values to merge with.
+			$prevOptions = self::to_array($this->options);
+
 			$bannerTexts = [];
-			$prevBannerTexts = $this->options[self::FIELD_BANNER_TEXTS];
+			$prevBannerTexts = $prevOptions[self::FIELD_BANNER_TEXTS] ?? null;
 			if ( is_array($prevBannerTexts) ) {
 				if ( count(array_intersect_key(['title', 'message', 'personalize', 'acceptAll', 'denyAll'], $prevBannerTexts)) > 0 ) $bannerTexts[$defaultLang] = $prevBannerTexts;
 				else $bannerTexts = $prevBannerTexts;
@@ -314,7 +350,7 @@ class SettingsPage {
 			$settings[self::FIELD_BANNER_TEXTS] = $bannerTexts;
 
 			$modalTexts = [];
-			$prevModalTexts = $this->options[self::FIELD_MODAL_TEXTS];
+			$prevModalTexts = $prevOptions[self::FIELD_MODAL_TEXTS] ?? null;
 			if ( is_array($prevModalTexts) ) {
 				if ( count(array_intersect_key(['title', 'description', 'close', 'save'], $prevModalTexts)) > 0 ) $modalTexts[$defaultLang] = $prevModalTexts;
 				else $modalTexts = $prevModalTexts;
@@ -324,25 +360,25 @@ class SettingsPage {
 
 
 			$settings[self::FIELD_CATEGORIES] = array_map(function($cat) use ($currentLang, $defaultLang) {
-				$prevCat = $this->get_category_by_id($cat['id']);
+				$prevCat = $this->get_category_by_id($cat['id'] ?? null);
 
-				if (is_array($prevCat['title'])) $title = $prevCat['title'];
+				if (is_array($prevCat['title'] ?? null)) $title = $prevCat['title'];
 				else {
 					$title = [];
-					$title[$defaultLang] = $prevCat['title'];
+					$title[$defaultLang] = $prevCat['title'] ?? '';
 				}
 				$title[$currentLang] = $cat['title'];
 
 
-				if (is_array($prevCat['description']))  $desc = $prevCat['description'];
+				if (is_array($prevCat['description'] ?? null))  $desc = $prevCat['description'];
 				else {
 					$desc = [];
-					$desc[$defaultLang] = $prevCat['description'];
+					$desc[$defaultLang] = $prevCat['description'] ?? '';
 				}
-				$desc[$currentLang] = $cat['description'];
+				$desc[$currentLang] = $cat['description'] ?? '';
 
 				$texts = [];
-				if ( is_array($prevCat['texts']) ) {
+				if ( is_array($prevCat['texts'] ?? null) ) {
 					if ( count(array_intersect_key(['enable', 'enabled', 'disable', 'disabled', 'alwaysEnabled'], $prevCat['texts'])) > 0 ) {
 						$texts[$defaultLang] = $prevCat['texts'];
 					}
@@ -354,7 +390,7 @@ class SettingsPage {
 				$texts[$currentLang] = isset($cat['texts']) ? $cat['texts'] : false;
 
 				return [
-					'id'          => $cat['id'],
+					'id'          => $cat['id'] ?? null,
 					'position'    => $cat['position'],
 					'mandatory'   => $cat['mandatory'],
 					'title'       => $title,
@@ -364,12 +400,16 @@ class SettingsPage {
 			}, $settings[self::FIELD_CATEGORIES] );
 		}
 
+		$this->sanitized = $settings;
+
 		return $settings;
 	}
 
 	private function get_category_by_id($id) {
-		$f = array_filter($this->options[self::FIELD_CATEGORIES], function($c) use ($id) {
-			return $c['id'] === $id;
+		$categories = self::to_array( self::to_array($this->options)[self::FIELD_CATEGORIES] ?? null );
+
+		$f = array_filter($categories, function($c) use ($id) {
+			return is_array($c) && isset($c['id']) && $c['id'] === $id;
 		});
 
 		$f[] = [
