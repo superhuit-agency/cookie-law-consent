@@ -48,7 +48,7 @@
 | --- | --- |
 | WordPress | 5.0 or higher, tested up to 6.7 (same values as `readme.txt`) |
 | PHP | 7.0 or higher (`composer.json`); release builds use PHP 7.4 |
-| Node.js *(build only)* | 20.x (`.nvmrc` / `package.json` `engines`) |
+| Node.js *(build only)* | 24.x (`.nvmrc` / `package.json` `engines`) |
 | Yarn *(build only)* | 1.22 (`packageManager` in `package.json`) |
 | Composer *(build only)* | Any recent version |
 
@@ -76,7 +76,7 @@ cd cookie-law-consent
 composer install --no-dev
 
 # JS/CSS assets
-nvm use            # Node 20
+nvm use            # Node 24
 yarn install --frozen-lockfile
 yarn build:production
 ```
@@ -351,7 +351,7 @@ Deleting the plugin from the WordPress admin runs [`uninstall.php`](uninstall.ph
 ## Development
 
 ```bash
-nvm use                 # Node 20
+nvm use                 # Node 24
 yarn install
 composer install        # also installs WordPress & Polylang as dev dependencies
 ```

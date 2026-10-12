@@ -20,7 +20,7 @@
  * @package CookieLawConsent
  * @author  Kuuak
  * @license GPL-2.0+
- * @link    https://gitlab.com/superhuit/cookie-law-consent
+ * @link    https://github.com/superhuit-agency/cookie-law-consent
  */
 namespace CookieLawConsent;
 
