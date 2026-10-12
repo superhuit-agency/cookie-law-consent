@@ -48,12 +48,14 @@ export default class CookieLawModal extends EventEmitter {
 		this.onClose = this.onClose.bind(this);
 		this.onCategoryChange = this.onCategoryChange.bind(this);
 		this.onLostFocus = this.onLostFocus.bind(this);
+		this.onKeyDown = this.onKeyDown.bind(this);
 
 		this.init();
 	}
 
 	bindEvents() {
 		document.addEventListener("focusin", this.onLostFocus);
+		this.refs.el.addEventListener("keydown", this.onKeyDown);
 		this.refs.save.addEventListener("click", this.onSave);
 		this.refs.close.addEventListener("click", this.onClose);
 		this.refs.categories.forEach((cat) =>
@@ -63,6 +65,7 @@ export default class CookieLawModal extends EventEmitter {
 
 	unbindEvents() {
 		document.removeEventListener("focusin", this.onLostFocus);
+		this.refs.el.removeEventListener("keydown", this.onKeyDown);
 		this.refs.save.removeEventListener("click", this.onSave);
 		this.refs.close.removeEventListener("click", this.onClose);
 		this.refs.categories.forEach((cat) =>
@@ -121,6 +124,12 @@ export default class CookieLawModal extends EventEmitter {
 		this.refs.categories.forEach((cat) =>
 			cat.setEnabled(this.saved[cat.getId()])
 		);
+	}
+
+	// Escape closes the modal exactly like the × button
+	onKeyDown(event) {
+		if (event.key !== "Escape" && event.key !== "Esc") return;
+		this.onClose(event);
 	}
 
 	onLostFocus(event) {

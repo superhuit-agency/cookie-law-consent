@@ -126,7 +126,7 @@ export default class CookieLawBanner extends EventEmitter {
 		el.setAttribute("aria-live", "polite");
 		el.setAttribute("aria-hidden", "true");
 		el.setAttribute("inert", "");
-		el.setAttribute("aria-label", "cookie-law-banner:title");
+		el.setAttribute("aria-labelledby", "cookie-law-banner:title");
 		el.setAttribute("aria-describedby", "cookie-law-banner:desc");
 
 		el.insertAdjacentHTML(
