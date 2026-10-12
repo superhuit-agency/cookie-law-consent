@@ -83,7 +83,7 @@ Then activate the plugin in **Plugins**.
 
 ## Configuration
 
-On activation the plugin creates the `cookie_law_consent` option with the default hash and the *Necessary* and *Analytics* categories. The texts and services keys are added the first time the settings page is saved. Until then, the [`gdpr` GraphQL field](#graphql) uses the default texts and lists no services.
+On activation the plugin creates the `cookie_law_consent` option with the default hash, the *Necessary* and *Analytics* categories, and empty texts and services. Until the settings page is saved, the [`gdpr` GraphQL field](#graphql) uses the default texts and lists no services.
 
 Go to **Settings > Cookie Law Consent** (requires the `manage_options` capability). The page has four sections:
 
@@ -259,7 +259,7 @@ The core `/wp/v2/settings` endpoint requires an authenticated user with the `man
 
 ### Uninstall
 
-`uninstall.php` is meant to delete the `cookie_law_consent` option when the plugin is deleted from the WordPress admin. It references `CookieLawConsent\Admin\SettingsPage::SETTINGS_NAME`, but WordPress does not load the plugin's main file when it runs `uninstall.php`, so the class is not defined and uninstall will most likely fail with a fatal error. Until this is fixed, remove the option manually if needed, for example with `wp option delete cookie_law_consent`.
+Deleting the plugin from the WordPress admin (or `wp plugin uninstall cookie-law-consent`) runs `uninstall.php`, which deletes the `cookie_law_consent` option.
 
 ## Development
 
@@ -315,7 +315,7 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
-Licensed under the GPL-2.0+ license, as declared in the plugin header (`cookie-law-consent.php`). See <http://www.gnu.org/licenses/gpl-2.0.txt>.
+Licensed under the GPL-2.0-or-later license, as declared in the plugin header (`cookie-law-consent.php`). See <https://www.gnu.org/licenses/gpl-2.0.html>.
 
 ## Credits
 

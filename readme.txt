@@ -5,8 +5,8 @@ Requires at least: 5.0
 Tested up to: 6.5
 Requires PHP: 7.3
 Stable tag: 2.2.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Configure GDPR cookie consent texts, categories and services in WordPress, and expose them to your front end via WPGraphQL or the REST API.
 
@@ -84,7 +84,7 @@ Empty its title and save. Categories without a title are removed. A removed cate
 
 = What happens to my settings when I delete the plugin? =
 
-The uninstall routine is meant to delete the `cookie_law_consent` option. In version 2.2.0 it relies on a class that is not loaded during uninstall, so it may fail. If the option is still there after you delete the plugin, remove it manually, for example with `wp option delete cookie_law_consent`.
+Deleting the plugin removes its `cookie_law_consent` option, which holds all the plugin settings.
 
 == Changelog ==
 

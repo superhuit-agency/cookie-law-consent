@@ -13,13 +13,6 @@ use function CookieLawConsent\get_translated_text;
  *
  * Register the actions & filters
  */
-add_action( 'init', __NAMESPACE__.'\register_assets');
-
-function register_assets() {
-	wp_register_style( 'cookie-law-consent-style', plugins_url( 'cookie-law-consent.css', __FILE__ ), CLC_PLUGIN_VERSION );
-	wp_register_script( 'cookie-law-consent-js', plugins_url( 'cookie-law-consent.js', __FILE__ ), null, CLC_PLUGIN_VERSION, true );
-}
-
 
 /**
  * Register cookie law consent configs in GraphQL
