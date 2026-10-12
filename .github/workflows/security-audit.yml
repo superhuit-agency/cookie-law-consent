@@ -1,0 +1,79 @@
+---
+# Dependabot alerts and security updates only cover the default branch
+# (master), so this scans master-v1's lockfiles and keeps a single issue
+# open while known vulnerabilities remain.
+# See docs/adr/0001-dependency-security-per-branch.md.
+name: 'Security audit (1.x)'
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  BRANCH: master-v1
+  ISSUE_TITLE: '🔒 Vulnerable dependencies on master-v1 (1.x)'
+
+jobs:
+  audit:
+    name: 'Audit master-v1 lockfiles'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master-v1
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ env.BRANCH }}
+
+      # Exits 1 when vulnerabilities are found; the next step reads the report.
+      - name: Scan lockfiles with OSV-Scanner
+        id: osv
+        continue-on-error: true
+        uses: google/osv-scanner-action/osv-scanner-action@v2.6.0
+        with:
+          scan-args: |-
+            --lockfile=./yarn.lock
+            --lockfile=./composer.lock
+            --format=markdown
+            --output-file=osv-results.md
+
+      - name: Open, update or close the audit issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OUTCOME: ${{ steps.osv.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --label v1 --limit 200 \
+            --json number,title --jq 'map(select(.title == env.ISSUE_TITLE))[0].number // empty')
+
+          if [ "$OUTCOME" = "success" ]; then
+            echo "No known vulnerabilities."
+            if [ -n "$existing" ]; then
+              gh issue close "$existing" --repo "$GITHUB_REPOSITORY" \
+                --comment "No known vulnerabilities in the \`$BRANCH\` lockfiles as of [this audit]($RUN_URL)."
+            fi
+            exit 0
+          fi
+
+          if [ ! -s osv-results.md ]; then
+            echo "::error::OSV-Scanner failed without producing a report."
+            exit 1
+          fi
+
+          {
+            echo "OSV-Scanner found known vulnerabilities in the \`$BRANCH\` lockfiles. Dependabot doesn't cover this branch (see \`docs/adr/0001-dependency-security-per-branch.md\` on \`master\`), so this issue is kept up to date by the weekly security audit."
+            echo
+            echo "Last run: $RUN_URL"
+            echo
+            head -c 60000 osv-results.md
+          } > issue-body.md
+
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --repo "$GITHUB_REPOSITORY" --body-file issue-body.md
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$ISSUE_TITLE" \
+              --label v1 --label needs-triage --body-file issue-body.md
+          fi

@@ -35,3 +35,5 @@ Every issue and PR gets exactly one version label, matching the `(1.x)` / `(2.x)
 | `v2`  | `2.x`   | `master`    | Back-end only: config exposed via WPGraphQL/REST for a headless front end |
 
 A bug that affects both versions gets one issue per version (e.g. #19 for v1 and #12 for v2), each with its own label, since the fixes land on different branches.
+
+**Exception: Dependabot PRs.** Dependabot can't add a title suffix, so its PRs carry the version as a prefix instead (`chore(1.x): ⬆️ bump …` / `chore(2.x): ⬆️ bump …`), plus the `dependencies` label next to the version label. See `docs/adr/0001-dependency-security-per-branch.md`.
