@@ -32,7 +32,7 @@ When the Google Tag Manager service is enabled, the plugin sets the Consent Mode
 
 = How services are loaded =
 
-In version 1.x, the visitor's choice does not block third-party scripts. Every enabled service that is assigned to a category is loaded on every page view, whether the visitor accepted its category, refused it or has not chosen yet. Only Google Tag Manager acts on the choice, through Google Consent Mode v2. Google Analytics, Facebook Pixel, Google reCAPTCHA, Google Maps and Pardot load and run regardless of consent. If these services must wait for consent, load them through Google Tag Manager and configure them to respect Consent Mode.
+Google Analytics, Facebook Pixel, Google reCAPTCHA, Google Maps and Pardot are only loaded once the visitor accepts their category, or straight away if the category is mandatory. Until then, their scripts are not loaded. Google Tag Manager is loaded on every page view, with Google Consent Mode v2 defaults set to "denied", and its consent is updated when the visitor accepts or refuses its category.
 
 = For developers =
 

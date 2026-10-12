@@ -35,7 +35,7 @@
 - **Preferences modal** listing every cookie category with an on/off switch and a description.
 - Six **banner positions**: top left, top right, center, bottom left, bottom right (default) and full-width bottom.
 - Unlimited, sortable **cookie categories**, each of which can be marked as *mandatory* (always enabled, cannot be refused).
-- Built-in **services**: Google Tag Manager (with Google Consent Mode v2), Google Analytics, Facebook Pixel, Google reCAPTCHA, Google Maps and Salesforce Pardot. Their scripts load on every page view whatever the visitor chose; see [How services are loaded](#how-services-are-loaded).
+- Built-in **services**: Google Tag Manager (with Google Consent Mode v2), Google Analytics, Facebook Pixel, Google reCAPTCHA, Google Maps and Salesforce Pardot. Their scripts only load once the visitor accepts their category (Google Tag Manager loads earlier, with Consent Mode defaults `denied`); see [How services are loaded](#how-services-are-loaded).
 - All front-end **texts are customizable** from the settings page (banner, modal and per-category labels).
 - **Multilingual** support for [WPML](https://wpml.org) and [Polylang](https://wordpress.org/plugins/polylang/): texts are stored per language, while categories enabling and services are shared across languages.
 - Any page can re-open the preferences modal with a simple `#cookie-law-settings` link.
@@ -162,7 +162,7 @@ The modal opens on the browser's `hashchange` event, so the link has to change t
 
 Services are defined in [`src/available-services.php`](src/available-services.php) (admin fields) and implemented in [`src/public/assets/services/`](src/public/assets/services/) (front end).
 
-| Service | Key | Settings fields | Front-end behaviour (every page view) |
+| Service | Key | Settings fields | Front-end behaviour (once loaded) |
 | --- | --- | --- | --- |
 | Google Tag Manager | `googletagmanager` | `containerID` (e.g. `GTM-XXX`) | Loads `gtm.js` and sets **Google Consent Mode v2** defaults to `denied` (`ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`), unless a `consent default` entry already exists in `dataLayer`. Sends a `consent update` with `granted` when the category is accepted (also on page load if it was accepted earlier, or always if the category is mandatory) and with `denied` when it is refused after having been accepted during the same page view. |
 | Google Analytics | `googleanalytics` | `trackingID` (e.g. `UA-XXXXX-Y`), `anonymizeIp` (switch, default on) | Loads `analytics.js` (Universal Analytics), creates the tracker and sends a pageview. Google has retired Universal Analytics; for GA4, use Google Tag Manager. |
@@ -173,20 +173,25 @@ Services are defined in [`src/available-services.php`](src/available-services.ph
 
 ### How services are loaded
 
-> [!IMPORTANT]
-> On this branch, consent does **not** block third-party scripts. When the DOM is ready (`DOMContentLoaded`), every enabled service that is assigned to a category runs its `init()` function, and `init()` is what loads the service's script. This happens on every page view, whether the visitor accepted the category, refused it or has not chosen yet.
->
-> The visitor's choice is stored in the [consent cookies](#how-consent-is-stored), but only **Google Tag Manager** acts on it: it sets Google Consent Mode v2 defaults to `denied` and updates them when the category is accepted or refused. Google Analytics, Facebook Pixel, reCAPTCHA, Google Maps and Pardot load and run regardless of consent. If you need these services blocked until consent is given, load them through Google Tag Manager and rely on Consent Mode, or handle them yourself.
+A service's `init()` function is what loads its third-party script, and it only runs once the visitor has consented to the service's category:
+
+- On page load (`DOMContentLoaded`), services in a **mandatory** category, or in a category accepted earlier (see [consent cookies](#how-consent-is-stored)), are loaded.
+- Services in a category that is refused or not chosen yet are **not** loaded. They are loaded later during the same page view if the visitor accepts the category (*Accept all*, or switched on and saved in the modal).
+- **Google Tag Manager** is the exception: it is loaded on every page view, with Google Consent Mode v2 defaults set to `denied`, and its consent state is updated when the category is accepted or refused.
+
+Refusing a category after its services were loaded does not unload their scripts; it only runs their `onReject` (Google Tag Manager switches Consent Mode back to `denied`).
 
 ### Service lifecycle
 
 Each front-end service module may export three functions, all called with the service settings as argument and the main `CookieLaw` instance as `this`:
 
-- `init(data)`: called once on page load (`DOMContentLoaded`) for every service assigned to a category, **whatever the consent state**. It also receives a `callback` to call once the service is ready; that callback runs `onAccept` if the service's category is enabled (mandatory, or accepted earlier).
-- `onAccept(data)`: called when the service's category is accepted: on page load (via the `init` callback) if consent was already given, after *Accept all*, or after *Save & Accept* for a category switched on in the modal.
+- `init(data)`: called at most once per page view, when the service's category is enabled: on page load if it is mandatory or was accepted earlier, otherwise when the visitor accepts it. It receives a `callback` to call once the service is ready; that callback runs `onAccept`.
+- `onAccept(data)`: called when the service's category is accepted: on page load (via the `init` callback) if consent was already given, after *Accept all*, or after *Save & Accept* for a category switched on in the modal. If the service was already loaded, it is called right away.
 - `onReject(data)`: called when a category that was accepted during the current page view is refused (*Deny all*, or switched off and saved in the modal).
 
-On this branch only **Google Tag Manager** implements `onAccept`/`onReject` (to update the Consent Mode state); the other services only implement `init`.
+A service module may also export `loadBeforeConsent = true` to have `init` called on every page load whatever the consent state (without the `onAccept` callback). Only use it for services that wait for consent themselves.
+
+On this branch only **Google Tag Manager** sets `loadBeforeConsent` and implements `onAccept`/`onReject` (to update the Consent Mode state); the other services only implement `init`.
 
 ### Google Maps markup
 
