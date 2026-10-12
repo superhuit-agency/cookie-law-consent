@@ -136,6 +136,9 @@ export default class CookieLawModal extends EventEmitter {
 	open() {
 		if (this.state.hidden === false) return;
 
+		// Remember where focus was, to return it there on close
+		this.opener = document.activeElement;
+
 		this.state.hidden = false;
 		this.refs.close.focus();
 
@@ -150,8 +153,9 @@ export default class CookieLawModal extends EventEmitter {
 	close() {
 		if (this.state.hidden === true) return;
 
-		this.state.hidden = true;
+		// Release the focus trap first, so focus can move out on hide
 		this.unbindEvents();
+		this.state.hidden = true;
 
 		// Clear events
 		this.state.events = {};
@@ -206,6 +210,7 @@ export default class CookieLawModal extends EventEmitter {
 		this.refs.el.classList.add("cookie-law-modal");
 		this.refs.el.setAttribute("role", "dialog");
 		this.refs.el.setAttribute("aria-hidden", "true");
+		this.refs.el.setAttribute("inert", "");
 		this.refs.el.setAttribute("tabindex", "-1");
 		this.refs.el.id = this.genId();
 
@@ -249,7 +254,30 @@ export default class CookieLawModal extends EventEmitter {
 	}
 
 	toggle() {
-		this.refs.el.setAttribute("aria-hidden", this.state.hidden);
+		const { el } = this.refs;
+
+		if (this.state.hidden) {
+			// Never hide the modal while focus is still inside it: return focus to
+			// the element focused when it opened if still usable, else the body.
+			if (el.contains(document.activeElement)) {
+				const { opener } = this;
+				if (
+					opener &&
+					opener !== document.body &&
+					opener.isConnected &&
+					!opener.closest('[inert], [aria-hidden="true"]') &&
+					opener.getClientRects().length > 0
+				)
+					opener.focus();
+
+				if (el.contains(document.activeElement)) document.activeElement.blur();
+			}
+
+			this.opener = null;
+		}
+
+		el.setAttribute("aria-hidden", this.state.hidden);
+		el.toggleAttribute("inert", this.state.hidden);
 	}
 
 	// ##############################
