@@ -1,7 +1,10 @@
 export function getCookie(name, dft = undefined) {
-	const cookies = document.cookie.split(";");
-	const idx = cookies.findIndex((c) => c.includes(name));
-	return idx >= 0 ? cookies[idx].split("=")[1] : dft;
+	for (const cookie of document.cookie.split(";")) {
+		const eq = cookie.indexOf("=");
+		if (eq < 0) continue;
+		if (cookie.slice(0, eq).trim() === name) return cookie.slice(eq + 1);
+	}
+	return dft;
 }
 
 export function setCookie(
