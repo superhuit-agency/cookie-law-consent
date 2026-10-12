@@ -260,7 +260,7 @@ The core `/wp/v2/settings` endpoint requires an authenticated user with the `man
 
 ### Uninstall
 
-`uninstall.php` is meant to delete the `cookie_law_consent` option when the plugin is deleted from the WordPress admin. It references `CookieLawConsent\Admin\SettingsPage::SETTINGS_NAME`, but WordPress does not load the plugin's main file when it runs `uninstall.php`, so the class is not defined and uninstall will most likely fail with a fatal error. Until this is fixed, remove the option manually if needed, for example with `wp option delete cookie_law_consent`.
+Deleting the plugin from the WordPress admin (or `wp plugin uninstall cookie-law-consent`) runs `uninstall.php`, which deletes the `cookie_law_consent` option.
 
 ## Development
 
