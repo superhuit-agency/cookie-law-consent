@@ -92,30 +92,13 @@ function enqueue_assets() {
 }
 
 function get_category_texts( $texts = [] ) : Array {
-	return array_merge( [
-		'enable'        => __( 'Enable cookies', 'cookielawconsent' ),
-		'enabled'       => __( 'Enabled', 'cookielawconsent' ),
-		'disable'       => __( 'Disable cookies', 'cookielawconsent' ),
-		'disabled'      => __( 'Disabled', 'cookielawconsent' ),
-		'alwaysEnabled' => __( 'Always enabled', 'cookielawconsent' ),
-	], (is_array($texts) ? $texts : []) );
+	return array_merge( SettingsPage::default_texts( SettingsPage::category_text_fields() ), (is_array($texts) ? $texts : []) );
 }
 function get_banner_texts( $texts = [] ) : Array {
-	return array_merge( [
-		'title'       => _x('Cookies', 'Banner Title', 'cookielawconsent' ),
-		'personalize' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ),
-		'message'     => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ),
-		'acceptAll'   => _x('Ok, accept all', 'Banner Accept All', 'cookielawconsent' ),
-		'denyAll'     => _x('Deny all', 'Banner Deny All', 'cookielawconsent' ),
-	], (is_array($texts) ? $texts : []) );
+	return array_merge( SettingsPage::default_texts( SettingsPage::banner_text_fields() ), (is_array($texts) ? $texts : []) );
 }
 function get_modal_texts( $texts = [] ) : Array {
-	return array_merge( [
-		'title'       => _x('Privacy Overview', 'Modal Title', 'cookielawconsent' ),
-		'close'       => _x('Close', 'Modal Personalize', 'cookielawconsent' ),
-		'description' => _x('This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.', 'Modal Description', 'cookielawconsent' ),
-		'save'        => _x('Save & Accept', 'Modal Accept All', 'cookielawconsent' ),
-	], (is_array($texts) ? $texts : []) );
+	return array_merge( SettingsPage::default_texts( SettingsPage::modal_text_fields() ), (is_array($texts) ? $texts : []) );
 }
 
 /**

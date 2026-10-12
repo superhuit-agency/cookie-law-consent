@@ -116,6 +116,61 @@ class SettingsPage {
 	}
 
 	/**
+	 * The custom texts of the banner, the modal and each category, in settings form order.
+	 * The only list of their names: the settings form renders these fields, `sanitize()` uses
+	 * the names to tell flat texts from texts keyed by language, and the front end shows
+	 * the placeholders when a text is empty.
+	 *
+	 * @return array[] Each with `name`, `label`, `placeholder` and optionally `type`
+	 */
+	public static function banner_text_fields() {
+		return [
+			[ 'name' => 'title', 'label' => _x('Title', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Cookies', 'Banner Title', 'cookielawconsent' ) ],
+			[ 'name' => 'personalize', 'label' => _x('Personalize link', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ) ],
+			[ 'name' => 'message', 'type' => 'textarea', 'label' => _x('Description', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ) ],
+			[ 'name' => 'acceptAll', 'label' => _x('Accept all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Ok, accept all', 'Banner Accept All', 'cookielawconsent' ) ],
+			[ 'name' => 'denyAll', 'label' => _x('Deny all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Deny all', 'Banner Deny All', 'cookielawconsent' ) ],
+		];
+	}
+
+	/** @see banner_text_fields() */
+	public static function modal_text_fields() {
+		return [
+			[ 'name' => 'title', 'label' => _x('Title', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Privacy Overview', 'Modal Title', 'cookielawconsent' ) ],
+			[ 'name' => 'close', 'label' => _x('Close button', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Close', 'Modal Personalize', 'cookielawconsent' ) ],
+			[ 'name' => 'description', 'type' => 'textarea', 'label' => _x('Description', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.', 'Modal Description', 'cookielawconsent' ) ],
+			[ 'name' => 'save', 'label' => _x('Save button', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Save & Accept', 'Modal Accept All', 'cookielawconsent' ) ],
+		];
+	}
+
+	/** @see banner_text_fields() */
+	public static function category_text_fields() {
+		return [
+			[ 'name' => 'enable', 'label' => __('Enable', 'cookielawconsent'), 'placeholder' => __( 'Enable cookies', 'cookielawconsent' ) ],
+			[ 'name' => 'enabled', 'label' => __('Enabled', 'cookielawconsent'), 'placeholder' => __( 'Enabled', 'cookielawconsent' ) ],
+			[ 'name' => 'disable', 'label' => __('Disable', 'cookielawconsent'), 'placeholder' => __( 'Disable cookies', 'cookielawconsent' ) ],
+			[ 'name' => 'disabled', 'label' => __('Disabled', 'cookielawconsent'), 'placeholder' => __( 'Disabled', 'cookielawconsent' ) ],
+			[ 'name' => 'alwaysEnabled', 'label' => __('Always Enabled <br><small><em>Mandatory category</em></small>', 'cookielawconsent'), 'placeholder' => __( 'Always enabled', 'cookielawconsent' ) ],
+		];
+	}
+
+	/**
+	 * @param array $fields One of the `*_text_fields()`
+	 * @return string[] The text names
+	 */
+	public static function text_names( Array $fields ) {
+		return array_column( $fields, 'name' );
+	}
+
+	/**
+	 * @param array $fields One of the `*_text_fields()`
+	 * @return array The default texts, keyed by text name
+	 */
+	public static function default_texts( Array $fields ) {
+		return array_column( $fields, 'placeholder', 'name' );
+	}
+
+	/**
 	 * Register and add settings
 	 */
 	public function regsiter_settings_fields() {
@@ -182,13 +237,7 @@ class SettingsPage {
 			self::SECTION_TEXTS,
 			[
 				'id'        => self::FIELD_BANNER_TEXTS,
-				'fields'    => [
-					[ 'name' => 'title', 'label' => _x('Title', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Cookies', 'Banner Title', 'cookielawconsent' ) ],
-					[ 'name' => 'personalize', 'label' => _x('Personalize link', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Personalize', 'Banner Personalize', 'cookielawconsent' ) ],
-					[ 'name' => 'message', 'type' => 'textarea', 'label' => _x('Description', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('This site uses cookies to help improve your user experience and gives you control over what you want to activate.', 'Banner Message', 'cookielawconsent' ) ],
-					[ 'name' => 'acceptAll', 'label' => _x('Accept all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Ok, accept all', 'Banner Accept All', 'cookielawconsent' ) ],
-					[ 'name' => 'denyAll', 'label' => _x('Deny all button', 'Banner text', 'cookielawconsent'), 'placeholder' => _x('Deny all', 'Banner Deny All', 'cookielawconsent' ) ],
-				],
+				'fields'    => self::banner_text_fields(),
 			]
 		);
 		add_settings_field(
@@ -199,12 +248,7 @@ class SettingsPage {
 			self::SECTION_TEXTS,
 			[
 				'id'        => self::FIELD_MODAL_TEXTS,
-				'fields'    => [
-					[ 'name' => 'title', 'label' => _x('Title', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Privacy Overview', 'Modal Title', 'cookielawconsent' ) ],
-					[ 'name' => 'close', 'label' => _x('Close button', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Close', 'Modal Personalize', 'cookielawconsent' ) ],
-					[ 'name' => 'description', 'type' => 'textarea', 'label' => _x('Description', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.', 'Modal Description', 'cookielawconsent' ) ],
-					[ 'name' => 'save', 'label' => _x('Save button', 'Modal text', 'cookielawconsent'), 'placeholder' => _x('Save & Accept', 'Modal Accept All', 'cookielawconsent' ) ],
-				],
+				'fields'    => self::modal_text_fields(),
 			]
 		);
 
@@ -259,6 +303,38 @@ class SettingsPage {
 	 */
 	private static function to_array( $value ) {
 		return is_array( $value ) ? $value : [];
+	}
+
+	/**
+	 * Whether texts are flat (keyed by text name, as saved without WPML/Polylang)
+	 * rather than keyed by language. Language codes never match a text name.
+	 *
+	 * @param array $texts
+	 * @param array $textNames The `text_names()` of one of the `*_text_fields()`
+	 * @return bool
+	 */
+	private static function has_flat_texts( Array $texts, Array $textNames ) {
+		return count( array_intersect_key( $texts, array_flip( $textNames ) ) ) > 0;
+	}
+
+	/**
+	 * Previously stored texts keyed by language: flat texts move under the default language.
+	 * Language keys stored next to flat texts are kept, and win over them for the default language.
+	 *
+	 * @param mixed  $texts
+	 * @param array  $textNames The `text_names()` of one of the `*_text_fields()`
+	 * @param string $defaultLang
+	 * @return array
+	 */
+	private static function texts_by_lang( $texts, Array $textNames, $defaultLang ) {
+		$texts = self::to_array( $texts );
+		if ( !self::has_flat_texts( $texts, $textNames ) ) return $texts;
+
+		$names = array_flip( $textNames );
+		$byLang = array_diff_key( $texts, $names );
+		if ( !isset( $byLang[$defaultLang] ) ) $byLang[$defaultLang] = array_intersect_key( $texts, $names );
+
+		return $byLang;
 	}
 
 	/**
@@ -340,26 +416,17 @@ class SettingsPage {
 			// No stored option yet (`get_option()` returned false): no previous values to merge with.
 			$prevOptions = self::to_array($this->options);
 
-			$bannerTexts = [];
-			$prevBannerTexts = $prevOptions[self::FIELD_BANNER_TEXTS] ?? null;
-			if ( is_array($prevBannerTexts) ) {
-				if ( count(array_intersect_key(['title', 'message', 'personalize', 'acceptAll', 'denyAll'], $prevBannerTexts)) > 0 ) $bannerTexts[$defaultLang] = $prevBannerTexts;
-				else $bannerTexts = $prevBannerTexts;
-			}
+			$bannerTexts = self::texts_by_lang( $prevOptions[self::FIELD_BANNER_TEXTS] ?? null, self::text_names( self::banner_text_fields() ), $defaultLang );
 			$bannerTexts[$currentLang] = $settings[self::FIELD_BANNER_TEXTS];
 			$settings[self::FIELD_BANNER_TEXTS] = $bannerTexts;
 
-			$modalTexts = [];
-			$prevModalTexts = $prevOptions[self::FIELD_MODAL_TEXTS] ?? null;
-			if ( is_array($prevModalTexts) ) {
-				if ( count(array_intersect_key(['title', 'description', 'close', 'save'], $prevModalTexts)) > 0 ) $modalTexts[$defaultLang] = $prevModalTexts;
-				else $modalTexts = $prevModalTexts;
-			}
+			$modalTexts = self::texts_by_lang( $prevOptions[self::FIELD_MODAL_TEXTS] ?? null, self::text_names( self::modal_text_fields() ), $defaultLang );
 			$modalTexts[$currentLang] = $settings[self::FIELD_MODAL_TEXTS];
 			$settings[self::FIELD_MODAL_TEXTS] = $modalTexts;
 
 
-			$settings[self::FIELD_CATEGORIES] = array_map(function($cat) use ($currentLang, $defaultLang) {
+			$categoryTextNames = self::text_names( self::category_text_fields() );
+			$settings[self::FIELD_CATEGORIES] = array_map(function($cat) use ($currentLang, $defaultLang, $categoryTextNames) {
 				$prevCat = $this->get_category_by_id($cat['id'] ?? null);
 
 				if (is_array($prevCat['title'] ?? null)) $title = $prevCat['title'];
@@ -377,16 +444,7 @@ class SettingsPage {
 				}
 				$desc[$currentLang] = $cat['description'] ?? '';
 
-				$texts = [];
-				if ( is_array($prevCat['texts'] ?? null) ) {
-					if ( count(array_intersect_key(['enable', 'enabled', 'disable', 'disabled', 'alwaysEnabled'], $prevCat['texts'])) > 0 ) {
-						$texts[$defaultLang] = $prevCat['texts'];
-					}
-					else {
-						$texts = $prevCat['texts'];
-					}
-				}
-
+				$texts = self::texts_by_lang( $prevCat['texts'] ?? null, $categoryTextNames, $defaultLang );
 				$texts[$currentLang] = isset($cat['texts']) ? $cat['texts'] : false;
 
 				return [
@@ -582,62 +640,22 @@ class SettingsPage {
 							<tr class="row">
 								<th><h3><?php _e( 'Custom Texts', 'cookielawconsent'); ?></h3></th>
 							</tr>
+<?php foreach ( array_chunk( self::category_text_fields(), 2 ) as $row ) : ?>
 							<tr>
-								<th><label for="<?php echo $cat['id']; ?>-texts-enable"><?php _e('Enable', 'cookielawconsent'); ?></label></th>
+<?php foreach ( $row as $field ) : ?>
+								<th><label for="<?php echo $cat['id']; ?>-texts-<?php echo $field['name']; ?>"><?php echo $field['label']; ?></label></th>
 								<td>
 									<input
-										id="<?php echo $cat['id']; ?>-texts-enable"
+										id="<?php echo $cat['id']; ?>-texts-<?php echo $field['name']; ?>"
 										type="text"
-										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][enable]"
-										placeholder="<?php _e( 'Enable cookies', 'cookielawconsent' ); ?>"
-										value="<?php if (isset($cat['texts']['enable'])) echo $cat['texts']['enable']; ?>"
+										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][<?php echo $field['name']; ?>]"
+										placeholder="<?php echo $field['placeholder']; ?>"
+										value="<?php if (isset($cat['texts'][$field['name']])) echo $cat['texts'][$field['name']]; ?>"
 									/>
 								</td>
-								<th><label for="<?php echo $cat['id']; ?>-texts-enabled"><?php _e('Enabled', 'cookielawconsent'); ?></label></th>
-								<td>
-									<input
-										id="<?php echo $cat['id']; ?>-texts-enabled"
-										type="text"
-										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][enabled]"
-										placeholder="<?php _e( 'Enabled', 'cookielawconsent' ); ?>"
-										value="<?php if (isset($cat['texts']['enabled'])) echo $cat['texts']['enabled']; ?>"
-									/>
-								</td>
+<?php endforeach ?>
 							</tr>
-							<tr>
-								<th><label for="<?php echo $cat['id']; ?>-texts-disable"><?php _e('Disable', 'cookielawconsent'); ?></label></th>
-								<td>
-									<input
-										id="<?php echo $cat['id']; ?>-texts-disable"
-										type="text"
-										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][disable]"
-										placeholder="<?php _e( 'Disable cookies', 'cookielawconsent' ); ?>"
-										value="<?php if (isset($cat['texts']['disable'])) echo $cat['texts']['disable']; ?>"
-									/>
-								</td>
-								<th><label for="<?php echo $cat['id']; ?>-texts-disabled"><?php _e('Disabled', 'cookielawconsent'); ?></label></th>
-								<td>
-									<input
-										id="<?php echo $cat['id']; ?>-texts-disabled"
-										type="text"
-										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][disabled]"
-										placeholder="<?php _e( 'Disabled', 'cookielawconsent' ); ?>"
-										value="<?php if (isset($cat['texts']['disabled'])) echo $cat['texts']['disabled']; ?>"
-									/>
-								</td>
-							</tr>
-							<tr>
-								<th><label for="<?php echo $cat['id']; ?>-texts-alwaysEnabled"><?php _e('Always Enabled <br><small><em>Mandatory category</em></small>', 'cookielawconsent'); ?></label></th>
-								<td>
-									<input
-										id="<?php echo $cat['id']; ?>-texts-alwaysEnabled"
-										type="text"
-										name="<?php echo self::SETTINGS_NAME; ?>[categories][<?php echo $i; ?>][texts][alwaysEnabled]"
-										placeholder="<?php _e( 'Always enabled', 'cookielawconsent' ); ?>"
-										value="<?php if (isset($cat['texts']['alwaysEnabled'])) echo $cat['texts']['alwaysEnabled']; ?>"
-									/>
-								</td>
-							</tr>
+<?php endforeach ?>
 						</table>
 					</div>
 				<?php endforeach ?>
