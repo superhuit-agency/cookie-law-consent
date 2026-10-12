@@ -2,7 +2,7 @@
 	"name": "superhuit/cookie-law-consent",
 	"description": "Handle your Cookies and give the user the ability to Accept or not the cookies.",
 	"type": "wordpress-plugin",
-	"license": "MIT",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "superhuit",
@@ -11,7 +11,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.0",
+		"php": ">=7.3",
 		"composer/installers": "^1.9"
 	}
 }

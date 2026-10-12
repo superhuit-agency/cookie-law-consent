@@ -316,7 +316,7 @@ See [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
-Licensed under the GPL-2.0+ license, as declared in the plugin header (`cookie-law-consent.php`). See <http://www.gnu.org/licenses/gpl-2.0.txt>.
+Licensed under the GPL-2.0-or-later license, as declared in the plugin header (`cookie-law-consent.php`). See <https://www.gnu.org/licenses/gpl-2.0.html>.
 
 ## Credits
 

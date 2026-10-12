@@ -5,8 +5,8 @@ Requires at least: 5.0
 Tested up to: 6.5
 Requires PHP: 7.3
 Stable tag: 2.2.0
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Configure GDPR cookie consent texts, categories and services in WordPress, and expose them to your front end via WPGraphQL or the REST API.
 

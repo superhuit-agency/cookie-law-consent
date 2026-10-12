@@ -5,22 +5,23 @@
  * Version:     2.2.0
  * Author:  superhuit
  * Author URI:  https://profiles.wordpress.org/superhuit
- * License:     GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+ * Requires PHP: 7.3
+ * License:     GPL-2.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: cookielawconsent
  * Domain Path: /languages
  *
  * Cookie Law Consent is free software; you can redistribute it and/or modify it under the terms of the GNU
- * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume
- * that you can use any other version of the GPL.
+ * General Public License as published by the Free Software Foundation, either version 2 of the License,
+ * or (at your option) any later version.
  *
  * Cookie Law Consent is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  * @package CookieLawConsent
  * @author  Kuuak
- * @license GPL-2.0+
- * @link    https://gitlab.com/superhuit/cookie-law-consent
+ * @license GPL-2.0-or-later
+ * @link    https://github.com/superhuit-agency/cookie-law-consent
  */
 namespace CookieLawConsent;
 

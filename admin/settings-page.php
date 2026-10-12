@@ -64,7 +64,7 @@ class SettingsPage {
 			]
 		];
 
-		add_option( self::SETTINGS_NAME, $default, false );
+		add_option( self::SETTINGS_NAME, $default, '', true );
 	}
 
 	public static function remove_settings() {
