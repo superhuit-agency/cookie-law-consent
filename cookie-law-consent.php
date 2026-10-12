@@ -92,8 +92,9 @@ function get_current_lang() {
 			? apply_filters( 'wpml_current_language', NULL ) // WPML
 			: pll_current_language() // Polylang
 		);
-		$defaultLang = get_default_lang();
-		$currentLang = ( $currentLang === 'all' ? $defaultLang : $currentLang );
+		// No single current language: "all languages" is selected, or none is known
+		// (Polylang returns `false`). Fall back to the default language.
+		if ( in_array( $currentLang, [ false, null, '', 'all' ], true ) ) $currentLang = get_default_lang();
 	}
 
 	return $currentLang;

@@ -28,6 +28,13 @@ class SettingsPage {
 	const FIELD_SERVICES = 'services';
 
 	/**
+	 * Keys of the texts, used to tell flat texts from texts keyed by language
+	 */
+	const BANNER_TEXT_NAMES = [ 'title', 'message', 'personalize', 'acceptAll', 'denyAll' ];
+	const MODAL_TEXT_NAMES = [ 'title', 'description', 'close', 'save' ];
+	const CATEGORY_TEXT_NAMES = [ 'enable', 'enabled', 'disable', 'disabled', 'alwaysEnabled' ];
+
+	/**
 	 * Holds the values to be used in the fields callbacks
 	 */
 	private $options;
@@ -262,6 +269,38 @@ class SettingsPage {
 	}
 
 	/**
+	 * Whether texts are flat (keyed by text name, as saved without WPML/Polylang)
+	 * rather than keyed by language. Language codes never match a text name.
+	 *
+	 * @param array $texts
+	 * @param array $textNames One of the `*_TEXT_NAMES` constants
+	 * @return bool
+	 */
+	private static function has_flat_texts( Array $texts, Array $textNames ) {
+		return count( array_intersect_key( $texts, array_flip( $textNames ) ) ) > 0;
+	}
+
+	/**
+	 * Previously stored texts keyed by language: flat texts move under the default language.
+	 * Language keys stored next to flat texts are kept, and win over them for the default language.
+	 *
+	 * @param mixed  $texts
+	 * @param array  $textNames One of the `*_TEXT_NAMES` constants
+	 * @param string $defaultLang
+	 * @return array
+	 */
+	private static function texts_by_lang( $texts, Array $textNames, $defaultLang ) {
+		$texts = self::to_array( $texts );
+		if ( !self::has_flat_texts( $texts, $textNames ) ) return $texts;
+
+		$names = array_flip( $textNames );
+		$byLang = array_diff_key( $texts, $names );
+		if ( !isset( $byLang[$defaultLang] ) ) $byLang[$defaultLang] = array_intersect_key( $texts, $names );
+
+		return $byLang;
+	}
+
+	/**
 	 * Sanitize each setting field as needed
 	 *
 	 * @param array $input Contains all settings fields as array keys
@@ -340,21 +379,11 @@ class SettingsPage {
 			// No stored option yet (`get_option()` returned false): no previous values to merge with.
 			$prevOptions = self::to_array($this->options);
 
-			$bannerTexts = [];
-			$prevBannerTexts = $prevOptions[self::FIELD_BANNER_TEXTS] ?? null;
-			if ( is_array($prevBannerTexts) ) {
-				if ( count(array_intersect_key(['title', 'message', 'personalize', 'acceptAll', 'denyAll'], $prevBannerTexts)) > 0 ) $bannerTexts[$defaultLang] = $prevBannerTexts;
-				else $bannerTexts = $prevBannerTexts;
-			}
+			$bannerTexts = self::texts_by_lang( $prevOptions[self::FIELD_BANNER_TEXTS] ?? null, self::BANNER_TEXT_NAMES, $defaultLang );
 			$bannerTexts[$currentLang] = $settings[self::FIELD_BANNER_TEXTS];
 			$settings[self::FIELD_BANNER_TEXTS] = $bannerTexts;
 
-			$modalTexts = [];
-			$prevModalTexts = $prevOptions[self::FIELD_MODAL_TEXTS] ?? null;
-			if ( is_array($prevModalTexts) ) {
-				if ( count(array_intersect_key(['title', 'description', 'close', 'save'], $prevModalTexts)) > 0 ) $modalTexts[$defaultLang] = $prevModalTexts;
-				else $modalTexts = $prevModalTexts;
-			}
+			$modalTexts = self::texts_by_lang( $prevOptions[self::FIELD_MODAL_TEXTS] ?? null, self::MODAL_TEXT_NAMES, $defaultLang );
 			$modalTexts[$currentLang] = $settings[self::FIELD_MODAL_TEXTS];
 			$settings[self::FIELD_MODAL_TEXTS] = $modalTexts;
 
@@ -377,16 +406,7 @@ class SettingsPage {
 				}
 				$desc[$currentLang] = $cat['description'] ?? '';
 
-				$texts = [];
-				if ( is_array($prevCat['texts'] ?? null) ) {
-					if ( count(array_intersect_key(['enable', 'enabled', 'disable', 'disabled', 'alwaysEnabled'], $prevCat['texts'])) > 0 ) {
-						$texts[$defaultLang] = $prevCat['texts'];
-					}
-					else {
-						$texts = $prevCat['texts'];
-					}
-				}
-
+				$texts = self::texts_by_lang( $prevCat['texts'] ?? null, self::CATEGORY_TEXT_NAMES, $defaultLang );
 				$texts[$currentLang] = isset($cat['texts']) ? $cat['texts'] : false;
 
 				return [
