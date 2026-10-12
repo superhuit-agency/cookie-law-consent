@@ -41,6 +41,12 @@ define( 'CLC_PLUGIN_PATH', __DIR__ );
 define( 'CLC_PLUGIN_URL', plugin_dir_url(__FILE__) );
 define( 'CLC_PLUGIN_VERSION', $plugin_data['version'] );
 
+/**
+ * Name of the read-only setting that exposes the configuration on `/wp/v2/settings`.
+ * Its value is always computed from the `cookie_law_consent` option and never stored.
+ */
+const REST_SETTING_NAME = 'cookielawconsent';
+
 require_once __DIR__ .'/available-services.php';
 require_once __DIR__ .'/public/public.php';
 require_once __DIR__ .'/admin/settings-page.php';
@@ -55,6 +61,9 @@ require_once __DIR__ .'/cookie-law-consent-api.php';
 register_activation_hook( __FILE__, __NAMESPACE__ .'\plugin_activation' );
 add_action( 'plugins_loaded', __NAMESPACE__.'\register_textdomain' );
 add_action( 'rest_api_init', __NAMESPACE__.'\register_settings_api_rest' );
+add_filter( 'pre_option_'. REST_SETTING_NAME, __NAMESPACE__.'\get_rest_setting_value' );
+add_filter( 'pre_update_option_'. REST_SETTING_NAME, __NAMESPACE__.'\block_rest_setting_update', 10, 2 );
+add_action( 'add_option_'. REST_SETTING_NAME, __NAMESPACE__.'\delete_added_rest_setting' );
 
 function plugin_activation() {
 	SettingsPage::insert_default_settings();
@@ -74,17 +83,41 @@ function register_textdomain() {
 }
 
 function register_settings_api_rest() {
-	$config = get_option( SettingsPage::SETTINGS_NAME );
-
 	register_setting(
 		'general',
-		'cookielawconsent',
+		REST_SETTING_NAME,
 		[
 			'type'         => 'string',
 			'show_in_rest' => true,
-			'default' 		 => json_encode($config) // Need to stringify otherwise it doesn't work to send object directly..
+			'default' 		 => get_rest_setting_value() // Need to stringify otherwise it doesn't work to send object directly..
 		],
 	);
+}
+
+/**
+ * The REST setting's value: the JSON-encoded current `cookie_law_consent` option.
+ * Hooked on `pre_option_cookielawconsent`, so a `cookielawconsent` row left in the
+ * database by an earlier write is ignored.
+ */
+function get_rest_setting_value() {
+	return wp_json_encode( get_option( SettingsPage::SETTINGS_NAME ) );
+}
+
+/**
+ * Ignore writes to the REST setting (`POST /wp/v2/settings`, `update_option()`).
+ * Returning the old value makes `update_option()` a no-op.
+ */
+function block_rest_setting_update( $value, $old_value ) {
+	return $old_value;
+}
+
+/**
+ * `add_option()` has no filter to cancel it. It normally refuses because the option
+ * already has a value (see `get_rest_setting_value()`), but it can still insert a row
+ * right after a `delete_option()` in the same request. Remove that row.
+ */
+function delete_added_rest_setting() {
+	delete_option( REST_SETTING_NAME );
 }
 
 
