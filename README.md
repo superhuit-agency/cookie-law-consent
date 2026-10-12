@@ -5,7 +5,7 @@
 **Cookie Law Consent** is a lightweight WordPress plugin by [superhuit](https://www.superhuit.ch) that displays a cookie consent banner and a preferences modal, groups third-party services into cookie categories and stores the visitor's choice for each category. For Google Tag Manager, that choice is passed on as Google Consent Mode v2 signals.
 
 > [!NOTE]
-> This branch (`master-v1`) is the **v1.x maintenance line** of the plugin. It only receives fixes and small improvements. New development happens on `master` (v2.x), which differs significantly from what is documented here.
+> This branch (`master-v1`) is **version 1.x** of the plugin, which **renders the consent UI on the front end** (banner, preferences modal) and loads the configured services itself. Version 2.x, on the `master` branch, is a back-end-only plugin: it stores the configuration and exposes it (WPGraphQL, REST API) for a decoupled/headless front end to render. Pick the version that matches your setup.
 
 - **Current version:** 1.8.3
 - **Text domain:** `cookielawconsent`
