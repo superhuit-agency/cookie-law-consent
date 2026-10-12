@@ -180,6 +180,14 @@ export default class CookieLawCategory extends EventEmitter {
 	}
 
 	toggleExpanded() {
+		// Never hide the content while focus is inside it (e.g. a link in the
+		// description): move focus to the accordion's toggle button first.
+		if (
+			this.state.collapsed &&
+			this.refs.content.contains(document.activeElement)
+		)
+			this.refs.title.focus();
+
 		this.refs.content.setAttribute("aria-hidden", this.state.collapsed);
 		this.refs.el.classList[this.state.collapsed ? "remove" : "add"](
 			CLASS_IS_EXPANDED

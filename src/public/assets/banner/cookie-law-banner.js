@@ -125,6 +125,7 @@ export default class CookieLawBanner extends EventEmitter {
 		el.setAttribute("role", "dialog");
 		el.setAttribute("aria-live", "polite");
 		el.setAttribute("aria-hidden", "true");
+		el.setAttribute("inert", "");
 		el.setAttribute("aria-label", "cookie-law-banner:title");
 		el.setAttribute("aria-describedby", "cookie-law-banner:desc");
 
@@ -149,6 +150,15 @@ export default class CookieLawBanner extends EventEmitter {
 	}
 
 	toggle() {
-		this.refs.el.setAttribute("aria-hidden", this.state.hidden);
+		const { el } = this.refs;
+
+		// Never hide the banner while focus is still inside it:
+		// there is no prior trigger to return to, so drop focus to the body.
+		if (this.state.hidden && el.contains(document.activeElement)) {
+			document.activeElement.blur();
+		}
+
+		el.setAttribute("aria-hidden", this.state.hidden);
+		el.toggleAttribute("inert", this.state.hidden);
 	}
 }
