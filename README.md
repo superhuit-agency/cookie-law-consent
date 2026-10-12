@@ -285,7 +285,7 @@ if ( $recaptcha['enabled'] && ! empty( $recaptcha['secretKey'] ) ) {
 }
 ```
 
-Other keys returned: `category` (the category ID) and the service fields (`containerID`, `trackingID`, `anonymizeIp`, `pixelID`, `siteKey`, `secretKey`, `apiKey`, `piAId`, `piCId`). Switch fields (e.g. `anonymizeIp`) are stored as `'on'` when checked and are absent otherwise.
+Other keys returned: `category` (the category ID) and the service fields (`containerID`, `trackingID`, `anonymizeIp`, `pixelID`, `siteKey`, `secretKey`, `apiKey`, `piAId`, `piCId`). Switch fields (e.g. `anonymizeIp`) are stored as booleans (`true` / `false`). Settings last saved with an older version may still hold `'on'` when checked, or omit the key when unchecked (the front end then applies the field's default).
 
 ### Constants
 

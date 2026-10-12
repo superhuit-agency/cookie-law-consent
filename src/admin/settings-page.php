@@ -231,6 +231,17 @@ class SettingsPage {
 	}
 
 	/**
+	 * Cast a switch value to a boolean.
+	 * Handles a checkbox's submitted "on" as well as already stored booleans.
+	 *
+	 * @param mixed $value
+	 * @return bool
+	 */
+	private static function to_bool( $value ) {
+		return filter_var( $value, FILTER_VALIDATE_BOOLEAN );
+	}
+
+	/**
 	 * Sanitize each setting field as needed
 	 *
 	 * @param array $input Contains all settings fields as array keys
@@ -274,6 +285,20 @@ class SettingsPage {
 				return isset($srv['enabled']);
 			}
 		);
+
+		// Store `switch` fields as explicit booleans: an unchecked checkbox is not submitted,
+		// so without this an "off" switch would be absent and the front-end default would apply.
+		foreach (SERVICES as $srvDef) {
+			if ( !isset($settings[self::FIELD_SERVICES][$srvDef['name']]) ) continue;
+
+			foreach ($srvDef['fields'] as $fld) {
+				if ( $fld['type'] !== 'switch' ) continue;
+
+				$settings[self::FIELD_SERVICES][$srvDef['name']][$fld['name']] = self::to_bool(
+					$settings[self::FIELD_SERVICES][$srvDef['name']][$fld['name']] ?? false
+				);
+			}
+		}
 
 		if (is_multilingual()) {
 			$currentLang = get_current_lang();
@@ -607,7 +632,9 @@ class SettingsPage {
 
 							foreach ($srv['fields'] as $fIdx => $fld) {
 								$srv['fields'][$fIdx]['value'] = ($fld['type'] === 'switch'
-									? isset($data[$fld['name']])
+									// A switch saved before values were stored as booleans may be absent:
+									// show the default, which is what the front-end applies in that case.
+									? ( array_key_exists($fld['name'], $data) ? self::to_bool($data[$fld['name']]) : !empty($fld['default']) )
 									: $data[$fld['name']]
 								);
 							}
