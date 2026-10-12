@@ -183,7 +183,12 @@ export default class CookieLaw {
 
 			if (cat.services) {
 				cat.services.forEach(({ name, ...data }) => {
-					this.initService(name, enabled, data);
+					// Only load a service once its category is accepted (or mandatory).
+					// Services flagged `loadBeforeConsent` (e.g. GTM with Consent Mode)
+					// handle the "not yet consented" state themselves.
+					if (enabled) this.acceptService(name, data);
+					else if (services[name]?.loadBeforeConsent)
+						this.initService(name, data);
 				});
 			}
 
@@ -191,29 +196,35 @@ export default class CookieLaw {
 		});
 	}
 
-	initService(name, enabled = false, data = {}) {
+	initService(name, data = {}, callback = null) {
 		if (typeof services[name] === "undefined") return;
 		if (this.state.initedServices.includes(name)) return;
 
+		this.state.initedServices.push(name);
+
 		const init = services[name]?.init;
-		if (typeof init === "function")
-			init.call(this, {
-				...data,
-				callback: () => {
-					if (enabled) this.acceptService(name, data);
-				},
-			});
-		this.state.initedServices[name] = true;
+		if (typeof init === "function") init.call(this, { ...data, callback });
+		else if (typeof callback === "function") callback();
 	}
 
-	acceptService(name, data) {
+	acceptService(name, data = {}) {
 		if (typeof services[name] === "undefined") return;
 		if (this.state.acceptedServices.includes(name)) return;
 
-		const onAccept = services[name]?.onAccept;
-		if (typeof onAccept === "function") onAccept.call(this, data);
-
 		this.state.acceptedServices.push(name);
+
+		let accepted = false;
+		const onAccept = () => {
+			// Run once, and not if the service was rejected while its script was loading
+			if (accepted || !this.state.acceptedServices.includes(name)) return;
+			accepted = true;
+
+			const fn = services[name]?.onAccept;
+			if (typeof fn === "function") fn.call(this, data);
+		};
+
+		if (this.state.initedServices.includes(name)) onAccept();
+		else this.initService(name, data, onAccept);
 	}
 
 	rejectService(name, data) {

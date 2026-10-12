@@ -5,6 +5,12 @@ function clc_gtag() {
 }
 
 /**
+ * GTM is loaded on page load, before consent: Consent Mode v2 defaults
+ * every storage to "denied" until `onAccept` grants it.
+ */
+export const loadBeforeConsent = true;
+
+/**
  * Google Tag Manager (gtm.js)
  *
  * Category: Analytics
