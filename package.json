@@ -13,7 +13,7 @@
 		"watch": "webpack --watch"
 	},
 	"engines": {
-		"node": "20.x"
+		"node": "24.x"
 	},
 	"dependencies": {
 		"delegate": "^3.2.0"
