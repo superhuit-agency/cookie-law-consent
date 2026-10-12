@@ -40,7 +40,7 @@ Cookie Law Consent is a WordPress plugin that stores the **configuration** of a 
 | WPML or Polylang | Optional, for multilingual texts |
 | A WPGraphQL language extension (for example [WPGraphQL for Polylang](https://github.com/valu-digital/wp-graphql-polylang)) | Required on multilingual sites that use the `gdpr` GraphQL field: it must register the `LanguageCodeEnum` type used by the `language` argument |
 
-To build from source you also need Node.js 14 (see `.nvmrc` / `package.json` `engines`), Yarn and, optionally, Composer.
+To build from source you also need Node.js 24 (see `.nvmrc` / `package.json` `engines`), Yarn and, optionally, Composer.
 
 ## Installation
 
@@ -74,7 +74,7 @@ cd wp-content/plugins
 git clone https://github.com/superhuit-agency/cookie-law-consent.git
 cd cookie-law-consent
 
-nvm use            # Node 14 (lts/fermium)
+nvm use            # Node 24
 yarn install
 yarn build:production
 ```
@@ -266,7 +266,7 @@ Deleting the plugin from the WordPress admin (or `wp plugin uninstall cookie-law
 ## Development
 
 ```bash
-nvm use                  # Node 14 (lts/fermium)
+nvm use                  # Node 24
 yarn install
 
 yarn build:dev           # development build to dist/

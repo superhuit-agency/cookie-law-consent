@@ -1,22 +1,27 @@
 # Dependabot reads this file from the default branch (master) only, and only
-# opens security updates against master. master-v1 gets version updates via
-# `target-branch` and a vulnerability check via workflows/security-audit.yml.
+# opens security updates against master. Both branches get weekly version
+# updates (master-v1 via `target-branch`); master-v1 also gets a vulnerability
+# check via workflows/security-audit.yml.
 # See docs/adr/0001-dependency-security-per-branch.md.
 version: 2
 
 updates:
-  # master (2.x): security updates only.
-  # `open-pull-requests-limit: 0` disables version updates; security updates
-  # are unaffected and are grouped into one PR per ecosystem.
+  # master (2.x): weekly version updates, minor + patch grouped per ecosystem,
+  # majors as individual PRs. Security updates are grouped into one PR per
+  # ecosystem.
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 0
+      day: monday
+    open-pull-requests-limit: 5
     labels: [dependencies, v2]
     commit-message:
       prefix: "chore(2.x): ⬆️"
     groups:
+      npm-minor-patch:
+        applies-to: version-updates
+        update-types: [minor, patch]
       npm-security:
         applies-to: security-updates
         patterns: ["*"]
@@ -25,11 +30,15 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 0
+      day: monday
+    open-pull-requests-limit: 5
     labels: [dependencies, v2]
     commit-message:
       prefix: "chore(2.x): ⬆️"
     groups:
+      composer-minor-patch:
+        applies-to: version-updates
+        update-types: [minor, patch]
       composer-security:
         applies-to: security-updates
         patterns: ["*"]
@@ -38,11 +47,15 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    open-pull-requests-limit: 0
+      day: monday
+    open-pull-requests-limit: 5
     labels: [dependencies, v2]
     commit-message:
       prefix: "chore(2.x): ⬆️"
     groups:
+      actions-minor-patch:
+        applies-to: version-updates
+        update-types: [minor, patch]
       actions-security:
         applies-to: security-updates
         patterns: ["*"]

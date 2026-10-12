@@ -10,6 +10,7 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist/'),
+    clean: true,
 	},
 	module: {
     rules: [
@@ -50,6 +51,8 @@ module.exports = {
     }),
 	],
 	devServer: {
-    contentBase: './build',
+    static: {
+      directory: path.join(__dirname, 'build'),
+    },
   },
 };
