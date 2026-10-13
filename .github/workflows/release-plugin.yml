@@ -83,9 +83,45 @@ jobs:
         shell: bash
         run: cp cookie-law-consent.zip "cookie-law-consent-$GITHUB_REF_NAME.zip"
 
+      # release-belt's SSH host key is pinned, so the upload only goes to the real
+      # server: without it ssh-deploy connects with StrictHostKeyChecking=no and
+      # trusts whatever key it is shown. The key comes from the
+      # RELEASE_BELT_KNOWN_HOSTS organization secret: the `ssh-keyscan -p <port>
+      # <host>` line(s) (`-H` hashed lines work too), checked against the
+      # fingerprints from `ssh-keygen -lf /etc/ssh/ssh_host_*_key.pub` on the
+      # server by someone with access to it.
+      #
+      # When release-belt's host key changes, the upload fails with "Host key
+      # verification failed" (and the fingerprints logged below no longer match
+      # the server's). Replace the secret with the new, verified line(s); don't
+      # switch the check off.
+      - name: Pin release-belt's SSH host key
+        shell: bash
+        env:
+          KNOWN_HOSTS: ${{ secrets.RELEASE_BELT_KNOWN_HOSTS }}
+        run: |
+          if [ -z "$KNOWN_HOSTS" ]; then
+            echo "::error::The RELEASE_BELT_KNOWN_HOSTS organization secret is missing or empty, so release-belt's SSH host key can't be verified. Create it (see the comment above this step), then upload the release's cookie-law-consent.zip by hand: re-running the job stops at \"Publish GitHub release\"."
+            exit 1
+          fi
+          umask 077
+          printf '%s\n' "$KNOWN_HOSTS" | tr -d '\r' > "$RUNNER_TEMP/release_belt_known_hosts"
+          if ! fingerprints=$(ssh-keygen -lf "$RUNNER_TEMP/release_belt_known_hosts"); then
+            echo "::error::RELEASE_BELT_KNOWN_HOSTS holds no valid known_hosts line (expected \`ssh-keyscan -p <port> <host>\` output)."
+            exit 1
+          fi
+          # Bits, fingerprint and key type only, to compare with the server's.
+          awk '{ print $1, $2, $NF }' <<<"$fingerprints"
+
       # Pinned to a commit SHA, with the release it resolves to in a comment: a tag
       # can be moved to other code, and this job holds `contents: write` and the
       # release-belt SSH key.
+      #
+      # SSH_CMD_ARGS replaces the action's `-o StrictHostKeyChecking=no` default:
+      # the action splits it on commas and appends the options to rsync's `--rsh`
+      # ssh command, which then trusts only the file written above. Don't set
+      # SCRIPT_BEFORE/SCRIPT_AFTER: the action runs those over a separate ssh
+      # command with StrictHostKeyChecking=no hardcoded, ignoring SSH_CMD_ARGS.
       #
       # If this step fails, the GitHub release is already published, and re-running
       # the job stops at "Publish GitHub release" (the release exists). Upload the
@@ -97,5 +133,6 @@ jobs:
           REMOTE_USER: ${{ secrets.RELEASE_BELT_USER }}
           REMOTE_HOST: ${{ secrets.RELEASE_BELT_HOST }}
           REMOTE_PORT: ${{ secrets.RELEASE_BELT_PORT }}
+          SSH_CMD_ARGS: "-o StrictHostKeyChecking=yes, -o UserKnownHostsFile=${{ runner.temp }}/release_belt_known_hosts, -o GlobalKnownHostsFile=/dev/null"
           SOURCE: cookie-law-consent-${{ github.ref_name }}.zip
           TARGET: "${{ secrets.RELEASE_BELT_PATH }}/releases/wordpress-plugin/superhuit/cookie-law-consent-${{ github.ref_name }}.zip"
