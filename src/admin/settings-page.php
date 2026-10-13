@@ -352,8 +352,9 @@ class SettingsPage {
 
 	/**
 	 * Texts without their empty values, as stored.
-	 * On a multilingual site, texts already keyed by language are kept as they are, empty languages
-	 * included, so that the multilingual merge in `sanitize()` still sees them as keyed by language.
+	 * On a multilingual site, texts already keyed by language lose their empty values within each
+	 * language, but keep every language, even one left without texts, so that the multilingual merge
+	 * in `sanitize()` still sees them as keyed by language.
 	 *
 	 * @param mixed $texts
 	 * @param array $textNames The `text_names()` of one of the `*_text_fields()`
@@ -361,7 +362,11 @@ class SettingsPage {
 	 */
 	private static function sanitize_texts( $texts, Array $textNames ) {
 		$texts = self::to_array( $texts );
-		if ( is_multilingual() && self::is_texts_by_lang( $texts, $textNames ) ) return $texts;
+		if ( is_multilingual() && self::is_texts_by_lang( $texts, $textNames ) ) {
+			return array_map( function( $langTexts ) {
+				return is_array( $langTexts ) ? array_filter( $langTexts ) : $langTexts;
+			}, $texts );
+		}
 
 		return array_filter( $texts );
 	}
@@ -412,8 +417,7 @@ class SettingsPage {
 		if ( !is_array($fields) ) $fields = [];
 
 		// `update_option()` on a missing option sanitizes, then passes the result to `add_option()`,
-		// which sanitizes it again: return it as is, as on a multilingual site a second pass would
-		// merge the texts into the per-language structure once more.
+		// which sanitizes it again: return it as is, as a second pass would only give the same result.
 		if ( isset($this->sanitized) && $fields === $this->sanitized ) return $fields;
 
 		$settings = [];
