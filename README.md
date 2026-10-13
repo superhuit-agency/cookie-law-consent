@@ -492,7 +492,7 @@ Adding a service requires changes in both PHP and JS, followed by a rebuild:
 ### Releasing
 
 1. Bump the version in `cookie-law-consent.php`, `package.json` and `readme.txt` (`Stable tag`), and update `CHANGELOG.md` and the `readme.txt` changelog.
-2. Commit (`chore: 🚀 vX.Y.Z`) and push a `vX.Y.Z` tag. The GitHub workflow builds the assets and publishes the release zip.
+2. Commit (`chore: 🚀 vX.Y.Z`) and push a `vX.Y.Z` tag. The GitHub workflow builds the assets, publishes the release zip on GitHub and uploads a copy named `cookie-law-consent-vX.Y.Z.zip` to [release-belt](https://release-belt.superhuit.ch).
 
 ## Changelog
 
