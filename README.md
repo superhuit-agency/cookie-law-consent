@@ -167,7 +167,7 @@ Services are defined in [`src/available-services.php`](src/available-services.ph
 
 | Service | Key | Settings fields | Front-end behaviour (once loaded) |
 | --- | --- | --- | --- |
-| Google Tag Manager | `googletagmanager` | `containerID` (e.g. `GTM-XXX`) | Loads `gtm.js` and sets **Google Consent Mode v2** defaults to `denied` (`ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`), unless a `consent default` entry already exists in `dataLayer`. Sends a `consent update` with `granted` when the category is accepted (also on page load if it was accepted earlier, or always if the category is mandatory) and with `denied` when it is refused after having been accepted during the same page view. |
+| Google Tag Manager | `googletagmanager` | `containerID` (e.g. `GTM-XXX`) | Loads `gtm.js` and sets **Google Consent Mode v2** defaults to `denied` (`ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`, with `wait_for_update: 500`), unless a `consent default` entry already exists in `dataLayer`. Sends a `consent update` with `granted` when the category is accepted (on page load, before the `gtm.js` event, if it was accepted earlier or the category is mandatory), followed by a `clc_consent_granted` event when it is accepted during the page view, and with `denied` when it is refused. See [Google Tag Manager setup](#google-tag-manager-setup). |
 | Google Analytics | `googleanalytics` | `trackingID` (e.g. `UA-XXXXX-Y`), `anonymizeIp` (switch, default on) | Loads `analytics.js` (Universal Analytics), creates the tracker and sends a pageview. Google has retired Universal Analytics; for GA4, use Google Tag Manager. |
 | Facebook Pixel | `facebookpixel` | `pixelID` | Loads `fbevents.js`, then calls `fbq('init', pixelID)` and tracks `PageView`. |
 | Google reCAPTCHA | `recaptcha` | `siteKey`, `secretKey` | Loads `https://www.google.com/recaptcha/api.js`. The `secretKey` is stripped from the front-end config. |
@@ -182,15 +182,34 @@ A service's `init()` function is what loads its third-party script, and it only 
 - Services in a category that is refused or not chosen yet are **not** loaded. They are loaded later during the same page view if the visitor accepts the category (*Accept all*, or switched on and saved in the modal).
 - **Google Tag Manager** is the exception: it is loaded on every page view, with Google Consent Mode v2 defaults set to `denied`, and its consent state is updated when the category is accepted or refused.
 
-Refusing a category after its services were loaded does not unload their scripts; it only runs their `onReject` (Google Tag Manager switches Consent Mode back to `denied`).
+Refusing a category after its services were loaded does not unload their scripts; it only runs their `onReject` (Google Tag Manager switches Consent Mode to `denied`).
+
+### Google Tag Manager setup
+
+On every page view, the plugin pushes to the `dataLayer`, in this order:
+
+1. `consent default`: everything `denied`, with `wait_for_update: 500` (skipped if another plugin, e.g. *Google Analytics for WooCommerce*, already pushed a `consent default`).
+2. `consent update` with everything `granted`, only if the visitor accepted the category on an earlier page (or the category is mandatory).
+3. The `gtm.js` event, then the GTM container script is injected.
+
+So the tags fired on the first page view (*Initialization* / *All Pages*) already see the visitor's stored choice. When the visitor makes a choice on the page, the plugin pushes:
+
+- **Accept**: `consent update` with everything `granted`, then the event `{ event: "clc_consent_granted" }` (at most once per page view).
+- **Deny**: `consent update` with everything `denied` (not repeated while consent is already denied).
+
+Recommended container setup:
+
+- **GA4 tags** (Google tag and GA4 event tags): keep their built-in consent checks (`analytics_storage`, and `ad_storage` for ads features) and fire them on the usual triggers. Do not add *Additional consent checks* that block them: with Consent Mode they send cookieless pings until consent is granted.
+- **Landing page view after a first-visit accept**: the page_view of the page where the visitor accepts was sent before consent, without cookies, so the landing page and its source (`gclid`, UTM) are lost from the observed data. Add a *Custom Event* trigger on `clc_consent_granted` and use it to fire a GA4 event tag that sends `page_view` (with the same Measurement ID) once more. The event is not pushed for visitors who accepted on an earlier page, as their first page_view is already sent with consent.
+
 
 ### Service lifecycle
 
 Each front-end service module may export three functions, all called with the service settings as argument and the main `CookieLaw` instance as `this`:
 
-- `init(data)`: called at most once per page view, when the service's category is enabled: on page load if it is mandatory or was accepted earlier, otherwise when the visitor accepts it. It receives a `callback` to call once the service is ready; that callback runs `onAccept`.
+- `init(data)`: called at most once per page view, when the service's category is enabled: on page load if it is mandatory or was accepted earlier, otherwise when the visitor accepts it. It receives a `callback` to call once the service is ready; that callback runs `onAccept` (Google Tag Manager calls it synchronously, before the `gtm.js` event).
 - `onAccept(data)`: called when the service's category is accepted: on page load (via the `init` callback) if consent was already given, after *Accept all*, or after *Save & Accept* for a category switched on in the modal. If the service was already loaded, it is called right away.
-- `onReject(data)`: called when a category that was accepted during the current page view is refused (*Deny all*, or switched off and saved in the modal).
+- `onReject(data)`: called when a category that was accepted during the current page view is refused (*Deny all*, or switched off and saved in the modal). For a `loadBeforeConsent` service, it is also called when the category is refused without having been accepted.
 
 A service module may also export `loadBeforeConsent = true` to have `init` called on every page load whatever the consent state (without the `onAccept` callback). Only use it for services that wait for consent themselves.
 
@@ -438,7 +457,7 @@ composer install        # also installs WordPress & Polylang as dev dependencies
 | `yarn build:dev` | Development build into `dist/`. |
 | `yarn build:production` | Production build into `dist/` (minified, content-hashed file names). |
 | `yarn watch` | Development build in watch mode. |
-| `yarn test` | Runs the JS unit tests in [`tests/`](tests/) with Node's built-in test runner. |
+| `yarn test` | Runs the front-end tests in [`tests/`](tests/) with Node's built-in test runner. |
 
 ### Project structure
 
@@ -456,8 +475,8 @@ src/
     ├── index.js            Front-end entry point
     └── assets/             Banner, modal, category components, services, styles
 languages/                  .pot / .po / .mo files
+tests/                      Front-end tests (node --test)
 public/                     Dev server demo page
-tests/                      JS unit tests (node --test)
 ```
 
 Webpack ([`webpack.config.js`](webpack.config.js)) builds two entries, `cookie-law-consent` (front end) and `cookie-law-consent-admin`, and writes a `manifest.json` that PHP uses to resolve the hashed file names.

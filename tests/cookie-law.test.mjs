@@ -8,7 +8,6 @@
  * Browser globals are fakes: a cookie jar on `document`, sessionStorage,
  * navigator.sendBeacon.
  */
-import "./webpack-hooks.mjs";
 import { test, beforeEach, before } from "node:test";
 import assert from "node:assert/strict";
 import { EventEmitter } from "node:events";
