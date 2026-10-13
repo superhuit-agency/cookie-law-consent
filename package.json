@@ -10,7 +10,8 @@
 		"start": "webpack-dev-server --open",
 		"build:dev": "webpack",
 		"build:production": "cross-env NODE_ENV=production webpack",
-		"watch": "webpack --watch"
+		"watch": "webpack --watch",
+		"test": "node --import ./tests/setup.mjs --test \"tests/**/*.test.mjs\""
 	},
 	"engines": {
 		"node": "24.x"
