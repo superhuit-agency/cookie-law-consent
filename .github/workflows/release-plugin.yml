@@ -36,7 +36,7 @@ jobs:
 
       # Nodejs dependencies
       - name: Install node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v7
         with:
           node-version: 24
       - name: Install node dependencies
