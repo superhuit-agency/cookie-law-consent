@@ -221,3 +221,17 @@ test("accept then deny on the same page: consent goes back to denied", () => {
 		"consent update denied",
 	]);
 });
+
+test("returning consented visitor who refuses then accepts again on the page: no clc_consent_granted", () => {
+	jar.set(COOKIE, "yes");
+	const clc = loadPage();
+	clc.denyAll();
+	clc.acceptAll();
+
+	// The page_view was already sent with consent: re-sending it would double count
+	assert.equal(count("event clc_consent_granted"), 0);
+	assert.deepEqual(timeline().slice(-2), [
+		"consent update denied",
+		"consent update granted",
+	]);
+});

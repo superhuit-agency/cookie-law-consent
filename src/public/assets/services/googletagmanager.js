@@ -74,13 +74,23 @@ export function init({ containerID, callback }) {
 }
 
 export function onAccept({ callback }) {
-	// GTM already started (with consent denied) on this page
-	const started = window.dataLayer.some((item) => isEvent(item, "gtm.js"));
+	// GTM already started on this page, and with consent denied: a granted
+	// update before `gtm.js` means the page_view was already sent with consent
+	const gtmStart = window.dataLayer.findIndex((item) =>
+		isEvent(item, "gtm.js")
+	);
+	const grantedOnLoad = window.dataLayer
+		.slice(0, gtmStart)
+		.some(
+			(item) =>
+				isConsent(item, "update") && item[2]?.analytics_storage === "granted"
+		);
+	const startedDenied = gtmStart !== -1 && !grantedOnLoad;
 
 	clc_gtag("consent", "update", GRANTED);
 
 	if (
-		started &&
+		startedDenied &&
 		!window.dataLayer.some((item) => isEvent(item, CONSENT_GRANTED_EVENT))
 	) {
 		window.dataLayer.push({ event: CONSENT_GRANTED_EVENT });
