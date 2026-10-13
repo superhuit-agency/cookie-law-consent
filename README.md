@@ -21,6 +21,7 @@
 - [Configuration](#configuration)
 - [Available services](#available-services)
 - [How consent is stored](#how-consent-is-stored)
+- [Consent statistics](#consent-statistics)
 - [Developer reference](#developer-reference)
 - [Development](#development)
 - [Changelog](#changelog)
@@ -41,6 +42,8 @@
 - Any page can re-open the preferences modal with a simple `#cookie-law-settings` link.
 - Translations shipped for **French (fr_FR)** and **English (en_GB)**.
 - reCAPTCHA **secret key is never exposed** to the front end (since 1.8.2).
+- Optional **consent statistics**: when [wp-cookie-consent-analytics](https://github.com/superhuit-agency/wp-cookie-consent-analytics) is active, banner impressions and choices are sent to it; see [Consent statistics](#consent-statistics).
+- **DOM events** (`cookielaw:impression`, `cookielaw:accept`, `cookielaw:reject`, `cookielaw:save`) for themes to hook into; see [DOM events](#dom-events).
 
 ## Requirements
 
@@ -231,6 +234,53 @@ All cookies are set for one year, on path `/`, with `secure` and `samesite=stric
 
 Mandatory categories never get a cookie: they are always considered accepted.
 
+## Consent statistics
+
+When [wp-cookie-consent-analytics](https://github.com/superhuit-agency/wp-cookie-consent-analytics) is installed and active, the banner sends its events to that plugin's REST endpoint, `POST /wp-json/supt/v1/cookie-stats`. There is no setting: statistics are on when, and only when, that plugin is active. It stays optional; without it, the plugin sends nothing.
+
+The plugin counts as active when both its `COOKIE_ANALYTICS_VERSION` constant and its `Cookie_Analytics_API` class exist. An install missing its Composer dependencies defines the constant but never registers the REST route, so it counts as inactive.
+
+| Event | Sent when |
+| --- | --- |
+| `impression` | The banner is shown, **once per browser session** (the banner shows again on every page until a choice is made; counting each page would understate the opt-in rate). |
+| `accept` | The visitor clicks *Accept all*. |
+| `reject` | The visitor clicks *Deny all*. |
+| `personalize` | The visitor saves the preferences modal while the banner is still shown (their first choice). |
+
+Only the first choice is counted: later changes made through a [`#cookie-law-settings` link](#re-opening-the-preferences) are not sent.
+
+With wp-cookie-consent-analytics **1.1.0 or later**, `personalize` also carries the accepted categories, `{ "event_type": "personalize", "granted": ["analytics"] }` (IDs of the non-mandatory categories that are enabled). Earlier versions only accept the event type, so they receive `{ "event_type": "personalize" }`.
+
+How the events are sent:
+
+- with `navigator.sendBeacon()` (falling back to `fetch()` with `keepalive`), so they still arrive when the visitor leaves the page right after clicking; sending never blocks nor throws;
+- without a nonce: the endpoint URL comes from the [front-end config](#front-end-config-object), so it works on fully cached pages;
+- for a sample of browser sessions (all of them by default, see `clc_stats_sample_rate` below). The sampling decision is made once per session and stored with the impression flag in the `{cookieName}_stats` `sessionStorage` entry, so impressions and choices come from the same sessions.
+
+### PHP filter: `clc_stats_endpoint`
+
+Filters the URL the events are sent to. Return `false` to disable the statistics. Only runs when wp-cookie-consent-analytics is active.
+
+```php
+apply_filters( 'clc_stats_endpoint', string $endpoint ); // default: rest_url( 'supt/v1/cookie-stats' )
+```
+
+```php
+// Don't collect statistics on the landing pages
+add_filter( 'clc_stats_endpoint', function( $endpoint ) {
+	return is_page( 'landing' ) ? false : $endpoint;
+} );
+```
+
+### PHP filter: `clc_stats_sample_rate`
+
+Filters the share of browser sessions whose events are sent, between `0` (none) and `1` (all, the default). Values outside that range are clamped, non-numeric values fall back to `1`.
+
+```php
+// Only send the events of 1 session out of 10
+add_filter( 'clc_stats_sample_rate', fn() => 0.1 );
+```
+
 ## Developer reference
 
 ### PHP filter: `clc_config`
@@ -345,7 +395,36 @@ The front-end script reads the global `clc_config` object (output with `wp_local
 - `cookieName`: prefix of the consent cookies.
 - `hash`: URL hash that opens the preferences modal.
 
+Only when wp-cookie-consent-analytics is active (see [Consent statistics](#consent-statistics)), the config also holds:
+
+- `stats_endpoint`: URL the banner events are sent to (`clc_stats_endpoint` filter);
+- `stats_sample_rate`: share of browser sessions whose events are sent (`clc_stats_sample_rate` filter);
+- `stats_version`: the installed wp-cookie-consent-analytics version, which decides whether `personalize` carries the `granted` categories.
+
+Without these keys, nothing is sent.
+
 The banner and modal are injected at the start of `<body>` inside a `<div class="cookie-law">` wrapper once `DOMContentLoaded` fires. The `CookieLaw` instance itself is not exposed globally.
+
+### DOM events
+
+The banner dispatches these events on `document`, whether or not the statistics are enabled:
+
+| Event | Dispatched when | `detail` |
+| --- | --- | --- |
+| `cookielaw:impression` | The banner is shown (on every page load where it shows). | – |
+| `cookielaw:accept` | The visitor clicks *Accept all* in the banner. | – |
+| `cookielaw:reject` | The visitor clicks *Deny all* in the banner. | – |
+| `cookielaw:save` | The visitor saves the preferences modal, first choice or later change. | `{ granted: string[] }`: IDs of the non-mandatory categories now accepted. |
+
+They fire after the choice is applied (consent cookies set, services accepted or rejected). The banner is created on `DOMContentLoaded`, so register your listeners before that, e.g. from a script in the footer:
+
+```js
+document.addEventListener("cookielaw:save", (event) => {
+	if (event.detail.granted.includes("analytics")) {
+		// …
+	}
+});
+```
 
 ### CSS hooks
 

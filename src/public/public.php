@@ -76,6 +76,8 @@ function enqueue_assets() {
 	unset($config[SettingsPage::FIELD_BANNER_TEXTS]);
 	unset($config[SettingsPage::FIELD_MODAL_TEXTS]);
 
+	$config = add_stats_config( $config );
+
 	/**
 	 * Filters the config array
 	 *
@@ -89,6 +91,44 @@ function enqueue_assets() {
 	// Localize & enqueue the script
 	wp_localize_script( 'cookie-law-consent-js', 'clc_config', $config);
 	wp_enqueue_script( 'cookie-law-consent-js' );
+}
+
+/**
+ * Add the consent statistics settings to the config when
+ * wp-cookie-consent-analytics is active, so the banner events are sent to it.
+ * Without it, the config is returned unchanged.
+ *
+ * @param array $config the config array
+ *
+ * @return array the config array, with `stats_endpoint`, `stats_sample_rate`
+ *               and `stats_version` when statistics are enabled
+ */
+function add_stats_config( $config ) {
+	// The constant is defined even when the plugin's Composer dependencies are
+	// missing; its REST route (Cookie_Analytics_API) is then never registered.
+	if ( ! ( defined( 'COOKIE_ANALYTICS_VERSION' ) && class_exists( 'Cookie_Analytics_API' ) ) ) return $config;
+
+	/**
+	 * Filters the URL the banner events are sent to
+	 *
+	 * @param string|false $endpoint the endpoint URL, false disables the statistics
+	 */
+	$endpoint = apply_filters( 'clc_stats_endpoint', rest_url( 'supt/v1/cookie-stats' ) );
+	if ( empty( $endpoint ) || ! is_string( $endpoint ) ) return $config;
+
+	/**
+	 * Filters the share of browser sessions whose banner events are sent
+	 *
+	 * @param float $sample_rate between 0 (none) and 1 (all, default)
+	 */
+	$sample_rate = apply_filters( 'clc_stats_sample_rate', 1 );
+	$sample_rate = is_numeric( $sample_rate ) ? min( 1, max( 0, (float) $sample_rate ) ) : 1;
+
+	$config['stats_endpoint']    = $endpoint;
+	$config['stats_sample_rate'] = $sample_rate;
+	$config['stats_version']     = COOKIE_ANALYTICS_VERSION;
+
+	return $config;
 }
 
 function get_category_texts( $texts = [] ) : Array {

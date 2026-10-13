@@ -11,7 +11,7 @@
 		"build:dev": "webpack",
 		"build:production": "cross-env NODE_ENV=production webpack",
 		"watch": "webpack --watch",
-		"test": "node --import ./tests/setup.mjs --test \"tests/**/*.test.mjs\""
+		"test": "node --import ./tests/setup.mjs --test --disable-warning=MODULE_TYPELESS_PACKAGE_JSON \"tests/**/*.test.mjs\""
 	},
 	"engines": {
 		"node": "24.x"

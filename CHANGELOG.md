@@ -10,6 +10,8 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 - fix: 🐛 Google Tag Manager: push the Consent Mode `consent default` (with `wait_for_update: 500`) and a returning visitor's `consent update` before the `gtm.js` event
 - feat: ✨ Google Tag Manager: push a `clc_consent_granted` dataLayer event when the visitor accepts during the page view, to re-send the landing page_view with consent
 - fix: 🐛 Google Tag Manager: push a `consent update` denied when the visitor refuses on the first visit
+- feat: ✨ Send consent statistics (banner impressions, accept, reject, personalize) to [wp-cookie-consent-analytics](https://github.com/superhuit-agency/wp-cookie-consent-analytics) when it is active, with the `clc_stats_endpoint` and `clc_stats_sample_rate` filters. Granted categories are sent to wp-cookie-consent-analytics 1.1.0 and later.
+- feat: ✨ Dispatch `cookielaw:impression`, `cookielaw:accept`, `cookielaw:reject` and `cookielaw:save` DOM events on `document`
 
 # [1.8.3] - 2025-03-21
 

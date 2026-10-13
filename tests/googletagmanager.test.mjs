@@ -23,6 +23,9 @@ const { default: CookieLaw } = await import("../src/public/assets/cookie-law.js"
 const { default: DEFAULT_CONFIG } = await import(
 	"../src/public/assets/default-config.json"
 );
+const { default: createConsentStats } = await import(
+	"../src/public/assets/utils/stats.js"
+);
 
 const CONTAINER = "GTM-TEST";
 const COOKIE = `${DEFAULT_CONFIG.cookieName}_analytics_accepted`;
@@ -47,6 +50,7 @@ function createCookieLaw({ mandatory = false } = {}) {
 		],
 	};
 	clc.state = { bannerDismissed: false, acceptedServices: [], initedServices: [] };
+	clc.stats = createConsentStats(clc.config);
 	clc.refs = {
 		banner: { show() {}, hide() {} },
 		modal: { setCategoryEnabled() {} },
