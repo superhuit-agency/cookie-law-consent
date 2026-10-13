@@ -50,7 +50,7 @@
 | Requirement | Version |
 | --- | --- |
 | WordPress | 5.0 or higher, tested up to 6.7 (same values as `readme.txt`) |
-| PHP | 7.0 or higher (`composer.json`); release builds use PHP 7.4 |
+| PHP | 7.0 or higher (`composer.json`) |
 | Node.js *(build only)* | 24.x (`.nvmrc` / `package.json` `engines`) |
 | Yarn *(build only)* | 1.22 (`packageManager` in `package.json`) |
 | Composer *(build only)* | Any recent version |
