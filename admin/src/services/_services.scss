@@ -1,5 +1,5 @@
-@import '../_common/variables';
-@import '../tabulation/tabulation';
+@use '../_common/variables' as *;
+@use '../tabulation/tabulation';
 
 .services {
 	&__nav {

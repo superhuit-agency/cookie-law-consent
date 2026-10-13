@@ -1,4 +1,4 @@
-@import '../_common/_variables.scss';
+@use '../_common/variables' as *;
 
 %tab-nav {
 	display: flex;
