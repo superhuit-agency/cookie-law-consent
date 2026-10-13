@@ -24,7 +24,7 @@ jobs:
         env:
           COMPOSER_TOKEN: ${{ github.token }}
       - id: composer-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v6
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
