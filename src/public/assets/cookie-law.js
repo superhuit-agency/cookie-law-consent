@@ -5,6 +5,7 @@ import "./_cookie-law.scss";
  */
 import mergeDeep from "./utils/merge-deep";
 import { getCookie, setCookie } from "./utils/cookie";
+import createConsentStats from "./utils/stats";
 import CookieLawModal from "./modal/cookie-law-modal";
 import CookieLawBanner from "./banner/cookie-law-banner";
 import services from "./services/index";
@@ -19,6 +20,7 @@ const REFUSED_VALUE = "no";
 export default class CookieLaw {
 	constructor(config) {
 		this.config = mergeDeep(DEFAULT_CONFIG, config);
+		this.stats = createConsentStats(this.config);
 
 		this.state = new Proxy(
 			{
@@ -33,7 +35,10 @@ export default class CookieLaw {
 		this.refs = this.initRefs();
 
 		// Show banner
-		if (!this.state.bannerDismissed) this.refs.banner.show();
+		if (!this.state.bannerDismissed) {
+			this.refs.banner.show();
+			this.stats.impression();
+		}
 
 		this.bindEvents();
 	}
@@ -123,8 +128,10 @@ export default class CookieLaw {
 	}
 
 	onModalSaved(events) {
+		const firstChoice = !this.state.bannerDismissed;
 		this.state.bannerDismissed = true;
 		events.forEach((event) => this.onCategoryChange(event));
+		this.stats.save(this.getGrantedCategories(), firstChoice);
 	}
 
 	onCategoryChange(event) {
@@ -148,6 +155,7 @@ export default class CookieLaw {
 			this.setCategoryCookie(cat, true);
 			this.refs.modal.setCategoryEnabled(cat, true);
 		});
+		this.stats.accept();
 	}
 
 	denyAll() {
@@ -156,6 +164,7 @@ export default class CookieLaw {
 			this.setCategoryCookie(cat, false);
 			this.refs.modal.setCategoryEnabled(cat, false);
 		});
+		this.stats.reject();
 	}
 
 	setCategoryCookie(category, accepted = false) {
@@ -194,6 +203,22 @@ export default class CookieLaw {
 
 			return { ...cat, enabled };
 		});
+	}
+
+	/**
+	 * Ids of the non-mandatory categories the visitor accepted
+	 *
+	 * @return {string[]}
+	 */
+	getGrantedCategories() {
+		return this.config.categories
+			.filter(
+				(cat) =>
+					!cat.mandatory &&
+					getCookie(`${this.config.cookieName}_${cat.id}_accepted`) ===
+						ACCEPTED_VALUE
+			)
+			.map((cat) => cat.id);
 	}
 
 	initService(name, data = {}, callback = null) {

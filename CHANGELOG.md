@@ -5,6 +5,11 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [Unreleased]
+
+- feat: ✨ Send consent statistics (banner impressions, accept, reject, personalize) to [wp-cookie-consent-analytics](https://github.com/superhuit-agency/wp-cookie-consent-analytics) when it is active, with the `clc_stats_endpoint` and `clc_stats_sample_rate` filters. Granted categories are sent to wp-cookie-consent-analytics 1.1.0 and later.
+- feat: ✨ Dispatch `cookielaw:impression`, `cookielaw:accept`, `cookielaw:reject` and `cookielaw:save` DOM events on `document`
+
 # [1.8.3] - 2025-03-21
 
 fix: 🐛 potential undefinned services key
