@@ -7,7 +7,7 @@
 > [!NOTE]
 > This branch (`master-v1`) is **version 1.x** of the plugin, which **renders the consent UI on the front end** (banner, preferences modal) and loads the configured services itself. Version 2.x, on the `master` branch, is a back-end-only plugin: it stores the configuration and exposes it (WPGraphQL, REST API) for a decoupled/headless front end to render. Pick the version that matches your setup.
 
-- **Current version:** 1.8.3
+- **Current version:** 1.9.0
 - **Text domain:** `cookielawconsent`
 - **License:** GPL-2.0+ (see [License](#license))
 
@@ -61,7 +61,7 @@
 
 Every `v*.*.*` tag triggers the [release workflow](.github/workflows/release-plugin.yml), which builds the assets and attaches a ready-to-install `cookie-law-consent.zip` to the corresponding [GitHub release](https://github.com/superhuit-agency/cookie-law-consent/releases).
 
-1. Download `cookie-law-consent.zip` from a **1.x** release (e.g. `v1.8.3`).
+1. Download `cookie-law-consent.zip` from a **1.x** release (e.g. `v1.9.0`).
 2. In the WordPress admin, go to **Plugins → Add New → Upload Plugin** and upload the zip.
 3. Activate **Cookie Law Consent**.
 4. Configure it under **Settings → Cookie Law Consent**.

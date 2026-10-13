@@ -7,11 +7,27 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # [Unreleased]
 
+# [1.9.0] - 2026-10-13
+
 - fix: 🐛 Google Tag Manager: push the Consent Mode `consent default` (with `wait_for_update: 500`) and a returning visitor's `consent update` before the `gtm.js` event
 - feat: ✨ Google Tag Manager: push a `clc_consent_granted` dataLayer event when the visitor accepts during the page view, to re-send the landing page_view with consent
 - fix: 🐛 Google Tag Manager: push a `consent update` denied when the visitor refuses on the first visit
 - feat: ✨ Send consent statistics (banner impressions, accept, reject, personalize) to [wp-cookie-consent-analytics](https://github.com/superhuit-agency/wp-cookie-consent-analytics) when it is active, with the `clc_stats_endpoint` and `clc_stats_sample_rate` filters. Granted categories are sent to wp-cookie-consent-analytics 1.1.0 and later.
 - feat: ✨ Dispatch `cookielaw:impression`, `cookielaw:accept`, `cookielaw:reject` and `cookielaw:save` DOM events on `document`
+- fix: 🐛 Only load services once their category is consented (Google Tag Manager still loads before consent, with Consent Mode v2 denied defaults) (#27)
+- fix: 🐛 Save every toggled category from the preferences modal, not only the last one (#21)
+- fix: 🐛 Closing the preferences modal restores the last saved consent (#30)
+- fix: 🐛 Escape closes the preferences modal; the banner is named by its heading (#47)
+- fix: ♿️ Move focus out of the banner/modal before hiding them, and make them inert while hidden (#31)
+- fix: 🐛 getCookie() matches the exact cookie name and returns the whole value (#46)
+- fix: 🐛 Google Analytics "Anonymize IP" switch can be turned off (#22)
+- fix: 🐛 Keep language-keyed texts as they are when the stored option is sanitized again (#67)
+- fix: 🐛 Move flat texts under the default language on the first multilingual save (#52)
+- fix: 🐛 sanitize() no longer crashes on the default settings or on its own output (#32)
+- fix: 🔒 Escape stored values on the settings page and sanitize service fields (#51)
+- fix: 🐛 No PHP warning on the settings page when a saved service lacks a field (#29)
+- fix: 🐛 Uninstall fatal error ("SettingsPage" class not found); the option is now deleted (#20)
+- fix: 🔒 Update vulnerable transitive build dependencies (yarn.lock only) (#77)
 
 # [1.8.3] - 2025-03-21
 
