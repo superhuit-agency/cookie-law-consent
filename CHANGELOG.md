@@ -5,6 +5,12 @@ Inspired by: [keepachangelog.com](http://keepachangelog.com/)
 
 # Change History
 
+# [Unreleased]
+
+- fix: 🐛 Google Tag Manager: push the Consent Mode `consent default` (with `wait_for_update: 500`) and a returning visitor's `consent update` before the `gtm.js` event
+- feat: ✨ Google Tag Manager: push a `clc_consent_granted` dataLayer event when the visitor accepts during the page view, to re-send the landing page_view with consent
+- fix: 🐛 Google Tag Manager: push a `consent update` denied when the visitor refuses on the first visit
+
 # [1.8.3] - 2025-03-21
 
 fix: 🐛 potential undefinned services key

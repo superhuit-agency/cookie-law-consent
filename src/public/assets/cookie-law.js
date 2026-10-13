@@ -229,7 +229,12 @@ export default class CookieLaw {
 
 	rejectService(name, data) {
 		if (typeof services[name] === "undefined") return;
-		if (!this.state.acceptedServices.includes(name)) return;
+		// Also tell a service loaded before consent that the visitor refused it
+		const loadedBeforeConsent =
+			services[name]?.loadBeforeConsent &&
+			this.state.initedServices.includes(name);
+		if (!this.state.acceptedServices.includes(name) && !loadedBeforeConsent)
+			return;
 
 		const onReject = services[name]?.onReject;
 		if (typeof onReject === "function") onReject.call(this, data);
