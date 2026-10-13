@@ -67,7 +67,7 @@ jobs:
         with:
           args: zip -qq -r cookie-law-consent.zip cookie-law-consent
 
-      # Release
+      # Release (--latest=false: 1.x releases must not take the "Latest" badge from 2.x)
       - name: Publish GitHub release
         shell: bash
         env:
@@ -77,4 +77,5 @@ jobs:
           gh release create "$GITHUB_REF_NAME" cookie-law-consent.zip \
             --title "$GITHUB_REF_NAME" \
             --generate-notes \
-            --verify-tag
+            --verify-tag \
+            --latest=false
