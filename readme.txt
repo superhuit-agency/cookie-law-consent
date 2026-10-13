@@ -4,7 +4,7 @@ Tags: cookies, cookie consent, gdpr, consent mode, privacy
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 1.8.3
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -87,6 +87,22 @@ Place a `cookie-law-consent-{locale}.mo` file in `wp-content/languages/cookie-la
 
 == Changelog ==
 
+= 1.9.0 - 2026-10-13 =
+* New: Google Tag Manager pushes a `clc_consent_granted` dataLayer event when the visitor accepts during the page view.
+* New: consent statistics sent to wp-cookie-consent-analytics when it is active (`clc_stats_endpoint`, `clc_stats_sample_rate` filters).
+* New: `cookielaw:impression`, `cookielaw:accept`, `cookielaw:reject` and `cookielaw:save` DOM events.
+* Fix: Google Tag Manager Consent Mode default and stored consent are pushed before `gtm.js`; a refusal on the first visit pushes `denied`.
+* Fix: services only load once their category is consented.
+* Fix: every toggled category is saved from the preferences modal.
+* Fix: closing the preferences modal restores the last saved consent; Escape closes it.
+* Fix: focus leaves the banner and modal before they are hidden.
+* Fix: consent cookie read by its exact name.
+* Fix: Google Analytics "Anonymize IP" switch can be turned off.
+* Fix: multilingual texts kept per language when the settings are saved again.
+* Fix: settings page escapes stored values; no PHP warnings or crash on incomplete settings.
+* Fix: uninstall fatal error.
+* Security: vulnerable build dependencies updated.
+
 = 1.8.3 - 2025-03-21 =
 * Fix: PHP warning when a category has no service assigned.
 
@@ -158,6 +174,9 @@ Place a `cookie-law-consent-{locale}.mo` file in `wp-content/languages/cookie-la
 * Improved French translations.
 
 == Upgrade Notice ==
+
+= 1.9.0 =
+Fixes Google Consent Mode with Google Tag Manager: the consent default and a returning visitor's consent are now sent before gtm.js. If you use Google Tag Manager, add a Custom Event trigger on `clc_consent_granted` to re-send the landing page_view after a first-visit accept (see "Google Tag Manager setup" in the README). Services now only load once their category is consented.
 
 = 1.8.3 =
 Fixes a PHP warning on sites where a cookie category has no service assigned. Upgrade recommended.
