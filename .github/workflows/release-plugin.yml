@@ -15,23 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
-      
-      # PHP Composer dependencies
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'
-          coverage: none
-        env:
-          COMPOSER_TOKEN: ${{ github.token }}
-      - id: composer-cache
-        uses: actions/cache@v6
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
-      - shell: bash
-        run: composer install --no-dev --prefer-dist --no-progress
 
       # Nodejs dependencies
       - name: Install node
@@ -57,16 +40,14 @@ jobs:
       # composer.lock), documentation (README.md, CHANGELOG.md, docs/) and agent
       # files (AGENTS.md, CLAUDE.md) do not. admin/ ships whole for
       # admin/settings-page.php, so it also carries admin/src/, the sources
-      # webpack builds into dist/.
-      #
-      # The exclude applies inside the listed directories: it keeps the Git and CI
-      # files of vendored packages out of the zip (composer/installers ships its
-      # .github/, and a source install would bring a .git/).
+      # webpack builds into dist/. Composer's vendor/ does not ship either: no
+      # PHP file loads it, and composer/installers only acts in the project that
+      # installs this package through Composer.
       - name: Assemble plugin payload
         shell: bash
         run: |
           mkdir -p cookie-law-consent
-          rsync -r --exclude='.git*' --files-from=- . ./cookie-law-consent <<'EOF'
+          rsync -r --files-from=- . ./cookie-law-consent <<'EOF'
           cookie-law-consent.php
           cookie-law-consent-api.php
           available-services.php
@@ -77,7 +58,6 @@ jobs:
           public/
           dist/
           languages/
-          vendor/
           EOF
       - name: Archive Release
         uses: montudor/action-zip@v1
