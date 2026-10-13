@@ -5,6 +5,11 @@
 # See docs/adr/0001-dependency-security-per-branch.md.
 name: 'Security audit (1.x)'
 
+# Every action is pinned to a commit SHA, with the release it resolves to in a
+# comment. A tag can be moved to other code, and this job can write issues.
+# Dependabot bumps the SHA and the comment together (ADR 0032 in
+# superhuit-agency/nextjs-revalidate).
+
 on:
   schedule:
     - cron: '0 6 * * 1'
@@ -24,15 +29,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout master-v1
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ env.BRANCH }}
 
       # Exits 1 when vulnerabilities are found; the next step reads the report.
+      #
+      # The SHA freezes the action's action.yml, not the scanner it runs: that is
+      # the prebuilt image ghcr.io/google/osv-scanner-action:v2.6.0, a registry
+      # tag its publisher can re-push. The action can't be pointed at a digest,
+      # and Dependabot doesn't update `docker://` references, so calling the image
+      # by digest here would freeze the scanner for good. The gap is accepted: the
+      # image comes from the action's own publisher and names the same release,
+      # and the job can only read the repository and write issues.
       - name: Scan lockfiles with OSV-Scanner
         id: osv
         continue-on-error: true
-        uses: google/osv-scanner-action/osv-scanner-action@v2.6.0
+        uses: google/osv-scanner-action/osv-scanner-action@a345acffa64b0eaede81a3d9aae6141214d9c8fc # v2.6.0
         with:
           scan-args: |-
             --lockfile=./yarn.lock

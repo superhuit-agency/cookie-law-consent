@@ -1,6 +1,11 @@
 ---
 name: 'Release Cookie-Law-Consent plugin'
 
+# Every action is pinned to a commit SHA, with the release it resolves to in a
+# comment. A tag can be moved to other code, and this job holds
+# `contents: write` and the release-belt SSH key. Dependabot bumps the SHA and
+# the comment together (ADR 0032 in superhuit-agency/nextjs-revalidate).
+
 on:
   push:
     tags:
@@ -14,11 +19,11 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # Nodejs dependencies
       - name: Install node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
       - name: Install node dependencies
@@ -59,10 +64,13 @@ jobs:
           dist/
           languages/
           EOF
+
+      # The runner's own zip. The action this replaced built `FROM alpine:latest`
+      # and ran `apk add zip` on every release, so no pin could fix what ran
+      # (ADR 0032 in superhuit-agency/nextjs-revalidate).
       - name: Archive Release
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r cookie-law-consent.zip cookie-law-consent
+        shell: bash
+        run: zip -qq -r cookie-law-consent.zip cookie-law-consent
 
       # Release
       - name: Publish GitHub release
