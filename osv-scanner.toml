@@ -1,0 +1,8 @@
+# Known vulnerabilities accepted on master-v1, read by the weekly OSV-Scanner
+# audit (.github/workflows/security-audit.yml on master). Each entry needs a
+# reason and an expiry date, so it gets re-checked rather than ignored forever.
+
+[[IgnoredVulns]]
+id = "GHSA-vfj7-8cjw-p6xm"
+ignoreUntil = 2027-01-13
+reason = "braces 3.0.3 is the latest release, no fix available. Only reachable via webpack-dev-server > http-proxy-middleware > micromatch (local dev server), not in the built plugin. See #53."
