@@ -217,7 +217,9 @@ Mandatory categories never get a cookie: they are always considered accepted.
 
 ## Consent statistics
 
-When [wp-cookie-consent-analytics](https://github.com/superhuit-agency/wp-cookie-consent-analytics) is installed and active (detected with its `COOKIE_ANALYTICS_VERSION` constant), the banner sends its events to that plugin's REST endpoint, `POST /wp-json/supt/v1/cookie-stats`. There is no setting: statistics are on when, and only when, that plugin is active. It stays optional; without it, the plugin sends nothing.
+When [wp-cookie-consent-analytics](https://github.com/superhuit-agency/wp-cookie-consent-analytics) is installed and active, the banner sends its events to that plugin's REST endpoint, `POST /wp-json/supt/v1/cookie-stats`. There is no setting: statistics are on when, and only when, that plugin is active. It stays optional; without it, the plugin sends nothing.
+
+The plugin counts as active when both its `COOKIE_ANALYTICS_VERSION` constant and its `Cookie_Analytics_API` class exist. An install missing its Composer dependencies defines the constant but never registers the REST route, so it counts as inactive.
 
 | Event | Sent when |
 | --- | --- |

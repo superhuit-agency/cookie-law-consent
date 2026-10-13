@@ -16,20 +16,30 @@ export const GRANTED_MIN_VERSION = "1.1.0";
 /**
  * Compare two `x.y.z` version strings
  *
+ * Follows semver precedence for the core part: build metadata (`+…`) is
+ * ignored and a pre-release (`1.1.0-beta.1`) ranks below its release
+ * (`1.1.0`). Pre-releases of the same core version compare equal.
+ *
  * @return {number} -1, 0 or 1
  */
 export function compareVersions(a, b) {
-	const parse = (version) =>
-		String(version ?? "")
-			.split(".")
-			.map((part) => parseInt(part, 10) || 0);
+	const parse = (version) => {
+		const [core, ...pre] = String(version ?? "")
+			.split("+")[0]
+			.split("-");
+		return {
+			core: core.split(".").map((part) => parseInt(part, 10) || 0),
+			pre: pre.length > 0,
+		};
+	};
 	const va = parse(a);
 	const vb = parse(b);
 
-	for (let i = 0; i < Math.max(va.length, vb.length, 3); i++) {
-		const diff = (va[i] ?? 0) - (vb[i] ?? 0);
+	for (let i = 0; i < Math.max(va.core.length, vb.core.length, 3); i++) {
+		const diff = (va.core[i] ?? 0) - (vb.core[i] ?? 0);
 		if (diff !== 0) return diff > 0 ? 1 : -1;
 	}
+	if (va.pre !== vb.pre) return va.pre ? -1 : 1;
 	return 0;
 }
 

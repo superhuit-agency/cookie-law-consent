@@ -104,7 +104,9 @@ function enqueue_assets() {
  *               and `stats_version` when statistics are enabled
  */
 function add_stats_config( $config ) {
-	if ( ! defined( 'COOKIE_ANALYTICS_VERSION' ) ) return $config;
+	// The constant is defined even when the plugin's Composer dependencies are
+	// missing; its REST route (Cookie_Analytics_API) is then never registered.
+	if ( ! ( defined( 'COOKIE_ANALYTICS_VERSION' ) && class_exists( 'Cookie_Analytics_API' ) ) ) return $config;
 
 	/**
 	 * Filters the URL the banner events are sent to

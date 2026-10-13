@@ -340,3 +340,22 @@ test("compareVersions", () => {
 	assert.equal(compareVersions("2", "1.1.0"), 1);
 	assert.equal(compareVersions(undefined, "1.1.0"), -1);
 });
+
+test("compareVersions ranks a pre-release below its release", () => {
+	assert.equal(compareVersions("1.1.0-beta.1", "1.1.0"), -1);
+	assert.equal(compareVersions("1.1.0", "1.1.0-beta.1"), 1);
+	assert.equal(compareVersions("1.1.0-rc.2", "1.1.0-beta.1"), 0); // pre-releases of the same core are not ranked
+	assert.equal(compareVersions("1.1.1-beta", "1.1.0"), 1);
+	assert.equal(compareVersions("1.1.0+build.5", "1.1.0"), 0); // build metadata is ignored
+	assert.equal(compareVersions("1.1.0-beta+build.5", "1.1.0"), -1);
+});
+
+test("personalize from a pre-release of 1.1.0 does not include granted", async () => {
+	createConsentStats({
+		cookieName: "clc",
+		stats_endpoint: ENDPOINT,
+		stats_version: "1.1.0-beta.1",
+	}).save(["analytics"], true);
+
+	assert.deepEqual(await beaconBodies(), [{ event_type: "personalize" }]);
+});
