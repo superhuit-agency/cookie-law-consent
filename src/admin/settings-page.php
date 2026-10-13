@@ -338,6 +338,54 @@ class SettingsPage {
 	}
 
 	/**
+	 * Whether texts are already keyed by language, as in the stored option on a multilingual site,
+	 * rather than the current language's texts as the settings form posts them.
+	 * Empty texts are the current language's: the form posted them all empty.
+	 *
+	 * @param mixed $texts
+	 * @param array $textNames The `text_names()` of one of the `*_text_fields()`
+	 * @return bool
+	 */
+	private static function is_texts_by_lang( $texts, Array $textNames ) {
+		return is_array( $texts ) && count( $texts ) > 0 && !self::has_flat_texts( $texts, $textNames );
+	}
+
+	/**
+	 * Texts without their empty values, as stored.
+	 * On a multilingual site, texts already keyed by language are kept as they are, empty languages
+	 * included, so that the multilingual merge in `sanitize()` still sees them as keyed by language.
+	 *
+	 * @param mixed $texts
+	 * @param array $textNames The `text_names()` of one of the `*_text_fields()`
+	 * @return array
+	 */
+	private static function sanitize_texts( $texts, Array $textNames ) {
+		$texts = self::to_array( $texts );
+		if ( is_multilingual() && self::is_texts_by_lang( $texts, $textNames ) ) return $texts;
+
+		return array_filter( $texts );
+	}
+
+	/**
+	 * Merge a value into the stored values keyed by language.
+	 * The current language's value (from the settings form) is stored under the current language.
+	 * A value already keyed by language (the stored option sanitized again) is merged language by
+	 * language instead of being nested one level deeper under the current language.
+	 *
+	 * @param array  $byLang The stored values, keyed by language
+	 * @param mixed  $value
+	 * @param bool   $isByLang Whether `$value` is already keyed by language
+	 * @param string $currentLang
+	 * @return array
+	 */
+	private static function merge_by_lang( Array $byLang, $value, $isByLang, $currentLang ) {
+		if ( $isByLang ) return array_replace( $byLang, $value );
+
+		$byLang[$currentLang] = $value;
+		return $byLang;
+	}
+
+	/**
 	 * Escape a stored value for an HTML attribute or element text, so that the browser
 	 * shows (and the form submits back) exactly the stored value.
 	 * Unlike `esc_attr()` / `esc_html()`, entities already in the value are encoded again,
@@ -375,17 +423,21 @@ class SettingsPage {
 		}
 
 
-		$settings[self::FIELD_BANNER_TEXTS] = array_filter( self::to_array($fields[self::FIELD_BANNER_TEXTS] ?? null) );
-		$settings[self::FIELD_MODAL_TEXTS] = array_filter( self::to_array($fields[self::FIELD_MODAL_TEXTS] ?? null) );
+		$bannerTextNames = self::text_names( self::banner_text_fields() );
+		$modalTextNames = self::text_names( self::modal_text_fields() );
+		$categoryTextNames = self::text_names( self::category_text_fields() );
+
+		$settings[self::FIELD_BANNER_TEXTS] = self::sanitize_texts( $fields[self::FIELD_BANNER_TEXTS] ?? null, $bannerTextNames );
+		$settings[self::FIELD_MODAL_TEXTS] = self::sanitize_texts( $fields[self::FIELD_MODAL_TEXTS] ?? null, $modalTextNames );
 
 		$settings[self::FIELD_CATEGORIES] = array_values(array_map(
-			function(Array $cat) {
+			function(Array $cat) use ($categoryTextNames) {
 				// The form posts the checkbox as "on" when checked and omits it otherwise,
 				// while stored settings hold a boolean: `false` must stay `false`.
 				$cat['mandatory'] = self::to_bool( $cat['mandatory'] ?? false );
 				$cat['position'] = (int)($cat['position'] ?? 0);
 				// Empty texts are removed below, so they may be missing on a later pass.
-				$cat['texts'] = array_filter( self::to_array($cat['texts'] ?? null) );
+				$cat['texts'] = self::sanitize_texts( $cat['texts'] ?? null, $categoryTextNames );
 				if (count($cat['texts']) === 0 ) unset($cat['texts']);
 
 				return $cat;
@@ -435,25 +487,31 @@ class SettingsPage {
 			// No stored option yet (`get_option()` returned false): no previous values to merge with.
 			$prevOptions = self::to_array($this->options);
 
-			$bannerTexts = self::texts_by_lang( $prevOptions[self::FIELD_BANNER_TEXTS] ?? null, self::text_names( self::banner_text_fields() ), $defaultLang );
-			$bannerTexts[$currentLang] = $settings[self::FIELD_BANNER_TEXTS];
-			$settings[self::FIELD_BANNER_TEXTS] = $bannerTexts;
+			$settings[self::FIELD_BANNER_TEXTS] = self::merge_by_lang(
+				self::texts_by_lang( $prevOptions[self::FIELD_BANNER_TEXTS] ?? null, $bannerTextNames, $defaultLang ),
+				$settings[self::FIELD_BANNER_TEXTS],
+				self::is_texts_by_lang( $settings[self::FIELD_BANNER_TEXTS], $bannerTextNames ),
+				$currentLang
+			);
 
-			$modalTexts = self::texts_by_lang( $prevOptions[self::FIELD_MODAL_TEXTS] ?? null, self::text_names( self::modal_text_fields() ), $defaultLang );
-			$modalTexts[$currentLang] = $settings[self::FIELD_MODAL_TEXTS];
-			$settings[self::FIELD_MODAL_TEXTS] = $modalTexts;
+			$settings[self::FIELD_MODAL_TEXTS] = self::merge_by_lang(
+				self::texts_by_lang( $prevOptions[self::FIELD_MODAL_TEXTS] ?? null, $modalTextNames, $defaultLang ),
+				$settings[self::FIELD_MODAL_TEXTS],
+				self::is_texts_by_lang( $settings[self::FIELD_MODAL_TEXTS], $modalTextNames ),
+				$currentLang
+			);
 
 
-			$categoryTextNames = self::text_names( self::category_text_fields() );
 			$settings[self::FIELD_CATEGORIES] = array_map(function($cat) use ($currentLang, $defaultLang, $categoryTextNames) {
 				$prevCat = $this->get_category_by_id($cat['id'] ?? null);
 
+				// The form posts a title and description as strings; the stored option holds them keyed by language.
 				if (is_array($prevCat['title'] ?? null)) $title = $prevCat['title'];
 				else {
 					$title = [];
 					$title[$defaultLang] = $prevCat['title'] ?? '';
 				}
-				$title[$currentLang] = $cat['title'];
+				$title = self::merge_by_lang( $title, $cat['title'], is_array($cat['title']), $currentLang );
 
 
 				if (is_array($prevCat['description'] ?? null))  $desc = $prevCat['description'];
@@ -461,10 +519,14 @@ class SettingsPage {
 					$desc = [];
 					$desc[$defaultLang] = $prevCat['description'] ?? '';
 				}
-				$desc[$currentLang] = $cat['description'] ?? '';
+				$desc = self::merge_by_lang( $desc, $cat['description'] ?? '', is_array($cat['description'] ?? null), $currentLang );
 
-				$texts = self::texts_by_lang( $prevCat['texts'] ?? null, $categoryTextNames, $defaultLang );
-				$texts[$currentLang] = isset($cat['texts']) ? $cat['texts'] : false;
+				$texts = self::merge_by_lang(
+					self::texts_by_lang( $prevCat['texts'] ?? null, $categoryTextNames, $defaultLang ),
+					isset($cat['texts']) ? $cat['texts'] : false,
+					self::is_texts_by_lang( $cat['texts'] ?? null, $categoryTextNames ),
+					$currentLang
+				);
 
 				return [
 					'id'          => $cat['id'] ?? null,
