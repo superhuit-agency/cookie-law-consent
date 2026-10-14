@@ -309,7 +309,7 @@ Add an entry to `CookieLawConsent\SERVICES` in `available-services.php`:
 
 ### Releasing
 
-Pushing a tag matching `v*.*.*` runs `.github/workflows/release-plugin.yml`. It runs `yarn install --frozen-lockfile` and `yarn build:production`, zips the plugin without development files, publishes `cookie-law-consent.zip` as a GitHub release, and uploads a copy named `cookie-law-consent-vX.Y.Z.zip` to [release-belt](https://release-belt.superhuit.ch). Bump the version in `cookie-law-consent.php`, `package.json` and `readme.txt` (`Stable tag`), and update `CHANGELOG.md`, before tagging.
+Pushing a tag matching `v*.*.*` runs `.github/workflows/release-plugin.yml`. It runs `yarn install --frozen-lockfile` and `yarn build:production`, zips the plugin without development files, publishes `cookie-law-consent.zip` as a GitHub release, and uploads a copy named `cookie-law-consent-vX.Y.Z.zip` to [release-belt](https://release-belt.superhuit.ch). The upload only trusts the SSH host key stored in the `RELEASE_BELT_KNOWN_HOSTS` organization secret, so it fails if that secret is missing or no longer matches the server's key. Bump the version in `cookie-law-consent.php`, `package.json` and `readme.txt` (`Stable tag`), and update `CHANGELOG.md`, before tagging.
 
 ## Changelog
 
