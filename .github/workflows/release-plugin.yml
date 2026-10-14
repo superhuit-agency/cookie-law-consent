@@ -52,7 +52,7 @@ jobs:
           umask 077
           printf '%s\n' "$KNOWN_HOSTS" | tr -d '\r' > "$RUNNER_TEMP/release_belt_known_hosts"
           if ! fingerprints=$(ssh-keygen -lf "$RUNNER_TEMP/release_belt_known_hosts"); then
-            echo "::error::RELEASE_BELT_KNOWN_HOSTS holds no valid known_hosts line (expected \`ssh-keyscan -p <port> <host>\` output)."
+            echo "::error::RELEASE_BELT_KNOWN_HOSTS holds no valid known_hosts line (expected \`ssh-keyscan -p <port> <host>\` output). Fix it (see the comment above this step), then re-run the job."
             exit 1
           fi
           # Bits, fingerprint and key type only, to compare with the server's.
