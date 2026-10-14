@@ -492,7 +492,7 @@ Adding a service requires changes in both PHP and JS, followed by a rebuild:
 ### Releasing
 
 1. Bump the version in `cookie-law-consent.php`, `package.json` and `readme.txt` (`Stable tag`), and update `CHANGELOG.md` and the `readme.txt` changelog.
-2. Commit (`chore: 🚀 vX.Y.Z`) and push a `vX.Y.Z` tag. The GitHub workflow builds the assets, publishes the release zip on GitHub and uploads a copy named `cookie-law-consent-vX.Y.Z.zip` to [release-belt](https://release-belt.superhuit.ch). The upload only trusts the SSH host key stored in the `RELEASE_BELT_KNOWN_HOSTS` organization secret, so it fails if that secret is missing or no longer matches the server's key.
+2. Commit (`chore: 🚀 vX.Y.Z`) and push a `vX.Y.Z` tag. The GitHub workflow builds the assets, publishes the release zip on GitHub and uploads a copy named `cookie-law-consent-vX.Y.Z.zip` to [release-belt](https://release-belt.superhuit.ch). The upload only trusts the SSH host key stored in the `RELEASE_BELT_KNOWN_HOSTS` organization secret. A missing or malformed secret stops the workflow before it builds or publishes anything, so fix the secret and re-run the job. A key that no longer matches the server's fails the upload after the GitHub release is published: replace the secret, then upload the zip by hand as the comment above "Upload to release-belt" says.
 
 ## Changelog
 
